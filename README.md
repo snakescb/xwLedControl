@@ -20,6 +20,7 @@ The original xwLedControl, formerly SkyLED by InnoSKY, with included USB port an
 - On/Off control and light sequences switching from RC receiver
 - RotorStrobe feature with optional external Hall-Effect Sensor to syncronize lights to the position of the heli rotor.
 - 5-14V input voltage, suitable for 2S - 3S LiPo batteries
+- Up to 2A per output channel 
 
 ### Versions and know issues
 **Version 1.0**
