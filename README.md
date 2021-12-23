@@ -25,7 +25,7 @@ The original xwLedControl, formerly SkyLED by InnoSKY, with included USB port an
 ### Versions and know issues
 **Version 1.0**
 - Changes
-  - Inital version currently in tesing
+  - Inital version currently tested
 - Known Issues
   - No known issues
 
