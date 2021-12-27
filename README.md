@@ -1,5 +1,5 @@
 # xwLedControl
-xwLedControl is a flexible, highly configurable RC Lightning System. It was formerly know as SkyLED, sold as a commercial product by InnoSKY which was decommissioned a few years ago. Since then, we received a lot of request to start offering it again, therefore we recreatied the hardware from scratch, including some improvement, and make it available for everybody to produce / order himself. Also, we publish here the PC configuration software, which is not actively maintained anymore, but was modified to work with the new hardware.
+xwLedControl is a flexible, highly configurable RC Lightning System. It was formerly know as SkyLED, sold as a commercial product by InnoSKY which was decommissioned a few years ago. Since then, we received a lot of request to start offering it again, therefore we recreatied the hardware from scratch, including some improvement, and make it available for everybody to produce / order himself. The PC configurator will be re-developped in simplified form and published here.
 
 ![xwLedControl](https://user-images.githubusercontent.com/10495848/147221539-66b14f9b-4330-4ec9-8169-2145c49a1405.PNG)
 
@@ -18,7 +18,6 @@ The original xwLedControl, formerly SkyLED by InnoSKY, with included USB port an
 - Per module up to 6 LED channels, 2 RGB channels or 3 LED + 1 RGB channel (for common anode RGB strips)
 - Up to 24 channels with one master module conecting up to 3 slave modules through Master/Slave connection
 - On/Off control and light sequences switching from RC receiver
-- RotorStrobe feature with optional external Hall-Effect Sensor to syncronize lights to the position of the heli rotor.
 - 5-14V input voltage, suitable for 2S - 3S LiPo batteries
 - Up to 2A per output channel 
 
