@@ -1,4 +1,4 @@
-Import("env")
+Import("env", "projenv")
 
 # Custom HEX from ELF
 env.AddPostAction(

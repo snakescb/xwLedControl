@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "AJ3KSajEsGnuvNrjZjkmx1D8p09C+miFK9BVuQiq0YCA7JQlbwTubTavuCUkZBmk5xvu+WVPSUUtseWNOtaTeg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lueth\\SynologyDrive\\Projekte\\GitHub\\xwLedControl\\Software\\xwLedConfigurator\\xwLedConfigurator\\xwLedConfigurator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lueth\\.nuget\\packages\\fontawesome.sharp\\5.15.4\\fontawesome.sharp.5.15.4.nupkg.sha512"
+  ],
+  "logs": []
+}
