@@ -48,7 +48,6 @@ namespace xwLedConfigurator {
         private void Grid_MouseEnter(object sender, MouseEventArgs e) {
             if (_enabled && !_active) {
                 border1.Background = (System.Windows.Media.Brush)Application.Current.Resources["MenuHoverColor"];
-                border2.Background = (System.Windows.Media.Brush)Application.Current.Resources["MenuHoverColor"];
                 this.MenuText.Foreground = (System.Windows.Media.Brush)Application.Current.Resources["MainFontColor"];
                 this.MenuIcon.Foreground = (System.Windows.Media.Brush)Application.Current.Resources["MainFontColor"];
             }
@@ -56,18 +55,16 @@ namespace xwLedConfigurator {
 
         private void Grid_MouseLeave(object sender, MouseEventArgs e) {
             if (_active) {
-                border1.Background = (System.Windows.Media.Brush)Application.Current.Resources["MainContentColor"];
-                border2.Background = (System.Windows.Media.Brush)Application.Current.Resources["MainContentColor"];
+                border1.Background = (System.Windows.Media.Brush)Application.Current.Resources["MenuActiveColor"];
                 this.MenuText.Foreground = (System.Windows.Media.Brush)Application.Current.Resources["MainFontColor"];
                 this.MenuIcon.Foreground = (System.Windows.Media.Brush)Application.Current.Resources["MainFontColor"];
                 this.MenuText.FontWeight = FontWeights.Bold;
                 this.MenuIcon.FontWeight = FontWeights.Bold;
             }
             else {
-                border1.Background = (System.Windows.Media.Brush)Application.Current.Resources["MenuHeaderColor"];
-                border2.Background = (System.Windows.Media.Brush)Application.Current.Resources["MenuHeaderColor"];
-                this.MenuText.Foreground = (System.Windows.Media.Brush)Application.Current.Resources["MainContentColor"];
-                this.MenuIcon.Foreground = (System.Windows.Media.Brush)Application.Current.Resources["MainContentColor"];
+                border1.Background = (System.Windows.Media.Brush)Application.Current.Resources["MenuInactiveColor"];
+                this.MenuText.Foreground = (System.Windows.Media.Brush)Application.Current.Resources["2ndFontColor"];
+                this.MenuIcon.Foreground = (System.Windows.Media.Brush)Application.Current.Resources["2ndFontColor"];
                 this.MenuText.FontWeight = FontWeights.Normal;
                 this.MenuIcon.FontWeight = FontWeights.Normal;
             }

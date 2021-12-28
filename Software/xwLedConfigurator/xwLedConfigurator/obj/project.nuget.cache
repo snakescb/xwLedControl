@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "AJ3KSajEsGnuvNrjZjkmx1D8p09C+miFK9BVuQiq0YCA7JQlbwTubTavuCUkZBmk5xvu+WVPSUUtseWNOtaTeg==",
+  "dgSpecHash": "FgHgBfTQPJv9aMPXLU6hbTouOoCLdxK2aVUKn/vj3Vx1XKSCkelMUgPJmhzPNEqHA6Z8c3iaajHH50bVXnLlSA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\lueth\\SynologyDrive\\Projekte\\GitHub\\xwLedControl\\Software\\xwLedConfigurator\\xwLedConfigurator\\xwLedConfigurator.csproj",
+  "projectFilePath": "C:\\Users\\dagluethc\\OneDrive - JT International\\Desktop\\Github\\xwLedControl\\Software\\xwLedConfigurator\\xwLedConfigurator\\xwLedConfigurator.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\lueth\\.nuget\\packages\\fontawesome.sharp\\5.15.4\\fontawesome.sharp.5.15.4.nupkg.sha512"
+    "C:\\Users\\dagluethc\\.nuget\\packages\\fontawesome.sharp\\5.15.4\\fontawesome.sharp.5.15.4.nupkg.sha512",
+    "C:\\Users\\dagluethc\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.22\\microsoft.netcore.app.host.win-x64.3.1.22.nupkg.sha512",
+    "C:\\Users\\dagluethc\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\dagluethc\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\dagluethc\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
   ],
   "logs": []
 }

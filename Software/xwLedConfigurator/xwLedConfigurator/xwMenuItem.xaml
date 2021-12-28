@@ -8,29 +8,26 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200"
              d:DataContext="{Binding RelativeSource={RelativeSource Self}}">
-   
 
 
-    <Grid Background="Transparent" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseDown="Grid_MouseDown">
+    <Border Name="border1" Background="{StaticResource MenuInactiveColor}" Margin="10,0,0,0" CornerRadius="10" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseDown="Grid_MouseDown">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="150"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
-        </Grid.RowDefinitions>
-
-        <Border Name="border1" Grid.Column="1" Background="{StaticResource MenuHeaderColor}" BorderBrush="{StaticResource MainContentColor}" BorderThickness="2,2,0,0" CornerRadius="2,0,0,0"/>
-        <Border Name="border2" Grid.Column="2" Background="{StaticResource MenuHeaderColor}" BorderBrush="{StaticResource MainContentColor}" BorderThickness="0,2,2,0" CornerRadius="0,15,0,0"/>
-
-        <fa:IconBlock Name="MenuIcon" Grid.Column="1" Icon="{Binding Icon}" FontSize="20" Foreground="{StaticResource MainContentColor}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-        <TextBlock x:Name="MenuText" Grid.Column="2" Text="{Binding Text}" FontSize="16" Foreground="{StaticResource MainContentColor}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Height="45">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="140"/>
+            </Grid.ColumnDefinitions>
+            <!--
+            <fa:IconBlock Name="MenuIcon" Icon="{Binding Icon}" FontSize="22" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <TextBlock x:Name="MenuText"  Text="{Binding Text}" FontSize="16" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            -->
+            <fa:IconBlock Grid.Column="0" Name="MenuIcon" Icon="{Binding Icon}" FontSize="24" Foreground="{StaticResource 2ndFontColor}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <TextBlock Grid.Column="1" x:Name="MenuText"  Text="{Binding Text}" FontSize="16" Foreground="{StaticResource 2ndFontColor}" VerticalAlignment="Center" HorizontalAlignment="Left" />
         </Grid>
-
+   
+    </Border>
 
 
 </UserControl>
+
+    
