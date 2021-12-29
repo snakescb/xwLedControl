@@ -2,12 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <!-- Main Application Colors -->
-    <SolidColorBrush x:Key="AppMainColor" Color="#FF222225"/>
-    <SolidColorBrush x:Key="AppBorderColor" Color="#FF717171"/>
-    <SolidColorBrush x:Key="MenuInactiveColor" Color="#FF333137"/>
-    <SolidColorBrush x:Key="MenuActiveColor" Color="#FF56555B"/>
-    <SolidColorBrush x:Key="MenuHoverColor" Color="#FF3D3C42"/>
+    <SolidColorBrush x:Key="AppMainColor" Color="#FF313131"/>
+    <SolidColorBrush x:Key="AppBorderColor" Color="#FFBBBBBB"/>
+    <SolidColorBrush x:Key="AppTitleColor" Color="#FF6C1498"/>
+    
+    <SolidColorBrush x:Key="MenuInactiveColor" Color="White" Opacity="0.05"/>
+    <SolidColorBrush x:Key="MenuActiveColor" Color="#FF6C1498"/>
+    <SolidColorBrush x:Key="MenuHoverColor"  Color="White" Opacity="0.2"/>
+    
     <SolidColorBrush x:Key="MainFontColor" Color="#FFEFEFEF"/>
-    <SolidColorBrush x:Key="2ndFontColor" Color="DimGray"/>
+    <SolidColorBrush x:Key="2ndFontColor" Color="#FFBBBBBB"/>
     
 </ResourceDictionary>

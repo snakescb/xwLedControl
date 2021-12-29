@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("xwLedConfigurator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+build2021-12-29T15:54:56:802Z")]
 [assembly: System.Reflection.AssemblyProductAttribute("xwLedConfigurator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("xwLedConfigurator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\App.xaml
-31545987619
-
-4392117358
+4821830221
+1-165165352
+5-543631286
 200-363597235
-MainWindow.xaml;Themes\Colors.xaml;xwMenuItem.xaml;
+MainWindow.xaml;Themes\Colors.xaml;xwInfoControl.xaml;xwMenuItem.xaml;
 
 False
 

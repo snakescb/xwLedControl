@@ -6,9 +6,9 @@
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:local="clr-namespace:xwLedConfigurator"
         mc:Ignorable="d" FontSize="18" BorderThickness="0"
-        WindowStyle="None" WindowState="Normal" ResizeMode="CanResize" AllowsTransparency="true" Background="Transparent"
-        MinWidth="850" MinHeight="400" FontFamily="Roboto Medium"
-        Title="" Height="700" Width="1000"
+        WindowStyle="None" WindowState="Normal" ResizeMode="CanResizeWithGrip" AllowsTransparency="true" Background="Transparent"
+        MinWidth="816" MinHeight="400" FontFamily="Roboto Medium"
+        Title="" Height="800" Width="1200"
         WindowStartupLocation="CenterScreen">
 
     <WindowChrome.WindowChrome>
@@ -18,18 +18,19 @@
     </WindowChrome.WindowChrome>
 
     <!-- Main Window Grid -->
-    <Border BorderThickness="3" BorderBrush="{StaticResource AppBorderColor}"  Background="{StaticResource AppMainColor}" CornerRadius="10">
+    <Border BorderThickness="2" Background="{StaticResource AppMainColor}"  BorderBrush="{StaticResource AppBorderColor}"  CornerRadius="0">
+
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!-- Main Window Colors -->
-            <Border Grid.Row="0" Background="Transparent" CornerRadius="10,10,0,0"/>
+            <Border Grid.Row="0" Background="{StaticResource AppTitleColor}" MouseDown="Border_MouseDown"/>
             <Border Name="menuBorder" Grid.Row="1" Background="Transparent" />
-            <Border Grid.Row="2" Background="Transparent" CornerRadius="0,0,10,10" />
+            <Border Grid.Row="2" Background="Transparent" />
 
             <!-- Title, and transparent border to drag window -->
             <TextBlock Grid.Row="0" Text="xwLedControl" FontSize="20" FontWeight="Bold" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" Padding="20,0,0,0"/>
@@ -79,7 +80,9 @@
                 <local:xwMenuItem x:Name="btnMenuFirmware" Text="Firmware" Icon="Microchip" click="menuButton_click"/>
                 <local:xwMenuItem x:Name="btnMenuInfo" Text="Information" Icon="InfoCircle" click="menuButton_click"/>
             </StackPanel>
-
+            
+            <!-- Content -->
+            <local:xwInfoControl x:Name="contentInfo" Grid.Row="2" />
 
         </Grid>
     </Border>

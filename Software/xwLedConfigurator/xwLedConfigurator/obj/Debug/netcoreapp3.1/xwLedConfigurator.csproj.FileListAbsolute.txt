@@ -31,7 +31,6 @@ C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Softw
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.dll
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.pdb
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\FontAwesome.Sharp.dll
-C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\Themes\Colors.baml
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\MainWindow.g.cs
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwMenuItem.g.cs
@@ -51,3 +50,8 @@ C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Softw
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.dll
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.pdb
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator_Content.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\Themes\Black-Light-Background-Full-HD.jpg
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwInfoControl.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwInfoControl.baml

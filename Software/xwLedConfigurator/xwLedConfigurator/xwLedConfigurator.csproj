@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Themes\Black-Light-Background-Full-HD.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Themes\Black-Light-Background-Full-HD.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FontAwesome.Sharp" Version="5.15.4" />
   </ItemGroup>
 

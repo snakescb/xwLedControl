@@ -40,6 +40,10 @@ namespace xwLedConfigurator {
 
                     itemClicked.active = true;
                 }
+
+                contentInfo.Visibility = Visibility.Collapsed;
+
+                if (btnMenuInfo.active) contentInfo.Visibility = Visibility.Visible;
             }
         }
 
