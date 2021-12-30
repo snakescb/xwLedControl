@@ -5,8 +5,7 @@
              StartupUri="MainWindow.xaml">
     
     <Application.Resources>
-        <ResourceDictionary Source="Themes/Colors.xaml" />
-
+        <ResourceDictionary Source="Themes/Theme.xaml" />
     </Application.Resources>
     
 </Application>

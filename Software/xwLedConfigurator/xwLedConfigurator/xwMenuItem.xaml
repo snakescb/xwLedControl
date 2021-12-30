@@ -10,7 +10,7 @@
              d:DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
 
-    <Border Name="border1" Background="{StaticResource MenuInactiveColor}" Margin="8,8,0,8" CornerRadius="0" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseDown="Grid_MouseDown">
+    <Border Name="border1" Background="{StaticResource MenuInactiveColor}" Margin="10,8,0,8" CornerRadius="0" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseDown="Grid_MouseDown">
 
         <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
@@ -22,10 +22,6 @@
                 <RowDefinition Height="35"/>
             </Grid.RowDefinitions>
             
-            <!--
-            <fa:IconBlock Name="MenuIcon" Icon="{Binding Icon}" FontSize="22" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-            <TextBlock x:Name="MenuText"  Text="{Binding Text}" FontSize="16" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-            -->
             <fa:IconBlock Grid.Column="0" Name="MenuIcon" Icon="{Binding Icon}" FontSize="24" Foreground="{StaticResource 2ndFontColor}" VerticalAlignment="Center" HorizontalAlignment="Center" />
             <TextBlock Grid.Column="1" x:Name="MenuText"  Text="{Binding Text}" FontSize="16" Foreground="{StaticResource 2ndFontColor}" VerticalAlignment="Center" HorizontalAlignment="Left" />
         </Grid>
