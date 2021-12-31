@@ -79,7 +79,7 @@ namespace xwLedConfigurator {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/xwLedConfigurator;component/xwmenuitem.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/xwLedConfigurator;V1.0.0.0;component/xwmenuitem.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\xwMenuItem.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

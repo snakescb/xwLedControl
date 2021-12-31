@@ -10,24 +10,21 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="xwInfoControl.xaml.cs">
+    <Compile Update="Windows\xwInfoWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="xwMenuItem.xaml.cs">
+    <Compile Update="Controls\xwMenuItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Themes\Theme.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="xwInfoControl.xaml">
+    <Page Update="Windows\xwInfoWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="xwMenuItem.xaml">
+    <Page Update="Controls\xwMenuItem.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

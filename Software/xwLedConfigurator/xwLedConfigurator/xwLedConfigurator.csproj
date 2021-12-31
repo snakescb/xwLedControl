@@ -7,13 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Themes\Black-Light-Background-Full-HD.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Themes\Black-Light-Background-Full-HD.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Remove="Theme\Colorxaml" />
   </ItemGroup>
 
   <ItemGroup>
