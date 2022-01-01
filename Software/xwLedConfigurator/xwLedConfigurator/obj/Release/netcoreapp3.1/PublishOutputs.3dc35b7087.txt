@@ -1,6 +1,0 @@
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Release\netcoreapp3.1\publish\xwLedConfigurator.exe
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Release\netcoreapp3.1\publish\xwLedConfigurator.dll
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Release\netcoreapp3.1\publish\xwLedConfigurator.deps.json
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Release\netcoreapp3.1\publish\xwLedConfigurator.runtimeconfig.json
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Release\netcoreapp3.1\publish\xwLedConfigurator.pdb
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Release\netcoreapp3.1\publish\FontAwesome.Sharp.dll
