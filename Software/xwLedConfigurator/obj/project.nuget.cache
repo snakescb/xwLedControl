@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "nFa8ErO278nAFinERPhAQVX1wcahA8saF+GwKrxI2fO7tz64Pbqrs1gJQjOgu3kWJiZFc9S0AgwpJ8X/9GaHVg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\dagluethc\\OneDrive - JT International\\Desktop\\Github\\xwLedControl\\Software\\xwLedConfigurator\\xwLedConfigurator\\xwLedConfigurator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dagluethc\\.nuget\\packages\\fontawesome.sharp\\5.15.4\\fontawesome.sharp.5.15.4.nupkg.sha512"
+  ],
+  "logs": []
+}

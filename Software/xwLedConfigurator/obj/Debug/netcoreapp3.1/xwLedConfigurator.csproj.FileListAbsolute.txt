@@ -1,0 +1,54 @@
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.exe
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.deps.json
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.runtimeconfig.json
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.runtimeconfig.dev.json
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.pdb
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\MainWindow.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\App.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator_MarkupCompile.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator_MarkupCompile.lref
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\MainWindow.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.g.resources
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.AssemblyInfoInputs.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.AssemblyInfo.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.CoreCompileInputs.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.pdb
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\FontAwesome.Sharp.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwMenuItem.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwMenuItem.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\App.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\Themes\Colors.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\Themes\Styles.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\xwMenuItem.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\MainWindow.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\Windows\xwInfoWindow.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\App.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator_MarkupCompile.cache
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator_MarkupCompile.lref
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.exe
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.deps.json
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.runtimeconfig.json
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.runtimeconfig.dev.json
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.dll
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.pdb
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\bin\Debug\netcoreapp3.1\FontAwesome.Sharp.dll
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\App.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\xwMenuItem.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\MainWindow.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\Windows\xwInfoWindow.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.g.resources
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.CoreCompileInputs.cache
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.CopyComplete
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.dll
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.pdb
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.AssemblyInfoInputs.cache
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Github\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.AssemblyInfo.cs
