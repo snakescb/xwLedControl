@@ -13,7 +13,8 @@
             "fileVersion": "5.15.4.0"
           }
         }
-      }
+      },
+      "RelaxVersioner/2.4.0": {}
     }
   },
   "libraries": {
@@ -23,6 +24,13 @@
       "sha512": "sha512-IqJe1IQas6tSVXMNHTWA/NJeP7azyxDTk6DCB+NMXOOED2F07IYI9nvfB1HP83r4yh5cntZoTdwSpIraA5XoXw==",
       "path": "fontawesome.sharp/5.15.4",
       "hashPath": "fontawesome.sharp.5.15.4.nupkg.sha512"
+    },
+    "RelaxVersioner/2.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LU11jx6KQ7A03fkBItSSFZV9GKD7rxNr0pPMWz2wNMuJPVvooIAEvMy8/wXY5C9j9oDwdn4O/S0uvtS7S5vd9w==",
+      "path": "relaxversioner/2.4.0",
+      "hashPath": "relaxversioner.2.4.0.nupkg.sha512"
     }
   }
 }

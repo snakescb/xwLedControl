@@ -18,32 +18,35 @@ namespace xwLedConfigurator
     /// <summary>
     /// Interaktionslogik für xwInfoControl.xaml
     /// </summary>
+    /// 
+
+
     public partial class xwInfoWindow : UserControl {
-
-		DateTime buildTime;
-		string version;
-
-        public xwInfoWindow() {
+	
+		public xwInfoWindow() {
             InitializeComponent();
-			buildTime = GetLinkerTime(Assembly.GetEntryAssembly());
-			version = Assembly.GetEntryAssembly().GetName().Version.ToString();
-		}
 
-		public static DateTime GetLinkerTime(Assembly assembly) {
-			const string BuildVersionMetadataPrefix = "+build";
 
-			var attribute = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
-			if (attribute?.InformationalVersion != null) {
-				var value = attribute.InformationalVersion;
-				var index = value.IndexOf(BuildVersionMetadataPrefix);
-				if (index > 0) {
-					value = value[(index + BuildVersionMetadataPrefix.Length)..];
-					return DateTime.ParseExact(value, "yyyy-MM-ddTHH:mm:ss:fffZ", CultureInfo.InvariantCulture);
-				}
+			string date = "";
+			string branch = "";
+			string tags = "";
+			string committer = "";
+			string message = "";
+
+			var customMetadataList = Assembly.GetEntryAssembly().GetCustomAttributes<AssemblyMetadataAttribute>();
+			foreach (var customMetadata in customMetadataList) {
+				if (customMetadata.Key == "Branch") branch = customMetadata.Value;
+				if (customMetadata.Key == "Date") date = customMetadata.Value;
+				if (customMetadata.Key == "Tags") tags = customMetadata.Value;
+				if (customMetadata.Key == "Committer") committer = customMetadata.Value;
+				if (customMetadata.Key == "Message") message = customMetadata.Value;
+
 			}
 
-			return default;
+			versionInfoText.Text = Assembly.GetEntryAssembly().GetName().Version.ToString() + "\n" + date + "\n" + branch + "\n" + tags + "\n" + committer + "\n" + message;
+
 		}
+
 
 	}
 

@@ -4,10 +4,10 @@
     <!-- Main Application Colors -->
     <SolidColorBrush x:Key="AppMainColor" Color="#FF313131"/>
     <SolidColorBrush x:Key="AppBorderColor" Color="#FFBBBBBB"/>
-    <SolidColorBrush x:Key="AppTitleColor" Color="#FF6C1498"/>
+    <SolidColorBrush x:Key="AppTitleColor" Color="#FF72249A"/>
     
-    <SolidColorBrush x:Key="MenuInactiveColor" Color="White" Opacity="0.05"/>
-    <SolidColorBrush x:Key="MenuActiveColor" Color="#FF6C1498"/>
+    <SolidColorBrush x:Key="MenuInactiveColor" Color="White" Opacity="0.04"/>
+    <SolidColorBrush x:Key="MenuActiveColor" Color="#FF72249A"/>
     <SolidColorBrush x:Key="MenuHoverColor"  Color="White" Opacity="0.2"/>
     
     <SolidColorBrush x:Key="MainFontColor" Color="#FFEFEFEF"/>
