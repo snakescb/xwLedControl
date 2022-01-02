@@ -45,6 +45,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">Port Selection</TextBlock>
+                   
                     <ComboBox x:Name="comPortMode" Grid.Column="3" Grid.Row="1">
                         <ComboBoxItem IsSelected="True">Automatic</ComboBoxItem>
                         <ComboBoxItem>Manual</ComboBoxItem>
