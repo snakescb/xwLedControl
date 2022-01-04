@@ -1,19 +1,19 @@
 // This is auto-generated version information attributes by RelaxVersioner.2.4.0.0, Do not edit.
-// Generated date: Sun, 02 Jan 2022 16:18:15 GMT
+// Generated date: Tue, 04 Jan 2022 18:52:00 GMT
 
 using System.Reflection;
 
-[assembly: AssemblyVersion(@"0.0.35")]
-[assembly: AssemblyFileVersion(@"2022.1.2.31105")]
-[assembly: AssemblyInformationalVersion(@"0.0.35-bb6fef489f1569bf46913f9c8c709898bfb58e46")]
-[assembly: AssemblyMetadata(@"Date",@"Sun, 02 Jan 2022 16:16:50 GMT")]
+[assembly: AssemblyVersion(@"0.0.36")]
+[assembly: AssemblyFileVersion(@"2022.1.2.31169")]
+[assembly: AssemblyInformationalVersion(@"0.0.36-17fb546f462bb6fd40636a5921bd4a335fa68ef8")]
+[assembly: AssemblyMetadata(@"Date",@"Sun, 02 Jan 2022 16:18:59 GMT")]
 [assembly: AssemblyMetadata(@"Branch",@"develop")]
 [assembly: AssemblyMetadata(@"Tags",@"")]
 [assembly: AssemblyMetadata(@"Author",@"Christian Luethi <luethich80@gmail.com>")]
 [assembly: AssemblyMetadata(@"Committer",@"Christian Luethi <luethich80@gmail.com>")]
-[assembly: AssemblyMetadata(@"Message",@"Update README.md")]
+[assembly: AssemblyMetadata(@"Message",@"Daily upload")]
 [assembly: AssemblyMetadata(@"Build",@"")]
-[assembly: AssemblyMetadata(@"Generated",@"Sun, 02 Jan 2022 16:18:15 GMT")]
+[assembly: AssemblyMetadata(@"Generated",@"Tue, 04 Jan 2022 18:52:00 GMT")]
 [assembly: AssemblyMetadata(@"TargetFramework",@"netcoreapp3.1")]
 [assembly: AssemblyMetadata(@"Platform",@"AnyCPU")]
 [assembly: AssemblyMetadata(@"BuildOn",@"Windows_NT")]
@@ -23,19 +23,19 @@ namespace xwLedConfigurator
 {
     internal static class ThisAssembly
     {
-        public const string @AssemblyVersion = @"0.0.35";
-        public const string @AssemblyFileVersion = @"2022.1.2.31105";
-        public const string @AssemblyInformationalVersion = @"0.0.35-bb6fef489f1569bf46913f9c8c709898bfb58e46";
+        public const string @AssemblyVersion = @"0.0.36";
+        public const string @AssemblyFileVersion = @"2022.1.2.31169";
+        public const string @AssemblyInformationalVersion = @"0.0.36-17fb546f462bb6fd40636a5921bd4a335fa68ef8";
         public static class AssemblyMetadata
         {
-            public const string @Date = @"Sun, 02 Jan 2022 16:16:50 GMT";
+            public const string @Date = @"Sun, 02 Jan 2022 16:18:59 GMT";
             public const string @Branch = @"develop";
             public const string @Tags = @"";
             public const string @Author = @"Christian Luethi <luethich80@gmail.com>";
             public const string @Committer = @"Christian Luethi <luethich80@gmail.com>";
-            public const string @Message = @"Update README.md";
+            public const string @Message = @"Daily upload";
             public const string @Build = @"";
-            public const string @Generated = @"Sun, 02 Jan 2022 16:18:15 GMT";
+            public const string @Generated = @"Tue, 04 Jan 2022 18:52:00 GMT";
             public const string @TargetFramework = @"netcoreapp3.1";
             public const string @Platform = @"AnyCPU";
             public const string @BuildOn = @"Windows_NT";
