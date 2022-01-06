@@ -1,7 +1,7 @@
 # xwLedControl
-Develop Branch<br><br>xwLedControl is a flexible, highly configurable RC Lightning System. It was formerly know as SkyLED, sold as a commercial product by InnoSKY which was decommissioned a few years ago. Since then, we received a lot of request to start offering it again. Therefore we recreated the hardware from scratch, including some improvements, and made it available for everybody to produce / order himself. The PC configurator is re-developped in simplified form as a cross platform .Net-Core 3.1 WPF application and published here.
+xwLedControl is a flexible, highly configurable RC Lightning System. It was formerly know as SkyLED, sold as a commercial product by InnoSKY which was decommissioned a few years ago. Since then, we received a lot of request to start offering it again. Therefore we recreated the hardware from scratch, including some improvements, and made it available for everybody to produce / order himself. The PC configurator is re-developped in simplified form as a cross platform .Net-Core 3.1 WPF application and published here.
 
-![xwLedControl](https://user-images.githubusercontent.com/10495848/147221539-66b14f9b-4330-4ec9-8169-2145c49a1405.PNG)
+![xwLedControlV1 0](https://user-images.githubusercontent.com/10495848/148351487-cb64c103-8d30-40e0-aaf8-fd21418d773b.PNG)
 
 ## Get your Led Controller
 - You can download gerber files from Github and produce the PCB on your own.
