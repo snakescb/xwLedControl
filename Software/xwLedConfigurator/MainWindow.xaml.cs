@@ -21,10 +21,17 @@ namespace xwLedConfigurator {
     public partial class MainWindow : Window {
 
         private Rect restoreLocation;
+        public Connection connection;
 
         public MainWindow() { 
             InitializeComponent();
             btnMenuInfo.active = true;
+
+            //create connector
+            connection = new Connection();
+
+            //set connection variables
+            contentInfo.setConnection(ref connection);
         }
 
         private void menuButton_click(object sender, EventArgs e) {
@@ -80,7 +87,13 @@ namespace xwLedConfigurator {
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+            this.Close();
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            base.OnClosed(e);
+            App.Current.Shutdown();
+            Process.GetCurrentProcess().Kill();
         }
 
     }
