@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO.Ports;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace xwLedConfigurator {
+
+
     public class Connection {
 
         public enum connectionStates {
@@ -12,86 +15,79 @@ namespace xwLedConfigurator {
             Connected
         }
 
-        public enum connectionModes {
-            Auto,
-            Manual,
-            Bootloader
-        }
-
         public connectionStates connectioState = connectionStates.Disconnected;
-        public connectionModes connectioMode = connectionModes.Auto;
-        public List<string> availablePorts = new List<string>();
-        public string currentPort = "";
-
-        SerialPort serialPort = new SerialPort();
-
 
         public Connection() {         
-            Thread connectorThread = new Thread(connector);
-            connectorThread.Start();
+            Thread serialHandleThread = new Thread(checkSerialHandle);
+            serialHandleThread.Start();
         }
 
-        public void setMode(connectionModes newMode) { connectioMode = newMode; }
-        public void setPort(string newPort) { switchPort(newPort); }
-        public void intializeBootloader() {
+        private IntPtr serialHandle = IntPtr.Zero;
 
-            //close openport if any
-            try {
-                serialPort.Close();
+        public bool intializeBootloader() {
+
+            if (serialHandle != IntPtr.Zero) {
+
+                //reset sequence
+                int retval = 0;
+                retval += CP210x.Open(0, ref serialHandle);
+                retval += CP210x.WriteLatch(serialHandle, 1, 0);
+                Thread.Sleep(50);
+                retval += CP210x.WriteLatch(serialHandle, 2, 2);
+                Thread.Sleep(50);
+                retval += CP210x.WriteLatch(serialHandle, 1, 1);
+                Thread.Sleep(50);
+                retval += CP210x.WriteLatch(serialHandle, 2, 0);
+                Thread.Sleep(50);
+                retval += CP210x.Close(serialHandle);
+
+                if (retval == 0) return true;
             }
-            catch { }
-
-            //setup new port
-            serialPort.PortName = currentPort;
-            serialPort.BaudRate = 115200;
-            serialPort.Parity = Parity.Even;
-            serialPort.DataBits = 8;
-            serialPort.StopBits = StopBits.One;
-
-            //open new port
-            try {
-                serialPort.Open();
-
-                serialPort.RtsEnable = false;
-                Thread.Sleep(10);
-                serialPort.DtrEnable = false;
-                Thread.Sleep(10);
-                serialPort.DtrEnable = true;
-                serialPort.RtsEnable = true;
-
-            }
-            catch { }
+            return false;
 
         }
 
-        void switchPort(string name) {
-            currentPort = name;
-            try {
-                serialPort.Close();
-            }
-            catch { }
-        }
+        
 
-        void connector() {
+        void checkSerialHandle() {
 
             while (true) {
 
-                availablePorts.Clear();
-                availablePorts.AddRange(SerialPort.GetPortNames());
-                availablePorts.Sort();
+                Int32 numDevs = 0;
+                Int32 retVal = CP210x.GetNumDevices(ref numDevs);
 
-                if (connectioState == connectionStates.Disconnected) {
-                    if (connectioMode == connectionModes.Auto) {
-                        foreach (string port in availablePorts) {
-                            if (connectioState == connectionStates.Disconnected) {
-                                switchPort(port);
-                                Thread.Sleep(500);
-                            }
-                        }
+                if (serialHandle != IntPtr.Zero) {
+                    if ((numDevs == 0) || (retVal > 0)) {
+                        serialHandle = IntPtr.Zero;
+                        connectioState = connectionStates.Disconnected;
                     }
-                    if (connectioMode == connectionModes.Manual) switchPort(currentPort);
                 }
-               
+                else {
+
+                    for (Int32 i = 0; i < numDevs; i++) {
+
+                        IntPtr handle = IntPtr.Zero;
+                        Int32 tempStringlen = 0;
+                        Byte[] tempString = new Byte[100];
+                        string productString = "";
+                        string manufacturerString = "";
+
+                        retVal = CP210x.Open(i, ref handle);
+                        retVal += CP210x.getDeviceProductString(handle, tempString, ref tempStringlen, true);
+                        productString = Encoding.UTF8.GetString(tempString, 0, tempStringlen);
+                        retVal += CP210x.getManufacturerString(handle, tempString, ref tempStringlen, true);
+                        manufacturerString = Encoding.UTF8.GetString(tempString, 0, tempStringlen);
+                        
+                        retVal += CP210x.Close(handle);
+
+                        if ((retVal == 0) && (productString.ToLower().StartsWith("xwledcontrol"))) {
+                            serialHandle = handle;
+                            connectioState = connectionStates.Connected;
+                            break;
+                        }
+                    }              
+                }
+                
                 Thread.Sleep(500);
             }
         }

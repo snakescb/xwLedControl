@@ -48,8 +48,10 @@ namespace xwLedConfigurator {
                 }
 
                 contentInfo.Visibility = Visibility.Collapsed;
+                contentBootloader.Visibility = Visibility.Collapsed;
 
                 if (btnMenuInfo.active) contentInfo.Visibility = Visibility.Visible;
+                if (btnMenuFirmware.active) contentBootloader.Visibility = Visibility.Visible;
             }
         }
 

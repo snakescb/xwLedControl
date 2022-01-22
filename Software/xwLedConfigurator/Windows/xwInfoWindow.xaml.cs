@@ -26,7 +26,7 @@ namespace xwLedConfigurator
 
     public partial class xwInfoWindow : UserControl {
 
-		Connection comPort = null;
+		Connection con = null;
 		public List<string> lastAvailablePorts = new List<string>();
 
 		public xwInfoWindow() {
@@ -55,10 +55,7 @@ namespace xwLedConfigurator
 		}
 
 		public void setConnection(ref Connection connection) {
-			comPort = connection;
-
-			//comport select automatic mode
-			comPortMode.SelectedIndex = 0;
+			con = connection;
 
 			//timer for gui update
 			System.Windows.Forms.Timer guiUpdate = new System.Windows.Forms.Timer();
@@ -69,43 +66,16 @@ namespace xwLedConfigurator
 
 		private void updateGui(Object myObject, EventArgs myEventArgs) {
 
-			//update current port combobox if the list of avilable ports has changed, or the currently selected port has changed
-			if ((lastAvailablePorts.Count != comPort.availablePorts.Count) || (comPortCurrent.SelectedItem.ToString() != comPort.currentPort)) {
+			string textConnectionText = "";
 
-				lastAvailablePorts = new List<string>(comPort.availablePorts);
+			if (con.connectioState  == Connection.connectionStates.Connected) textConnectionText = "Connected";
+			else textConnectionText = "Disconnected";
 
-				comPortCurrent.Items.Clear();
-				for (int i = 0; i < comPort.availablePorts.Count; i++) {
-					comPortCurrent.Items.Add(comPort.availablePorts[i]);
-					if (comPort.availablePorts[i] == comPort.currentPort) {
-						comPortCurrent.SelectedIndex = i;
-					}
-				}
-			}
-
-			textConnection.Text = comPort.connectioState.ToString();
-
+			textConnection.Text = textConnectionText;
 		}
-
-        private void comPortMode_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-			if (comPortMode.SelectedIndex == 0) {
-				comPort.setMode(Connection.connectionModes.Auto);
-				comPortCurrent.IsEnabled = false;
-			}
-			else {
-				comPort.setMode(Connection.connectionModes.Manual);
-				comPortCurrent.IsEnabled = true;
-			}
-		}
-
-        private void comPortCurrent_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-			if (comPort.connectioMode == Connection.connectionModes.Manual) {
-                if (comPortCurrent.SelectedItem != null) comPort.setPort(comPortCurrent.SelectedItem.ToString());
-            }
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
-			comPort.intializeBootloader();
+			con.intializeBootloader();
         }
     }
 

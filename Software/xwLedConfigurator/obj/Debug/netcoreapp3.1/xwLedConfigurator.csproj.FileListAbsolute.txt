@@ -95,3 +95,8 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.dll
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.pdb
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Scilabs\CP210x_InterfaceLibrary\ManufacturingDLL\CP210xManufacturing.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Scilabs\CP210x_InterfaceLibrary\RuntimeDLL\CP210xRuntime.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Windows\xwBootloaderWindow.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Windows\xwBootloaderWindow.baml

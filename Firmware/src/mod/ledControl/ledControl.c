@@ -1249,7 +1249,7 @@ void ledControl_getBufferInfo(u8* rsp) {
 }
 
 /******************************************************************************
- * ledControl_getBufferStateh->runTime
+ * ledControl_getBufferState
  ******************************************************************************/
 void ledControl_getBufferState(u8* rsp) {
     rsp[0] = LED_RESPONSE_BUFFER_STATE;
