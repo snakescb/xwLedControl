@@ -5,20 +5,21 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:xwLedConfigurator"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" FontSize="16"
+             d:DesignHeight="600" d:DesignWidth="1000  " IsVisibleChanged="UserControl_IsVisibleChanged">
 
     <Border Background="{StaticResource MenuInactiveColor}" CornerRadius="0" Margin="0">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="120"/>
-                <RowDefinition Height="120"/>
-                <RowDefinition Height="120"/>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="140"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!-- Buttons -->
-            <GroupBox  Grid.Row="0" Margin="10,0,10,10"  Padding="10">
+            <GroupBox  Grid.Row="0" Margin="10,10,10,0"  Padding="10">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa:IconBlock FontSize="20" Icon="ExclamationCircle" Margin="5,0,5,0"/>
@@ -27,15 +28,48 @@
                 </GroupBox.Header>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Height="50" Width="50" VerticalAlignment="Top" Click="searchLoader">
+                    <Button x:Name="bSearch" Height="50" Width="50" VerticalAlignment="Top" Click="searchLoader">
                         <fa:IconBlock Grid.Column="0" Name="MenuIcon" Icon="Search" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Button>
                 </StackPanel>
+            </GroupBox>
 
+            <!-- Device Information -->
+            <GroupBox  Grid.Row="1" Margin="10,10,10,0"  Padding="10" IsEnabled="False">
+                <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconBlock FontSize="20" Icon="Microchip" Margin="5,0,5,0"/>
+                        <TextBlock FontSize="18" Margin="0,0,5,0">Device Information</TextBlock>
+                    </StackPanel>
+                </GroupBox.Header>
+
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Margin="0,0,5,0">
+                        Serial Number<LineBreak/>
+                        Flash size<LineBreak/>
+                        Bootloader
+                    </TextBlock>
+                    <TextBlock Grid.Column="1" Margin="0,0,8,0">
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :
+                    </TextBlock>
+                    <TextBlock x:Name="deviceInfo" Grid.Column="2">
+                        -<LineBreak/>
+                        -<LineBreak/>
+                        -
+                    </TextBlock>
+                </Grid>
             </GroupBox>
 
             <!-- Firmware Selection information -->
-            <GroupBox Grid.Row="1" Margin="10" Padding="10">
+            <GroupBox Grid.Row="2" Margin="10,10,10,0" Padding="10">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa:IconBlock FontSize="20" Icon="Archive" Margin="5,0,5,0"/>
@@ -46,12 +80,11 @@
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock>Firmware</TextBlock>
                 </StackPanel>
-
             </GroupBox>
 
 
             <!-- Message -->
-            <GroupBox  Grid.Row="2" Margin="10,0,10,10"  Padding="10">
+            <GroupBox  Grid.Row="3" Margin="10,10,10,0"  Padding="10">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa:IconBlock FontSize="20" Icon="EnvelopeOpenText" Margin="5,0,5,0"/>
@@ -67,13 +100,9 @@
 
                     <fa:IconBlock x:Name="loaderIcon" Grid.Column="0" FontSize="40" Icon="Search"  Margin="5,0,5,0"/>
                     <TextBlock x:Name="loaderMessage" Grid.Column="1" FontSize="24" VerticalAlignment="Center">Connect device and search bootloader</TextBlock>
-                    
+
                 </Grid>
-
-                
-
             </GroupBox>
-
 
         </Grid>
     </Border>

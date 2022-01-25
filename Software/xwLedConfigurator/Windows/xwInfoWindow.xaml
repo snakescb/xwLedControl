@@ -28,34 +28,30 @@
                     </StackPanel>
                 </GroupBox.Header>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="35"/>
-                        <RowDefinition Height="35"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                <Grid VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
-
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="130">
-                            Connection State<LineBreak/>
-                            Device Type<LineBreak/>
-                            Storage<LineBreak/>
-                            Firmware Version<LineBreak/>
-                            SerialNumber
-                        </TextBlock>
-                        <TextBlock Width="15">
-                            :<LineBreak/>
-                            :<LineBreak/>
-                            :<LineBreak/>
-                            :<LineBreak/>
-                            :
-                        </TextBlock>
-                        <TextBlock x:Name="textConnection" Grid.Column="2" Grid.Row="5">
-                            Connected
-                        </TextBlock>
-                    </StackPanel>
+                    <TextBlock Grid.Column="0" Margin="0,0,5,0">
+                        Connection State<LineBreak/>
+                        Device Type<LineBreak/>
+                        Storage<LineBreak/>
+                        Firmware Version<LineBreak/>
+                        Serial Number
+                    </TextBlock>
+                    <TextBlock Grid.Column="1" Margin="0,0,8,0">
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :
+                    </TextBlock>
+                    <TextBlock x:Name="textConnection" Grid.Column="2">
+                        Connected
+                    </TextBlock>
                 </Grid>
             </GroupBox>
 
@@ -68,33 +64,30 @@
                     </StackPanel>
                 </GroupBox.Header>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                <Grid VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Grid.Column="0" Width="145">
-                            Software Version<LineBreak/>
-                            Software Buildtime<LineBreak/>
-                            Git Branch<LineBreak/>
-                            Git Tags<LineBreak/>
-                            Git Committer<LineBreak/>
-                            Git Message
-                        </TextBlock>
-                        <TextBlock Width="15">
-                            :<LineBreak/>
-                            :<LineBreak/>
-                            :<LineBreak/>
-                            :<LineBreak/>
-                            :<LineBreak/>
-                            :
-                        </TextBlock>
-                        <TextBlock x:Name="versionInfoText"/>
-                    </StackPanel>
-
-
+                    <TextBlock Grid.Column="0" Margin="0,0,5,0">
+                        Software Version<LineBreak/>
+                        Software Buildtime<LineBreak/>
+                        Git Branch<LineBreak/>
+                        Git Tags<LineBreak/>
+                        Git Committer<LineBreak/>
+                        Git Message
+                    </TextBlock>
+                    <TextBlock Grid.Column="1" Margin="0,0,8,0">
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :
+                    </TextBlock>
+                    <TextBlock x:Name="versionInfoText" Grid.Column="2"/>
                 </Grid>
             </GroupBox>
 
@@ -118,9 +111,8 @@
                         <fa:IconBlock Grid.Column="0" Name="MenuIcon" Icon="Trash" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Button>
                 </Grid>
-
             </GroupBox>
-
+            
         </Grid>
     </Border>
 </UserControl>

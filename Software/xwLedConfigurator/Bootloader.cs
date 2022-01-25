@@ -5,8 +5,230 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Threading;
+using System.IO.Ports;
 
 namespace xwLedConfigurator {
+
+    class Bootloader {
+        
+        public string serialnumber;
+        public int flashsize;
+        public byte blversion_major;
+        public byte blversion_minor;
+        public float codeSize;
+        public int numPages;
+        public bool massErase;
+        public int numFlashCommandsSP;
+        public int numFlashCommandsPV;
+
+        public enum loaderstate_t {
+            IDLE = 0, BUSY, SUCCESS, ERROR
+        }
+        public loaderstate_t state;
+        
+        const byte RSP_ACK = 0x79;
+        const byte RSP_NACK = 0x1F;
+        const byte CMD_DISCOVER = 0x7F;
+        const byte CMD_GET = 0x00;
+        const byte CMD_READ = 0x11;
+        const byte CMD_WRITE = 0x31;
+        const byte CMD_ERASE = 0x43;
+        const byte CMD_EXTENDED_ERASE = 0x44;
+        const byte CMD_GO = 0x21;
+        const int  COMMAND_DEFAULT_TIMEOUT = 200;
+        const uint MAX_DATA_PER_FRAME = 128;
+        const uint STM32_FLASH_BASE_ADDRESS = 0x08000000;
+        const uint STM32_PAGE_SIZE = 1024;
+        const uint STM32_UID_ADDRESS = 0x1FFFF7E8;
+        const uint STM32_FLASHSIZE_ADDRESS = 0x1FFFF7E0;
+
+        SerialPort port;
+        ArrayList flashDataList;
+        ArrayList pageList;
+        uint addressOffset;
+        blFlashData currentCommand;
+
+        public Bootloader(string comport) {
+            port = new SerialPort(comport);
+            port.BaudRate = 115200;
+            port.Parity = Parity.Even;
+            port.StopBits = StopBits.One;
+        }
+
+        ~Bootloader() {
+            close();
+        }
+
+        public void close() {
+            port.Close();
+        }
+
+        public void connect() {
+            state = loaderstate_t.BUSY;
+
+            try {
+                port.Open();               
+                Thread worker = new Thread(connectThread);
+                worker.Start();
+            }
+            catch (Exception ex) {
+                state = loaderstate_t.ERROR;
+                return;
+            }
+        }
+
+        void connectThread() {
+
+            blCommand command = new blCommand(new byte[] { CMD_DISCOVER }, 1, COMMAND_DEFAULT_TIMEOUT, false, ref port);
+            while (command.state == blCommand.blCommandState_t.BUSY) Thread.Sleep(1);
+
+            if ((command.state == blCommand.blCommandState_t.TIMEOUT) || (command.rxData[0] != RSP_ACK)) state = loaderstate_t.ERROR;
+            else {
+                //ok, device connected, send get command, read version
+                command = new blCommand(new byte[] { CMD_GET }, 3, COMMAND_DEFAULT_TIMEOUT, true, ref port);
+                while (command.state == blCommand.blCommandState_t.BUSY) Thread.Sleep(1);
+
+                if ((command.state == blCommand.blCommandState_t.TIMEOUT) || (command.rxData[0] != RSP_ACK)) state = loaderstate_t.ERROR;
+                else {
+                    //decode response and read bootloader version
+                    blversion_major = (byte)(command.rxData[2] >> 4);
+                    blversion_minor = (byte)(command.rxData[2] & 0x0F);
+
+                    //read serial number
+                    byte[] data = new byte[12];
+                    bool readOK = readMemory(STM32_UID_ADDRESS, 12, ref data, ref port);
+
+                    if (!readOK) state = loaderstate_t.ERROR;
+                    else {
+                        //decode data to serial number
+                        serialnumber = BitConverter.ToString(data).Replace("-", string.Empty);
+
+                        //read flash size
+                        readOK = readMemory(STM32_FLASHSIZE_ADDRESS, 2, ref data, ref port);
+
+                        if (!readOK) state = loaderstate_t.ERROR;
+                        else {
+                            //decode data to falsh size
+                            flashsize = (byte)data[0] + (256 * ((byte)data[1]));
+                            //Connection completed successfully
+                            state = loaderstate_t.SUCCESS;
+                        }                        
+                    }                    
+                }
+            }
+        }
+
+        bool readMemory(uint address, uint numBytes, ref byte[] rsp, ref SerialPort serialPort) {
+
+            //send command, wait for ack
+            blCommand command = new blCommand(new byte[] { CMD_READ }, 1, COMMAND_DEFAULT_TIMEOUT, true, ref serialPort);
+            while (command.state == blCommand.blCommandState_t.BUSY) Thread.Sleep(1);
+
+            if ((command.state == blCommand.blCommandState_t.TIMEOUT) || (command.rxData[0] != RSP_ACK)) return false;
+            else {
+                //send address, wait for ack
+                byte[] addr = new byte[4];
+                addr[0] = (byte)((byte)(address >> 24) & 0xFF);
+                addr[1] = (byte)((byte)(address >> 16) & 0xFF);
+                addr[2] = (byte)((byte)(address >> 8) & 0xFF);
+                addr[3] = (byte)(address & 0xFF);
+
+                command = new blCommand(addr, 1, COMMAND_DEFAULT_TIMEOUT, true, ref serialPort);
+                while (command.state == blCommand.blCommandState_t.BUSY) Thread.Sleep(1);
+
+                if ((command.state == blCommand.blCommandState_t.TIMEOUT) || (command.rxData[0] != RSP_ACK)) return false;
+                else {
+                    //send number of bytes to read, wait for ack and data
+                    command = new blCommand(new byte[] { (byte)(numBytes - 1) }, (int)numBytes + 1, COMMAND_DEFAULT_TIMEOUT * 2, true, ref serialPort);
+                    while (command.state == blCommand.blCommandState_t.BUSY) Thread.Sleep(1);
+
+                    if ((command.state == blCommand.blCommandState_t.TIMEOUT) || (command.rxData[0] != RSP_ACK)) return false;
+                    else {
+                        for (int i = 0; i < numBytes; i++) rsp[i] = command.rxData[i + 1];
+                        return true;
+                    }
+                }
+            }
+        }
+
+        class blFlashData {
+            public uint address = 0;
+            public uint length = 0;
+            public byte[] data = new byte[256];
+        }
+
+        class blCommand {
+
+            public enum blCommandState_t {
+                IDLE = 0, BUSY, OK, TIMEOUT
+            }
+            public blCommandState_t state = blCommandState_t.IDLE;
+            public byte[] rxData = new byte[256];            
+            public int rxLen = 0;
+            public int rxCount;
+
+            SerialPort port;
+            System.Timers.Timer timeoutTimer;
+            Thread dataReceptption;
+
+            public blCommand(byte[] commandData, int rxLength, int timeout, bool addChecksum, ref SerialPort serialPort) {
+                port = serialPort;
+                timeoutTimer = new System.Timers.Timer(timeout);
+                timeoutTimer.Elapsed += timeout_callback;
+                timeoutTimer.Enabled = true;
+
+                state = blCommandState_t.BUSY;
+                rxCount = 0;
+                rxLen = rxLength;
+                
+                int txLen = commandData.Length;
+                byte[] txData = new byte[txLen+5];
+                byte checksum = 0x00;
+                for (int i = 0; i < txLen; i++) {
+                    txData[i] = commandData[i];
+                    checksum = (byte)(checksum ^ commandData[i]);
+                }
+                
+                if (addChecksum) {
+                    if (txLen > 1) txData[txLen++] = (byte)checksum;
+                    else txData[txLen++] = (byte)~checksum;
+                }
+
+                //send data
+                port.DiscardInBuffer();
+                port.DiscardOutBuffer();
+                port.Write(txData, 0, txLen);
+
+                dataReceptption = new Thread(blCommandReceiver);
+                dataReceptption.Start();
+
+            }
+
+            private void blCommandReceiver() { 
+                while(state == blCommandState_t.BUSY) {
+                    if (port.BytesToRead > 0) {
+                        int receivedBytes = port.Read(rxData, rxCount, port.BytesToRead);
+                        rxCount += receivedBytes;
+
+                        //enough bytes received?
+                        if (rxCount >= rxLen) {
+                            timeoutTimer.Enabled = false;
+                            state = blCommandState_t.OK;
+                            return;
+                        }
+                    }
+                    Thread.Sleep(1);
+                }
+            }
+
+            void timeout_callback(object sender, EventArgs e) {
+                state = blCommandState_t.TIMEOUT;
+                timeoutTimer.Enabled = false;
+            }
+        }
+    }
+
+    /*
     class Bootloader {
 
         public string serialnumber;
@@ -30,10 +252,6 @@ namespace xwLedConfigurator {
 
         public loaderstate_t state;
 
-        public Bootloader(ComPort port) {
-            com = port;
-            state = loaderstate_t.IDLE;
-        }
         public void connect() {
             state = loaderstate_t.BUSY;
             Thread worker = new Thread(tConnect);
@@ -444,4 +662,5 @@ namespace xwLedConfigurator {
             }
         }
     }
+    */
 }

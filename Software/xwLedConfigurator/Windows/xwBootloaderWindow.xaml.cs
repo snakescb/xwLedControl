@@ -27,6 +27,13 @@ namespace xwLedConfigurator
 
     public partial class xwBootloaderWindow : UserControl {
 
+        enum state_t {
+            IDLE = 0,
+            CONNECTED
+        }
+
+        state_t state = state_t.IDLE;
+
 		public xwBootloaderWindow() {
             InitializeComponent();
 
@@ -35,14 +42,13 @@ namespace xwLedConfigurator
 			guiUpdate.Tick += new EventHandler(updateGui);
 			guiUpdate.Interval = 100;
 			guiUpdate.Enabled = true;
-
-		}
+		}       
 
 		private void updateGui(Object myObject, EventArgs myEventArgs) {
 
 		}
 
-        Bootloader loader;
+        Bootloader bootloader;
 
         private void searchLoader(object sender, RoutedEventArgs e) {
        
@@ -71,43 +77,62 @@ namespace xwLedConfigurator
                     //device fount, send reset sequence
                     int retval = 0;
                     retval += CP210x.Open(0, ref handle);
-                    retval += CP210x.WriteLatch(handle, 1, 0);
-                    Thread.Sleep(5);
-                    retval += CP210x.WriteLatch(handle, 2, 2);
+                    retval += CP210x.WriteLatch(handle, 3, 2);
                     Thread.Sleep(5);
                     retval += CP210x.WriteLatch(handle, 1, 1);
                     Thread.Sleep(5);
                     retval += CP210x.WriteLatch(handle, 2, 0);
-                    Thread.Sleep(5);
+                    Thread.Sleep(10);
                     retval += CP210x.Close(handle);
 
                     if (retval == 0) {
-
-                        //reset executed succesfully, try to reach bootloader on all available comports
+                        //reset executed succesfully, try to reach bootloader on each available comports
                         string[] ports = SerialPort.GetPortNames();
 
-                        foreach (string portname in ports) {
+                        for (int j=ports.Length-1; j>=0; j--) {    
+                            
+                            //try to connect to target on this port
+                            bootloader = new Bootloader(ports[j]);
+                            bootloader.connect();
+                            while (bootloader.state == Bootloader.loaderstate_t.BUSY) Thread.Sleep(10);
 
-                            ComPort port = new ComPort();
-                            port.portOpen(portname, 115200, Parity.Even, 8, StopBits.One);
-                            Bootloader loader = new Bootloader(port);
-                            loader.connect();
-                            while (loader.state == Bootloader.loaderstate_t.BUSY) Thread.Sleep(10);
-
-                            if (loader.state == Bootloader.loaderstate_t.SUCCESS) {
+                            //if bootloader connected, stop
+                            if (bootloader.state == Bootloader.loaderstate_t.SUCCESS) {
                                 loaderMessage.Text = "Bootloader connected!";
                                 loaderIcon.Icon = FontAwesome.Sharp.IconChar.ThumbsUp;
-                                port.portClose();
+                                deviceInfo.Text = bootloader.serialnumber + "\n" + bootloader.flashsize + "kB\nV" + bootloader.blversion_major + "." + bootloader.blversion_minor;
+
+                                bootloader.close();
                                 return;
                             }
-                            else port.portClose();
                         }
+
+                        //if we enter here, bootloader did not connect on any port
+                        loaderMessage.Text = "No answer received from device";
+                        loaderIcon.Icon = FontAwesome.Sharp.IconChar.ThumbsDown;
+                        bootloader.close();
+                        return;
+                    }
+                    else {
+                        //error while sending reset sequence
+                        loaderMessage.Text = "Error sending reset seuqence to device";
+                        loaderIcon.Icon = FontAwesome.Sharp.IconChar.ThumbsDown;
+                        return;
                     }
                 }                
             }
-
-            loaderMessage.Text = "Cannot connect to device...";
+            //no xwledcontrol device found
+            loaderMessage.Text = "Cannot find any xwLedControl device...";
             loaderIcon.Icon = FontAwesome.Sharp.IconChar.ThumbsDown;
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            //reset everything to defailt
+            loaderMessage.Text = "Connect device and search bootloader";            
+            loaderIcon.Icon = FontAwesome.Sharp.IconChar.Search;
+            deviceInfo.Text = "-\n-\n-";
+            state = state_t.IDLE;
+            bSearch.IsEnabled = true;
         }
     }
 
