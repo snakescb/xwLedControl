@@ -100,3 +100,4 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Windows\xwBootloaderWindow.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Windows\xwBootloaderWindow.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Firmware\firmware.hex

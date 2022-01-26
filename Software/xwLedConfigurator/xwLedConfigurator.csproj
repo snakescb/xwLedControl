@@ -27,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Firmware\firmware.hex">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Scilabs\CP210xManufacturing.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

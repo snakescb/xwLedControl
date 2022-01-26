@@ -28,8 +28,11 @@
                 </GroupBox.Header>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button x:Name="bSearch" Height="50" Width="50" VerticalAlignment="Top" Click="searchLoader">
-                        <fa:IconBlock Grid.Column="0" Name="MenuIcon" Icon="Search" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Button x:Name="bSearch" Height="50" VerticalAlignment="Top" Click="searchLoader" Margin="15,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconBlock  Icon="Search" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Connect</TextBlock>
+                        </StackPanel>
                     </Button>
                 </StackPanel>
             </GroupBox>
@@ -68,18 +71,58 @@
                 </Grid>
             </GroupBox>
 
-            <!-- Firmware Selection information -->
+            <!-- Settings -->
             <GroupBox Grid.Row="2" Margin="10,10,10,0" Padding="10">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
-                        <fa:IconBlock FontSize="20" Icon="Archive" Margin="5,0,5,0"/>
-                        <TextBlock FontSize="18" Margin="0,0,5,0">Firmware Selection</TextBlock>
+                        <fa:IconBlock FontSize="20" Icon="Cogs" Margin="5,0,5,0"/>
+                        <TextBlock FontSize="18" Margin="0,0,5,0">Settings</TextBlock>
                     </StackPanel>
                 </GroupBox.Header>
+                <Grid VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock>Firmware</TextBlock>
-                </StackPanel>
+                    <RadioButton x:Name="firmwareShipped" Grid.Column="0" Grid.Row="0" Margin="5" Click="firmwareShipped_Click"/>
+                    <RadioButton x:Name="firmwareManual" Grid.Column="0" Grid.Row="1" Margin="5" Click="firmwareManual_Click"/>
+                    <CheckBox x:Name="massErase" Grid.Column="0" Grid.Row="2" Margin="5"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0">Flash Firmware shipped with Software</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="1">Select Firmware from File</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="3">Remove Device Configuration</TextBlock>
+                    <Button x:Name="bSelectFile"  Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Height="50" VerticalAlignment="Center" Margin="25,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconBlock Icon="FileCode" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Select Firmware</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                    <TextBlock Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Margin="25,0,5,0">
+                        Firmware File Name<LineBreak/>
+                        Firmware Code Size<LineBreak/>
+                        Firmware Flash Pages
+                    </TextBlock>
+                    <TextBlock Grid.Column="4" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Margin="0,0,8,0">
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :
+                    </TextBlock>
+                    <TextBlock x:Name="fileInfo" Grid.Column="5" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Margin="0,0,8,0">
+                        -<LineBreak/>
+                        -<LineBreak/>
+                        -
+                    </TextBlock>
+                </Grid>
             </GroupBox>
 
 

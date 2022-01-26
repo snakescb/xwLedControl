@@ -98,7 +98,7 @@ namespace xwLedConfigurator
 
                             //if bootloader connected, stop
                             if (bootloader.state == Bootloader.loaderstate_t.SUCCESS) {
-                                loaderMessage.Text = "Bootloader connected!";
+                                loaderMessage.Text = "Bootloader connected. Select firmware and flash";
                                 loaderIcon.Icon = FontAwesome.Sharp.IconChar.ThumbsUp;
                                 deviceInfo.Text = bootloader.serialnumber + "\n" + bootloader.flashsize + "kB\nV" + bootloader.blversion_major + "." + bootloader.blversion_minor;
 
@@ -127,12 +127,30 @@ namespace xwLedConfigurator
         }
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            //reset everything to defailt
-            loaderMessage.Text = "Connect device and search bootloader";            
-            loaderIcon.Icon = FontAwesome.Sharp.IconChar.Search;
-            deviceInfo.Text = "-\n-\n-";
-            state = state_t.IDLE;
-            bSearch.IsEnabled = true;
+            if (this.Visibility == Visibility.Visible) {
+                //reset everything to defailt
+                loaderMessage.Text = "Connect device and search bootloader";
+                loaderIcon.Icon = FontAwesome.Sharp.IconChar.Search;
+                deviceInfo.Text = "-\n-\n-";
+                state = state_t.IDLE;
+                bSearch.IsEnabled = true;
+                firmwareShipped_Click(null, null);
+            }
+            else {
+
+            }
+        }
+
+        private void firmwareShipped_Click(object sender, RoutedEventArgs e) {
+            firmwareShipped.IsChecked = true;
+            firmwareManual.IsChecked = false;
+            bSelectFile.IsEnabled = false;
+        }
+
+        private void firmwareManual_Click(object sender, RoutedEventArgs e) {
+            firmwareManual.IsChecked = true;
+            firmwareShipped.IsChecked = false;
+            bSelectFile.IsEnabled = true;
         }
     }
 
