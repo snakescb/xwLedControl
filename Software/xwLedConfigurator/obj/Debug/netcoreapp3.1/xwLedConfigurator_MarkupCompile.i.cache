@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\App.xaml
-4-971099438
+52063050128
 
-81929295975
+12-1280562310
 201-1926114269
-Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;Windows\xwInfoWindow.xaml;
+Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;Windows\xwBootloaderWindow.xaml;Windows\xwInfoWindow.xaml;
 
-True
+False
 

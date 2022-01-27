@@ -1,7 +1,7 @@
 # xwLedControl
-xwLedControl is a flexible, highly configurable RC Lightning System. It was formerly know as SkyLED, sold as a commercial product by InnoSKY which was decommissioned a few years ago. Since then, we received a lot of request to start offering it again. Therefore we recreated the hardware from scratch, including some improvements, and made it available for everybody to produce / order himself. The PC configurator is re-developped in simplified form as a cross platform .Net-Core 3.1 WPF application and published here.
+xwLedControl is a flexible, highly configurable RC Lightning System. It was formerly know as SkyLED, sold as a commercial product by InnoSKY which was decommissioned a few years ago. Since then, we received a lot of request to start offering it again. Therefore we recreated the hardware from scratch, including some improvements, and made it available for everybody to produce / order himself. The PC configurator is re-developped in simplified form as a cross platform .Net-Core 3.1 WPF application and is published here.
 
-![xwLedControlV1 0](https://user-images.githubusercontent.com/10495848/148351487-cb64c103-8d30-40e0-aaf8-fd21418d773b.PNG)
+![ledtop](https://user-images.githubusercontent.com/10495848/151327156-f55c5d70-1b84-4303-881a-be63a9818bc9.PNG)
 
 ## Get your Led Controller
 - You can download gerber files from Github and produce the PCB on your own.
@@ -22,11 +22,25 @@ The original xwLedControl, formerly SkyLED by InnoSKY, with included USB port an
 - Up to 2A per output channel 
 
 ### Versions and know issues
+
+**Version 1.1**
+- Changes
+  - Fixed power supply
+  - Fixed ground connections
+  - Added switched voltage pad, to power slave devices with auto shutdown from master device
+  - Boot1 pin connected to ground
+  - Additional capacity on CP2102N according datasheet
+  - Added SWD, UART, Reset and Boot0 testpoints on back copper layer for easier development
+- Known Issues
+  - No known issues
+  
 **Version 1.0**
 - Changes
   - Inital version currently tested
 - Known Issues
-  - No known issues
+  - Power supply error is burning USB chip on battery power
+  - Ground pin not connected on STM32
+  - Boot1 pin is floating, which is preventing STM32 to enter bootloader mode
 
 
 

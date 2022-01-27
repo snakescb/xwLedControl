@@ -6,8 +6,8 @@
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:local="clr-namespace:xwLedConfigurator"
         mc:Ignorable="d" FontSize="16" BorderThickness="0"
-        WindowStyle="None" WindowState="Normal" ResizeMode="CanResizeWithGrip" AllowsTransparency="true" Background="Transparent"
-        MinWidth="816" MinHeight="400"
+        WindowStyle="None" WindowState="Normal" ResizeMode="CanResize" AllowsTransparency="true" Background="Transparent"
+        MinWidth="1200" MinHeight="800"
         Title="" Height="800" Width="1200"
         WindowStartupLocation="CenterScreen">
 
@@ -18,7 +18,7 @@
     </WindowChrome.WindowChrome>
 
     <!-- Main Window Grid -->
-    <Border BorderThickness="2" Background="{StaticResource AppMainColor}"  BorderBrush="{StaticResource AppBorderColor}"  CornerRadius="0">
+    <Border BorderThickness="0" Background="{StaticResource AppMainColor}"  BorderBrush="{StaticResource AppBorderColor}" CornerRadius="12">
 
         <Grid>
             <Grid.RowDefinitions>
@@ -33,14 +33,14 @@
             <Border Grid.Row="2" Background="Transparent" />
 
             <!-- Title, and transparent border to drag window -->
-            <TextBlock Grid.Row="0" Text="xwLedControl" FontSize="20" FontWeight="Bold" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" Padding="20,0,0,0"/>
+            <TextBlock Grid.Row="0" Text="xwLedControl" FontSize="22" FontWeight="Bold" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" Padding="20,0,0,0"/>
             <Border Grid.Row="0" Background="Transparent" MouseDown="Border_MouseDown" />
 
             <!-- Window control buttons -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                <Button Content="{fa:Icon MinusCircle}" Click="ButtonMinimize_Click" FontSize="22" BorderThickness="0" Margin="5"/>
-                <Button Content="{fa:Icon WindowRestore}" Click="ButtonMaximize_Click" FontSize="22" BorderThickness="0" Margin="5"/>
-                <Button Click="ButtonClose_Click" FontSize="22" BorderThickness="0" Margin="5">
+                <Button Content="{fa:Icon MinusCircle}" Click="ButtonMinimize_Click" FontSize="22" BorderThickness="0" Margin="0" Height="40" Width="40"/>
+                <Button Content="{fa:Icon WindowRestore}" Click="ButtonMaximize_Click" FontSize="22" BorderThickness="0" Margin="0" Height="40" Width="40"/>
+                <Button Click="ButtonClose_Click" FontSize="22" BorderThickness="0" Margin="0" Height="40" Width="40">
                     <StackPanel>
                         <fa:IconBlock Icon="PowerOff"/>
                     </StackPanel>
@@ -58,6 +58,7 @@
             
             <!-- Content -->
             <local:xwInfoWindow x:Name="contentInfo" Grid.Row="2" />
+            <local:xwBootloaderWindow x:Name="contentBootloader" Grid.Row="2" Visibility="Collapsed" />
 
         </Grid>
     </Border>
