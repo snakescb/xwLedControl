@@ -18,7 +18,7 @@
     </WindowChrome.WindowChrome>
 
     <!-- Main Window Grid -->
-    <Border BorderThickness="0" Background="{StaticResource AppMainColor}"  BorderBrush="{StaticResource AppBorderColor}" CornerRadius="12">
+    <Border BorderThickness="0" Background="{StaticResource AppMainColor}"  BorderBrush="{StaticResource AppBorderColor}" CornerRadius="10">
 
         <Grid>
             <Grid.RowDefinitions>
@@ -28,9 +28,9 @@
             </Grid.RowDefinitions>
 
             <!-- Main Window Colors -->
-            <Border Grid.Row="0" Background="{StaticResource AppTitleColor}"/>
+            <Border Grid.Row="0" Background="{StaticResource AppTitleColor}" CornerRadius="10,10,0,0"/>
             <Border Name="menuBorder" Grid.Row="1" Background="Transparent" />
-            <Border Grid.Row="2" Background="Transparent" />
+            <Border Grid.Row="2" Background="Transparent" CornerRadius="10"/>
 
             <!-- Title, and transparent border to drag window -->
             <TextBlock Grid.Row="0" Text="xwLedControl" FontSize="22" FontWeight="Bold" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" Padding="20,0,0,0"/>
@@ -57,7 +57,7 @@
             </StackPanel>
             
             <!-- Content -->
-            <local:xwInfoWindow x:Name="contentInfo" Grid.Row="2" />
+            <local:xwInfoWindow x:Name="contentInfo" Grid.Row="2"/>
             <local:xwBootloaderWindow x:Name="contentBootloader" Grid.Row="2" Visibility="Collapsed" />
 
         </Grid>

@@ -28,10 +28,16 @@
                 </GroupBox.Header>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button x:Name="bSearch" Height="50" VerticalAlignment="Top" Click="searchLoader" Margin="15,0,0,0">
+                    <Button x:Name="bSearch" Height="50" Width="120" VerticalAlignment="Top" Click="bSearch_Click" Margin="15,0,0,0">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconBlock  Icon="Search" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
                             <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Connect</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="bFlash" Height="50" Width="120" VerticalAlignment="Top" Click="bFlash_Click" Margin="15,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconBlock  Icon="Fire" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Burn</TextBlock>
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -94,12 +100,12 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <RadioButton x:Name="firmwareShipped" Grid.Column="0" Grid.Row="0" Margin="5" Click="firmwareShipped_Click"/>
-                    <RadioButton x:Name="firmwareManual" Grid.Column="0" Grid.Row="1" Margin="5" Click="firmwareManual_Click"/>
-                    <CheckBox x:Name="massErase" Grid.Column="0" Grid.Row="2" Margin="5"/>
-                    <TextBlock Grid.Column="1" Grid.Row="0">Flash Firmware shipped with Software</TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="1">Select Firmware from File</TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="3">Remove Device Configuration</TextBlock>
+                    <RadioButton x:Name="firmwareShipped" Grid.Column="0" Grid.Row="0" Margin="5" Click="firmwareShipped_Click" HorizontalAlignment="Center"/>
+                    <RadioButton x:Name="firmwareManual" Grid.Column="0" Grid.Row="1" Margin="5" Click="firmwareManual_Click" HorizontalAlignment="Center"/>
+                    <CheckBox x:Name="massErase" Grid.Column="0" Grid.Row="2" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0">Burn Firmware shipped with Software</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="1">Burn Firmware from File</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="3" VerticalAlignment="Center">Erase Device Configuration</TextBlock>
                     <Button x:Name="bSelectFile"  Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Height="50" VerticalAlignment="Center" Margin="25,0,0,0">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconBlock Icon="FileCode" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
@@ -143,6 +149,8 @@
 
                     <fa:IconBlock x:Name="loaderIcon" Grid.Column="0" FontSize="40" Icon="Search"  Margin="5,0,5,0"/>
                     <TextBlock x:Name="loaderMessage" Grid.Column="1" FontSize="24" VerticalAlignment="Center">Connect device and search bootloader</TextBlock>
+
+                    <ProgressBar x:Name="progress" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="100" Value="75" Margin="10" Foreground="{StaticResource AppTitleColor}" Background="{StaticResource MenuHoverColor}" BorderBrush="{StaticResource MenuHoverColor}" Visibility="Hidden"/>
 
                 </Grid>
             </GroupBox>

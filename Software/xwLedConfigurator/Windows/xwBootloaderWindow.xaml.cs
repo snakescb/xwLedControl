@@ -16,6 +16,7 @@ using System.Threading;
 using System.Timers;
 using System.Linq;
 using System.IO.Ports;
+using System.IO;
 
 namespace xwLedConfigurator
 {
@@ -27,35 +28,63 @@ namespace xwLedConfigurator
 
     public partial class xwBootloaderWindow : UserControl {
 
-        enum state_t {
-            IDLE = 0,
-            CONNECTED
-        }
-
-        state_t state = state_t.IDLE;
-
 		public xwBootloaderWindow() {
             InitializeComponent();
-
 			//timer for gui update
 			System.Windows.Forms.Timer guiUpdate = new System.Windows.Forms.Timer();
 			guiUpdate.Tick += new EventHandler(updateGui);
 			guiUpdate.Interval = 100;
 			guiUpdate.Enabled = true;
-		}       
+		}
+
+
+        string displayFileName = "";
+        string currentMessage = "Connect device and search bootloader";
+        string deviceInfoText = "";
+        bool reparseFirmware = false;
+        bool burning = false;
+        FontAwesome.Sharp.IconChar currentIcon = FontAwesome.Sharp.IconChar.Search;
 
 		private void updateGui(Object myObject, EventArgs myEventArgs) {
+            loaderMessage.Text = currentMessage;
+            loaderIcon.Icon = currentIcon;
+            deviceInfo.Text = deviceInfoText;
 
-		}
+            if (reparseFirmware) {
+                reparseFirmware = false;
+                if ((bool)firmwareShipped.IsChecked) firmwareShipped_Click(null, null);
+                else firmwareManual_Click(null, null);
+            }
+
+            if (burning) {                
+                if (bootloader.numFlashCommandsSP > 0) {
+                    progress.Value = bootloader.numFlashCommandsPV * 100 / bootloader.numFlashCommandsSP;
+                    loaderMessage.Visibility = Visibility.Hidden;
+                    loaderIcon.Visibility = Visibility.Hidden;
+                    progress.Visibility = Visibility.Visible;
+                }
+            }
+            else {
+                progress.Visibility = Visibility.Hidden;
+                loaderMessage.Visibility = Visibility.Visible;
+                loaderIcon.Visibility = Visibility.Visible;
+            }
+        }
 
         Bootloader bootloader;
 
-        private void searchLoader(object sender, RoutedEventArgs e) {
-       
+        void searchBootLoaderThread() {
+
+            currentMessage = "Resetting device";
+            currentIcon = FontAwesome.Sharp.IconChar.Fire;
+            deviceInfoText = "-\n-\n-";
+
+            //close bootlaoder if still open
+            if (bootloader != null) bootloader.close();
 
             //search device
             Int32 numDevs = 0;
-            Int32 retVal = CP210x.GetNumDevices(ref numDevs);            
+            Int32 retVal = CP210x.GetNumDevices(ref numDevs);
 
             for (Int32 i = 0; i < numDevs; i++) {
 
@@ -73,7 +102,7 @@ namespace xwLedConfigurator
                 retVal += CP210x.Close(handle);
 
                 if ((retVal == 0) && (productString.ToLower().StartsWith("xwledcontrol"))) {
-                    
+
                     //device fount, send reset sequence
                     int retval = 0;
                     retval += CP210x.Open(0, ref handle);
@@ -84,13 +113,19 @@ namespace xwLedConfigurator
                     retval += CP210x.WriteLatch(handle, 2, 0);
                     Thread.Sleep(10);
                     retval += CP210x.Close(handle);
+                    Thread.Sleep(200);
 
                     if (retval == 0) {
+
+                        currentMessage = "Waiting for bootlaoder response";
+                        currentIcon = FontAwesome.Sharp.IconChar.Fire;
+                        Thread.Sleep(200);
+
                         //reset executed succesfully, try to reach bootloader on each available comports
                         string[] ports = SerialPort.GetPortNames();
 
-                        for (int j=ports.Length-1; j>=0; j--) {    
-                            
+                        for (int j = ports.Length - 1; j >= 0; j--) {
+
                             //try to connect to target on this port
                             bootloader = new Bootloader(ports[j]);
                             bootloader.connect();
@@ -98,59 +133,116 @@ namespace xwLedConfigurator
 
                             //if bootloader connected, stop
                             if (bootloader.state == Bootloader.loaderstate_t.SUCCESS) {
-                                loaderMessage.Text = "Bootloader connected. Select firmware and flash";
-                                loaderIcon.Icon = FontAwesome.Sharp.IconChar.ThumbsUp;
-                                deviceInfo.Text = bootloader.serialnumber + "\n" + bootloader.flashsize + "kB\nV" + bootloader.blversion_major + "." + bootloader.blversion_minor;
-
-                                bootloader.close();
+                                currentMessage = "Bootloader connected. Select firmware and flash";
+                                currentIcon = FontAwesome.Sharp.IconChar.ThumbsUp;
+                                deviceInfoText = bootloader.serialnumber + "\n" + bootloader.flashsize + "kB\nV" + bootloader.blversion_major + "." + bootloader.blversion_minor;
+                                reparseFirmware = true;
                                 return;
                             }
                         }
 
                         //if we enter here, bootloader did not connect on any port
-                        loaderMessage.Text = "No answer received from device";
-                        loaderIcon.Icon = FontAwesome.Sharp.IconChar.ThumbsDown;
+                        currentMessage = "No answer received from device";
+                        currentIcon = FontAwesome.Sharp.IconChar.ExclamationTriangle;
                         bootloader.close();
                         return;
                     }
                     else {
                         //error while sending reset sequence
-                        loaderMessage.Text = "Error sending reset seuqence to device";
-                        loaderIcon.Icon = FontAwesome.Sharp.IconChar.ThumbsDown;
+                        currentMessage = "Error sending reset seuqence to device";
+                        currentIcon = FontAwesome.Sharp.IconChar.ExclamationTriangle;
                         return;
                     }
-                }                
+                }
             }
             //no xwledcontrol device found
-            loaderMessage.Text = "Cannot find any xwLedControl device...";
-            loaderIcon.Icon = FontAwesome.Sharp.IconChar.ThumbsDown;
+            currentMessage = "Cannot find any xwLedControl device...";
+            currentIcon = FontAwesome.Sharp.IconChar.ExclamationTriangle;
+        }
+
+        void burnThread() {
+            burning = true;
+            //bootloader.massErase = true;
+            bootloader.burn();
+            while (bootloader.state == Bootloader.loaderstate_t.BUSY) Thread.Sleep(100);
+
+            burning = false;
+
+            if (bootloader.state == Bootloader.loaderstate_t.SUCCESS) {
+                currentMessage = "Flashing completed successfully!";
+                currentIcon = FontAwesome.Sharp.IconChar.ThumbsUp;
+            }
+            else {
+                currentMessage = "Flashing failed... Please reconnect and try again";
+                currentIcon = FontAwesome.Sharp.IconChar.ExclamationTriangle;
+            }
+
+            //close the bootloader
+            bootloader.close();
         }
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
             if (this.Visibility == Visibility.Visible) {
-                //reset everything to defailt
-                loaderMessage.Text = "Connect device and search bootloader";
-                loaderIcon.Icon = FontAwesome.Sharp.IconChar.Search;
-                deviceInfo.Text = "-\n-\n-";
-                state = state_t.IDLE;
+                //reset everything to default
+                currentMessage = "Connect to device and search bootloader";
+                currentIcon = FontAwesome.Sharp.IconChar.Search;
+                deviceInfoText = "-\n-\n-";
                 bSearch.IsEnabled = true;
+                burning = false;
                 firmwareShipped_Click(null, null);
             }
             else {
-
+                //close bootloader if still open
+                if (bootloader != null) bootloader.close();
             }
+        }
+
+        private bool parseFirmware(string filename) {
+            if (bootloader != null) {
+                if (bootloader.parseFirmware(new StreamReader(filename))) {
+                    fileInfo.Text = displayFileName + "\n" + Math.Round(bootloader.codeSize, 2).ToString() + "kb\n" + bootloader.numPages.ToString();
+                    return true;
+                }
+                else {
+                    MessageBox.Show("not ok");
+                    return false;
+                }
+            }
+            return false;
         }
 
         private void firmwareShipped_Click(object sender, RoutedEventArgs e) {
             firmwareShipped.IsChecked = true;
             firmwareManual.IsChecked = false;
             bSelectFile.IsEnabled = false;
+            //string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName; // return the application.exe current folder
+            //string fileName = System.IO.Path.Combine(path, "Firmware\\firmware.hex"); // make the full path as folder/test.text
+
+            string fileName = "C://Users//lueth//SynologyDrive//Projekte//GitHub//xwLedControl//Firmware//bin//firmware.hex"; // make the full path as folder/test.text
+            displayFileName = "firmware.hex";
+            parseFirmware(fileName);    
         }
 
         private void firmwareManual_Click(object sender, RoutedEventArgs e) {
             firmwareManual.IsChecked = true;
             firmwareShipped.IsChecked = false;
             bSelectFile.IsEnabled = true;
+        }
+
+        private void bSearch_Click(object sender, RoutedEventArgs e) {
+            Thread worker = new Thread(searchBootLoaderThread);
+            worker.Start();
+        }
+
+        private void bFlash_Click(object sender, RoutedEventArgs e) {
+            if (deviceInfoText.StartsWith("-")) {
+                currentMessage = "Connect to device before burning";
+                currentIcon = FontAwesome.Sharp.IconChar.ExclamationTriangle;
+            }
+            else {
+                Thread worker = new Thread(burnThread);
+                worker.Start();               
+            }
         }
     }
 
