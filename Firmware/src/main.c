@@ -7,6 +7,8 @@
 #include "statusLed.h"
 #include "hwVersion.h"
 #include "uart1.h"
+#include "teco.h"
+#include "conf.h"
 
 /*******************************************************************************
  * Globale variabeln
@@ -37,38 +39,28 @@ int main(void)  {
     /***************************************************************************
     * SOFTWARE MODULE INITIALISIEREN
     ***************************************************************************/
-    uart1_init();
-    //teco_init();
-    //config_init();
+    teco_init();
+    config_init();
+    statusLed_init();
 
-    //TRACE("XLed Control");
+    TRACE("xwLedControl restarted");
 
-    //if(!config_boardConfigRead()) {
-    //    TRACE("Boardconfig Error!!");
-    //    config_boardConfigFactoryDefault();
-    //}
-    //else TRACE("Boardconfig OK");
+    if(!config_boardConfigRead()) {
+        TRACE("Boardconfig Error!!");
+        config_boardConfigFactoryDefault();
+        statusLed_setState(STATUS_LED_BLINK_3);
+    }
+    else {
+        TRACE("Boardconfig OK");
+        statusLed_setState(STATUS_LED_ON);
+    }
 
     //adc_init();
-    statusLed_init();
     hwVersion_init();
     //ledControl_init();
-    statusLed_setState(STATUS_LED_ON);
 
     while (1) {
-        //uart1_putChar('A');
-        //HAL_Delay(1000);
-        uint8_t rx;
-        //if (uart1_getChar(&rx)) uart1_putChar(rx);
-        HAL_Delay(1000);
-        uart1_putChar('C');
-
-        /*
-        uint8_t d;
-        if (uart1_getChar(&d)) {
-            uart1_putChar(d);
-        }
-        */
+        teco_hisr();
     }
 
 }

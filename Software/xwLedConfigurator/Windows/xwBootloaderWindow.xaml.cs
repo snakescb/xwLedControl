@@ -183,7 +183,10 @@ namespace xwLedConfigurator
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
             if (this.Visibility == Visibility.Visible) {
-                //reset everything to default
+                //Stop normal connection thread
+                Connection.stop();
+
+                //reset variables to default
                 currentMessage = "Connect to device and search bootloader";
                 currentIcon = FontAwesome.Sharp.IconChar.Search;
                 deviceInfoText = "-\n-\n-";
@@ -194,6 +197,8 @@ namespace xwLedConfigurator
             else {
                 //close bootloader if still open
                 if (bootloader != null) bootloader.close();
+                //start regular connection
+                Connection.start();
             }
         }
 
@@ -240,6 +245,8 @@ namespace xwLedConfigurator
                 currentIcon = FontAwesome.Sharp.IconChar.ExclamationTriangle;
             }
             else {
+                if ((bool)massErase.IsChecked) bootloader.massErase = true;
+                else bootloader.massErase = false;
                 Thread worker = new Thread(burnThread);
                 worker.Start();               
             }

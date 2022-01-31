@@ -19,7 +19,7 @@
 //*****************************************************************************
 // LOCAL CONTROL SWITCHES
 //*****************************************************************************
-#define TRACE(n) teco_stringTrace((u8*)n)
+#define TRACE(n) teco_stringTrace((uint8_t*)n)
 
 #define null  0
 #define false 0

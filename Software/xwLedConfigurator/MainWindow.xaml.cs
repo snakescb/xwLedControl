@@ -21,17 +21,13 @@ namespace xwLedConfigurator {
     public partial class MainWindow : Window {
 
         private Rect restoreLocation;
-        public Connection connection;
 
         public MainWindow() { 
             InitializeComponent();
             btnMenuInfo.active = true;
 
-            //create connector
-            connection = new Connection();
-
-            //set connection variables
-            contentInfo.setConnection(ref connection);
+            //start connection
+            Connection.start();     
         }
 
         private void menuButton_click(object sender, EventArgs e) {

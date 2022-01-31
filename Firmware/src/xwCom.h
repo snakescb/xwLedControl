@@ -12,10 +12,10 @@
 //*****************************************************************************
 
 	typedef enum {
-        DLCI_TRACE                           = 0x00 ,
-        DLCI_COMMAND                         = 0x01 ,
-        DLCI_CONFIG                          = 0x02 ,
-        DLCI_LED                             = 0x03 ,
+        SCOPE_TRACE                           = 0x00 ,
+        SCOPE_COMMAND                         = 0x01 ,
+        SCOPE_CONFIG                          = 0x02 ,
+        SCOPE_LED                             = 0x03 ,
 	} dlci_e;
 
     typedef enum  {
