@@ -24,6 +24,9 @@
     <Page Update="Windows\xwBootloaderWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Windows\xwConfigWindown.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\xwInfoWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

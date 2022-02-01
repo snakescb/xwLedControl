@@ -9,6 +9,8 @@
 #include "uart1.h"
 #include "teco.h"
 #include "conf.h"
+#include "adc.h"
+#include <stdio.h>
 
 /*******************************************************************************
  * Globale variabeln
@@ -55,12 +57,23 @@ int main(void)  {
         statusLed_setState(STATUS_LED_ON);
     }
 
-    //adc_init();
+    adc_init();
     hwVersion_init();
     //ledControl_init();
 
-    while (1) {
+    while (1) {        
         teco_hisr();
+
+        static uint32_t cnt1 = 0;
+        static uint32_t cnt2 = 0;
+        cnt1++;
+        if (cnt1 > 20000) {
+            cnt1 = 0;
+            cnt2++;
+            char buffer[128];
+            sprintf(buffer, "Number %d", adc_battery);
+            TRACE(buffer);
+        }
     }
 
 }

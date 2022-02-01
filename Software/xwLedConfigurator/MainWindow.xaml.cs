@@ -38,16 +38,18 @@ namespace xwLedConfigurator {
                     btnMenuConfig.active = false;
                     btnMenuFirmware.active = false;
                     btnMenuInfo.active = false;
-                    btnMenuSettings.active = false;
+                    btnMenuLed.active = false;
 
                     itemClicked.active = true;
                 }
 
                 contentInfo.Visibility = Visibility.Collapsed;
                 contentBootloader.Visibility = Visibility.Collapsed;
+                contentConfig.Visibility = Visibility.Collapsed;
 
                 if (btnMenuInfo.active) contentInfo.Visibility = Visibility.Visible;
                 if (btnMenuFirmware.active) contentBootloader.Visibility = Visibility.Visible;
+                if (btnMenuConfig.active) contentConfig.Visibility = Visibility.Visible;
             }
         }
 

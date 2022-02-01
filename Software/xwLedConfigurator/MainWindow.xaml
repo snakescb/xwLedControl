@@ -50,8 +50,8 @@
 
             <!-- Menu -->
             <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                <local:xwMenuItem x:Name="btnMenuConfig" Text="Lights" Icon="Lightbulb" click="menuButton_click"/>
-                <local:xwMenuItem x:Name="btnMenuSettings" Text="Configuration" Icon="Cog" click="menuButton_click"/>
+                <local:xwMenuItem x:Name="btnMenuLed" Text="Lights" Icon="Lightbulb" click="menuButton_click"/>
+                <local:xwMenuItem x:Name="btnMenuConfig" Text="Configuration" Icon="Cog" click="menuButton_click"/>
                 <local:xwMenuItem x:Name="btnMenuFirmware" Text="Firmware" Icon="Microchip" click="menuButton_click"/>
                 <local:xwMenuItem x:Name="btnMenuInfo" Text="Information" Icon="InfoCircle" click="menuButton_click"/>
             </StackPanel>
@@ -59,6 +59,7 @@
             <!-- Content -->
             <local:xwInfoWindow x:Name="contentInfo" Grid.Row="2"/>
             <local:xwBootloaderWindow x:Name="contentBootloader" Grid.Row="2" Visibility="Collapsed" />
+            <local:xwConfigWindow x:Name="contentConfig" Grid.Row="2" Visibility="Collapsed" />
 
         </Grid>
     </Border>

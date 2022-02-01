@@ -30,7 +30,6 @@ const uint16_t statusLedDef[] = {
  * statusLed_update
  ******************************************************************************/
 void statusLed_update(void) {
-
     if (status_mode == STATUS_LED_MODE_SENSORTEST) {
         //if (sensor_active()) {SET_STATUS;}
         //else {CLR_STATUS;}
@@ -61,7 +60,6 @@ void statusLed_update(void) {
  * statusLed_setState
  ******************************************************************************/
 void statusLed_setState(eStausLedState state) {
-
     if ((state != status_currentState) && (state < STATUS_NUM_STATES)) {
         status_currentState = state;
         status_counter = 0;
@@ -106,6 +104,7 @@ void statusLed_init(void) {
     status_mode = STATUS_LED_MODE_NORMAL;
     status_currentState = STATUS_LED_OFF;
     status_substate = false;
-
-    SET_STATUS;
+    status_off = 0xFFFF;
+    status_on  = 0x0000;
+    CLR_STATUS;
 }

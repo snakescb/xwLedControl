@@ -26,6 +26,7 @@ namespace xwLedConfigurator
 		string deviceFWVersion = "";
 		int deviceConfigSize = 0;
 		string newTraceboxText = "";
+		bool tracePause = false;
 
 		public xwInfoWindow() {
             InitializeComponent();
@@ -64,7 +65,9 @@ namespace xwLedConfigurator
 			else textConnection.Text = "Disconnected\n-\n-\n-\n-";
 
 			if (newTraceboxText != "") {
-				traceBox.Text = newTraceboxText + "\n" + traceBox.Text;
+				traceBox.AppendText(newTraceboxText + "\n");
+				traceBox.ScrollToEnd();
+				//traceBox.Text = traceBox.Text + "\n" + newTraceboxText;
 				newTraceboxText = "";
 			}
 
@@ -84,9 +87,12 @@ namespace xwLedConfigurator
 			}
 
 			if (rxFrame.scope == (byte)xwCom.SCOPE.TRACE) {
-				string msg = System.Text.Encoding.Default.GetString(rxFrame.data).Substring(0,rxFrame.rxCount);
-				msg = DateTime.Now.ToString("HH:mm:ss.fff") + " " + msg;
-				newTraceboxText = msg;
+				if (!tracePause) {
+					string msg = System.Text.Encoding.Default.GetString(rxFrame.data).Substring(0, rxFrame.rxCount);
+					msg = DateTime.Now.ToString("HH:mm:ss.fff") + " :  " + msg;
+					if (newTraceboxText.Length == 0) newTraceboxText = msg;
+					else newTraceboxText += "\n" + msg;
+				}
 			}
 		}
 
@@ -95,6 +101,16 @@ namespace xwLedConfigurator
 			traceBox.Text = "";
         }
 
+        private void bPlayPauseClick(object sender, RoutedEventArgs e) {
+			if (tracePause) {
+				tracePause = false;
+				iconPlayPause.Icon = FontAwesome.Sharp.IconChar.Pause;
+			}
+			else {
+				tracePause = true;
+				iconPlayPause.Icon = FontAwesome.Sharp.IconChar.Play;
+			}
+        }
     }
 
 	

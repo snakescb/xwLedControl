@@ -15,6 +15,7 @@
 #include "common.h"
 #include "statusLed.h"
 #include "uart1.h"
+#include "adc.h"
 
 //#include "uart3.h"
 //#include "ledControl.h"
@@ -24,15 +25,6 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define SET_LED_1  (GPIOA->BSRR = GPIO_Pin_4)
-#define CLR_LED_1  (GPIOA->BRR  = GPIO_Pin_4)
-#define SET_LED_2  (GPIOA->BSRR = GPIO_Pin_5)
-#define CLR_LED_2  (GPIOA->BRR  = GPIO_Pin_5)
-
-#define CLR_STATUS       CLR_LED_1;CLR_LED_2
-#define SET_STATUS_RED   SET_LED_1;CLR_LED_2
-#define SET_STATUS_GREEN CLR_LED_1;SET_LED_2
-
 #define SYSTICK_LOWSEPEED_DIVIDER 20
 
 /* Private macro -------------------------------------------------------------*/
@@ -59,7 +51,7 @@ void SysTick_Handler(void) {
     systick_lowSpeedCounter++;
     if (systick_lowSpeedCounter >= SYSTICK_LOWSEPEED_DIVIDER) {
         systick_lowSpeedCounter = 0;
-        //adc_start();
+        adc_start();
         //ledControl_lowSpeed();
     }
 }
@@ -337,7 +329,6 @@ void DMA1_Channel7_IRQHandler(void){
 * Return         : None
 *******************************************************************************/
 void ADC_IRQHandler(void){
-    //adc_isr();
 }
 
 /*******************************************************************************
