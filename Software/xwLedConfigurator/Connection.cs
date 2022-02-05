@@ -72,6 +72,7 @@ namespace xwLedConfigurator {
     public static class Connection {
 
         public const int COM_MAX_DATA_LEN = 256;
+        public const int COM_TIMEOUT = 500;
 
         public delegate void frameReceiver(ref cRxFrame rxFrame);
         static public event frameReceiver frameReceived; // event        
@@ -97,7 +98,7 @@ namespace xwLedConfigurator {
             connectionWorker.Start();
             Thread receiver = new Thread(dataReceiver);
             receiver.Start();
-            connectionTimeoutTimer.Interval = 500;
+            connectionTimeoutTimer.Interval = COM_TIMEOUT;
             connectionTimeoutTimer.Elapsed += connectionTimeout;
             connectionTimeoutTimer.Enabled = false;
         }
@@ -106,7 +107,6 @@ namespace xwLedConfigurator {
         static bool connectionEnabled = false;
         static cRxFrame rxFrame = new cRxFrame();
         static System.Timers.Timer connectionTimeoutTimer = new System.Timers.Timer();
-        static int frameCounter = 0;
         static Queue<messageQueue_t> messageQueue = new Queue<messageQueue_t>();
         struct messageQueue_t {
             public byte scope;
@@ -118,7 +118,7 @@ namespace xwLedConfigurator {
             connectionTimeoutTimer.Stop();
         }
         
-        static void putFrame(byte dataScope, byte[] data) {
+        public static void putFrame(byte dataScope, byte[] data) {
             messageQueue_t msg = new messageQueue_t();
             msg.scope = dataScope;
             msg.data = data;
@@ -181,7 +181,7 @@ namespace xwLedConfigurator {
                                 else {
                                     sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_DYNAMIC_INFO });
                                 }                                
-                                Thread.Sleep(50);
+                                Thread.Sleep(20);
 
                                 break;
                             }
@@ -264,7 +264,7 @@ namespace xwLedConfigurator {
                                                                 if (state == connectionStates.Searching) {
                                                                     state = connectionStates.Connected;
 
-                                                                    //get initial information for device
+                                                                    //request inital informations required
                                                                     putFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_VARIABLE_INFO });
                                                                     putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.GET_CONFIG });
                                                                 }

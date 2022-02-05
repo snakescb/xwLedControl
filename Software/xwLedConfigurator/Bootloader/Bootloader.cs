@@ -68,7 +68,7 @@ namespace xwLedConfigurator {
                 Thread worker = new Thread(connectThread);
                 worker.Start();
             }
-            catch (Exception ex) {
+            catch {
                 state = loaderstate_t.ERROR;
                 return;
             }

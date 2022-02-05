@@ -20,18 +20,21 @@ namespace xwLedConfigurator {
 
     public partial class xwConfigWindow : UserControl {
 
+		public const int voltageSliderMin =  50;
+		public const int voltageSliderMax = 125;
+
 		string deviceUid = "";
 		string deviceType = "";
 		string deviceFWVersion = "";
 		int deviceConfigSize = 0;
 		string newTraceboxText = "";
 		bool tracePause = false;
-		bool rxFailsafe = false;
+		bool rxFailsafe = true;
 		int rxScaled = 0;
 		uint rxRaw = 0;
 		byte configSelection = 0;
 		byte configVoltage = 0;
-		bool configDirty = true;
+		bool configUpdated = true;
 
 		public xwConfigWindow() {
             InitializeComponent();
@@ -69,21 +72,29 @@ namespace xwLedConfigurator {
 			if (Connection.state == Connection.connectionStates.Connected) {
 				textConnection.Text = "Connected\n" + deviceType + "\n" + Math.Round(((float)deviceConfigSize / 1024), 2).ToString() + "kB\n" + deviceFWVersion + "\n" + deviceUid;
 				textLiveData.Text = "-\n-\n-\n-\n";
-				if (rxFailsafe) textLiveData.Text += "-\n-\n";
+				if (rxFailsafe) textLiveData.Text += "No Receiver\nNo Receiver\n";
 				else {
-					textLiveData.Text += rxScaled.ToString() + "%\n" + rxRaw.ToString() + "us";
+					textLiveData.Text += rxScaled.ToString() + "%\n" + rxRaw.ToString() + "us\n-";
                 }
 			}
 			else {
-				configDirty = true;
 				textConnection.Text = "Disconnected\n-\n-\n-\n-";
-				textLiveData.Text = "-\n-\n-\n-\n-\n-\n-";
+				textLiveData.Text = "-\n-\n-\n-\n-\n-\n-\n-";
 			}
 
 			if (newTraceboxText != "") {
 				traceBox.AppendText(newTraceboxText + "\n");
 				traceBox.ScrollToEnd();
 				newTraceboxText = "";
+			}
+
+			if (configUpdated) {
+				configUpdated = false;
+				if (configVoltage == 0) voltageSlider.Value = 50;
+				else voltageSlider.Value = configVoltage;
+				voltageSlider_ValueChanged(null, null);
+				if (configSelection == 0) selectionJumper.IsChecked = true;
+				else selectionReceiver.IsChecked = true;
 			}
 
 		}
@@ -113,11 +124,9 @@ namespace xwLedConfigurator {
 			if (rxFrame.scope == (byte)xwCom.SCOPE.CONFIG) {
 
 				if (rxFrame.data[0] == (byte)xwCom.CONFIG_RESPONSE.RESPONSE_CONFIG) {
-					if (configDirty) {
-						configDirty = false;
-						configSelection = rxFrame.data[1];
-						configVoltage = rxFrame.data[2];
-					}
+					configSelection = rxFrame.data[1];
+					configVoltage = rxFrame.data[2];
+					configUpdated = true;
 				}
 
 			}
@@ -147,6 +156,36 @@ namespace xwLedConfigurator {
 				iconPlayPause.Icon = FontAwesome.Sharp.IconChar.Play;
 			}
         }
+
+        private void voltageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+			if (voltageDisplay != null) {
+				if (voltageSlider.Value <= voltageSliderMin) voltageDisplay.Text = "Off";
+				else {
+					voltageDisplay.Text = (Math.Round(voltageSlider.Value) / 10).ToString() + "V";
+				}
+			}
+        }
+
+        private void bSaveConfig_Click(object sender, RoutedEventArgs e) {
+			byte selection = 0;
+			byte voltage = 0;
+			if ((bool)selectionReceiver.IsChecked) selection = 1;
+			if (voltageSlider.Value > voltageSliderMin) voltage = (byte)Math.Round(voltageSlider.Value);
+
+			//send new config and request config update
+			byte[] command = new byte[] { (byte)xwCom.CONFIG.SET_CONFIG, selection, voltage };			
+			Connection.putFrame((byte)xwCom.SCOPE.CONFIG, command);
+			Connection.putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.GET_CONFIG });
+        }
+
+        private void bFactoryDefault_Click(object sender, RoutedEventArgs e) {
+			Connection.putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.SET_FACTORY_DEFAULTS });
+			Connection.putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.GET_CONFIG });
+		}
+
+        private void bReset_Click(object sender, RoutedEventArgs e) {
+			Connection.putFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.RESET });
+		}
     }
 
 	
