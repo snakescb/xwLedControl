@@ -15,13 +15,11 @@
 #include "common.h"
 #include "statusLed.h"
 #include "uart1.h"
+#include "recv.h"
 #include "adc.h"
-
+#include "ledControl.h"
 //#include "uart3.h"
-//#include "ledControl.h"
-//#include "recv.h"
-//#include "adc.h"
-//#include "sensor.h"
+
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -45,14 +43,14 @@ uint8_t systick_lowSpeedCounter;
 void SysTick_Handler(void) {
 
     HAL_IncTick();
-    //ledControl_update();
+    ledControl_update();
     statusLed_update();
 
     systick_lowSpeedCounter++;
     if (systick_lowSpeedCounter >= SYSTICK_LOWSEPEED_DIVIDER) {
         systick_lowSpeedCounter = 0;
-        adc_start();
-        //ledControl_lowSpeed();
+        adc_update();
+        ledControl_lowSpeed();
     }
 }
 
@@ -453,7 +451,7 @@ void TIM3_IRQHandler(void) {
 * Return         : None
 *******************************************************************************/
 void TIM4_IRQHandler(void) {
-    //recv_isr();
+    recv_isr();
 }
 
 /*******************************************************************************

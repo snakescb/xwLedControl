@@ -10,6 +10,8 @@
 #include "teco.h"
 #include "conf.h"
 #include "adc.h"
+#include "recv.h"
+#include "ledControl.h"
 #include <stdio.h>
 
 /*******************************************************************************
@@ -54,12 +56,13 @@ int main(void)  {
     }
     else {
         TRACE("Boardconfig OK");
-        statusLed_setState(STATUS_LED_ON);
+        statusLed_setState(STATUS_LED_BLINK_2);
     }
 
-    adc_init();
     hwVersion_init();
-    //ledControl_init();
+    adc_init();    
+    recv_init();
+    ledControl_init();
 
     while (1) {        
         teco_hisr();
@@ -70,39 +73,26 @@ int main(void)  {
         if (cnt1 > 20000) {
             cnt1 = 0;
             cnt2++;
-            char buffer[128];
-            sprintf(buffer, "Number %d", adc_battery);
-            TRACE(buffer);
+            //char buffer[128];
+            //sprintf(buffer, "Receiver: %d", jumper_read());
+            //TRACE(buffer);
         }
     }
-
 }
 
 /******************************************************************************
 * implementation of gpio init (forward declared previously)
 ******************************************************************************/
 void gpio_init(void)  {
-    // GPIO init structure for port setting
-    GPIO_InitTypeDef GPIO_InitStruct;
 
     // Enable Clocks of all GPIO modules (all on APB2)
-    __HAL_RCC_AFIO_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOD_CLK_ENABLE();
     __HAL_RCC_GPIOE_CLK_ENABLE();
+    __HAL_RCC_AFIO_CLK_ENABLE();
 
-    //all pins as inputs
-    GPIO_InitStruct.Pin = GPIO_PIN_All;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-    HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 }
 
 /******************************************************************************

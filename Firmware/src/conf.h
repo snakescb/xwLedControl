@@ -15,13 +15,8 @@
 
 #pragma pack(1)
 typedef struct {
-
     uint8_t  modeSelection;
     uint8_t  batteryMinVoltage;
-    uint16_t receiverCenter;
-    uint16_t receiverMax;
-    uint16_t receiverMin;
-
 } boardConfig_t;
 #pragma pack()
 

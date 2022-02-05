@@ -12,8 +12,8 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define CONF_FLASH_BASE_ADDRESS   0x08000000
-#define CONF_BOARD_CONFIG_PAGE            32
-#define CONF_FIRST_PAGE                   33
+#define CONF_BOARD_CONFIG_PAGE            19
+#define CONF_FIRST_PAGE                   20
 #define CONF_FLASH_PAGESIZE             1024
 #define CONF_FRAME_MAX_SIZE              128
 #define CONF_CONFIG_START_ADDRESS  CONF_FLASH_BASE_ADDRESS + (CONF_FIRST_PAGE*CONF_FLASH_PAGESIZE)
@@ -361,13 +361,8 @@ void config_boardConfigWrite(void) {
  * config_boardConfigFactoryDefault
  ******************************************************************************/
 void config_boardConfigFactoryDefault(void) {
-
     boardConfig.modeSelection = 0;
     boardConfig.batteryMinVoltage = 0;
-    boardConfig.receiverMin = 1000;
-    boardConfig.receiverCenter = 1500;
-    boardConfig.receiverMax = 2000;
-
     config_boardConfigWrite();
 }
 

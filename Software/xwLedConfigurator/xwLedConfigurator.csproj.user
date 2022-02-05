@@ -10,7 +10,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Windows\xwInfoWindow.xaml.cs">
+    <Compile Update="Windows\xwConfigWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\xwMenuItem.xaml.cs">
@@ -24,10 +24,7 @@
     <Page Update="Windows\xwBootloaderWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\xwConfigWindown.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Windows\xwInfoWindow.xaml">
+    <Page Update="Windows\xwConfigWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\xwMenuItem.xaml">

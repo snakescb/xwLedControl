@@ -27,13 +27,31 @@ namespace xwLedConfigurator {
             GET_STATIC_INFO = 0x02,
             GET_DYNAMIC_INFO = 0x03,
             GET_VARIABLE_INFO = 0x04,
-            STATUS_LED_MODE = 0x05
         }
 
-        public enum COMMANDRESPONSE : byte {
+        public enum COMMAND_RESPONSE : byte {
             RESPONSE_STATIC_INFO = 0x01,
             RESPONSE_DYNAMIC_INFO = 0x02,
             RESPONSE_VARIABLE_INFO = 0x03
+        }
+
+        public enum CONFIG : byte {
+            GET_FRAME_MAX_SIZE = 0x01,
+            ERASE_CONFIG = 0x02,
+            RESET_POINTER = 0x03,
+            SET_FRAME = 0x04,
+            GET_FRAME = 0x05,
+            SET_CONFIG = 0x06,
+            GET_CONFIG = 0x07,
+            REINITIALIZE = 0x08,
+            SET_FACTORY_DEFAULTS = 0x09
+        }
+
+        public enum CONFIG_RESPONSE : byte {
+            RESPONSE_FRAME_MAX_SIZE = 0x01,
+            RESPONSE_FRAME = 0x02,
+            RESPONSE_ACKNOWLEDGE = 0x03,
+            RESPONSE_CONFIG = 0x04
         }
     }
 
@@ -72,6 +90,7 @@ namespace xwLedConfigurator {
         }
         public static connectionStates state = connectionStates.Closed;
 
+
         static Connection() {
             state = connectionStates.Closed;
             Thread connectionWorker = new Thread(connectionThread);
@@ -87,10 +106,23 @@ namespace xwLedConfigurator {
         static bool connectionEnabled = false;
         static cRxFrame rxFrame = new cRxFrame();
         static System.Timers.Timer connectionTimeoutTimer = new System.Timers.Timer();
+        static int frameCounter = 0;
+        static Queue<messageQueue_t> messageQueue = new Queue<messageQueue_t>();
+        struct messageQueue_t {
+            public byte scope;
+            public byte[] data;
+        }
 
         static void connectionTimeout(Object source, ElapsedEventArgs e) {
             state = connectionStates.Searching;
             connectionTimeoutTimer.Stop();
+        }
+        
+        static void putFrame(byte dataScope, byte[] data) {
+            messageQueue_t msg = new messageQueue_t();
+            msg.scope = dataScope;
+            msg.data = data;
+            messageQueue.Enqueue(msg);
         }
 
         static void connectionThread() {
@@ -129,7 +161,7 @@ namespace xwLedConfigurator {
                                 try {
                                     comPort.Open();
                                     sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_STATIC_INFO });
-                                    Thread.Sleep(100);
+                                    Thread.Sleep(50);
                                 }
                                 catch {
                                     Thread.Sleep(100);
@@ -141,8 +173,15 @@ namespace xwLedConfigurator {
 
                         case connectionStates.Connected: {
 
-                                sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_DYNAMIC_INFO });
-                                Thread.Sleep(400);
+                                //check if there is a message in the queue
+                                if (messageQueue.Count > 0) {
+                                    messageQueue_t msg = messageQueue.Dequeue();
+                                    sendFrame(msg.scope, msg.data);
+                                }
+                                else {
+                                    sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_DYNAMIC_INFO });
+                                }                                
+                                Thread.Sleep(50);
 
                                 break;
                             }
@@ -222,13 +261,22 @@ namespace xwLedConfigurator {
                                                             if (rxFrame.crc == 0) {
                                                                 //successful reception
                                                                 //go to connected state
-                                                                if (state == connectionStates.Searching) state = connectionStates.Connected;
+                                                                if (state == connectionStates.Searching) {
+                                                                    state = connectionStates.Connected;
+
+                                                                    //get initial information for device
+                                                                    putFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_VARIABLE_INFO });
+                                                                    putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.GET_CONFIG });
+                                                                }
 
                                                                 //reset timeout timer
                                                                 connectionTimeoutTimer.Stop();
                                                                 connectionTimeoutTimer.Start();
 
                                                                 //raise event for data processing
+                                                                if (rxFrame.scope == (byte)xwCom.SCOPE.CONFIG) {
+
+                                                                }
                                                                 frameReceived(ref rxFrame);
 
                                                             }
@@ -251,7 +299,7 @@ namespace xwLedConfigurator {
             }
         }
 
-        static bool sendFrame(byte dataScope, byte[] data) {
+        private static bool sendFrame(byte dataScope, byte[] data) {
             byte[] buffer = new byte[data.Length * 2 + 5];
             int bytesToSend = 0;
             byte crc = (byte)comControl.CRC_INIT;
@@ -274,7 +322,7 @@ namespace xwLedConfigurator {
             try {
                 comPort.Write(buffer, 0, bytesToSend);
             }
-            catch (Exception ex) {
+            catch {
                 return false;
             }
 

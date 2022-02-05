@@ -24,7 +24,7 @@ namespace xwLedConfigurator {
 
         public MainWindow() { 
             InitializeComponent();
-            btnMenuInfo.active = true;
+            btnMenuConfig.active = true;
 
             //start connection
             Connection.start();     
@@ -37,7 +37,6 @@ namespace xwLedConfigurator {
                 if (!itemClicked.active) {
                     btnMenuConfig.active = false;
                     btnMenuFirmware.active = false;
-                    btnMenuInfo.active = false;
                     btnMenuLed.active = false;
 
                     itemClicked.active = true;
@@ -45,11 +44,9 @@ namespace xwLedConfigurator {
 
                 contentInfo.Visibility = Visibility.Collapsed;
                 contentBootloader.Visibility = Visibility.Collapsed;
-                contentConfig.Visibility = Visibility.Collapsed;
 
-                if (btnMenuInfo.active) contentInfo.Visibility = Visibility.Visible;
                 if (btnMenuFirmware.active) contentBootloader.Visibility = Visibility.Visible;
-                if (btnMenuConfig.active) contentConfig.Visibility = Visibility.Visible;
+                if (btnMenuConfig.active) contentInfo.Visibility = Visibility.Visible;
             }
         }
 

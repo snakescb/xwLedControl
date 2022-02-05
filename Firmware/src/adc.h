@@ -24,8 +24,8 @@ extern uint16_t adc_battery;
 void adc_init(void);
 
 /**************************************************************************//**
- * @brief    startet eine messung
+ * @brief    letzte messung verarbeiten und eine neue starten
  *****************************************************************************/
-void adc_start(void);
+void adc_update(void);
 
 #endif //ADC_H

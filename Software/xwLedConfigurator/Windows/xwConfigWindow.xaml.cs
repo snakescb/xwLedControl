@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Globalization;
+using System.Reflection;
+using System.Threading;
+using System.Timers;
+using System.Linq;
+
+namespace xwLedConfigurator {
+
+    public partial class xwConfigWindow : UserControl {
+
+		string deviceUid = "";
+		string deviceType = "";
+		string deviceFWVersion = "";
+		int deviceConfigSize = 0;
+		string newTraceboxText = "";
+		bool tracePause = false;
+		bool rxFailsafe = false;
+		int rxScaled = 0;
+		uint rxRaw = 0;
+		byte configSelection = 0;
+		byte configVoltage = 0;
+		bool configDirty = true;
+
+		public xwConfigWindow() {
+            InitializeComponent();
+
+			string date = "";
+			string branch = "";
+			string tags = "";
+			string committer = "";
+			string message = "";			
+
+			var customMetadataList = Assembly.GetEntryAssembly().GetCustomAttributes<AssemblyMetadataAttribute>();
+			foreach (var customMetadata in customMetadataList) {
+				if (customMetadata.Key == "Branch") branch = customMetadata.Value;
+				if (customMetadata.Key == "Date") date = customMetadata.Value;
+				if (customMetadata.Key == "Tags") tags = customMetadata.Value;
+				if (customMetadata.Key == "Committer") committer = customMetadata.Value;
+				if (customMetadata.Key == "Message") message = customMetadata.Value;
+
+			}
+
+			//update software information
+			versionInfoText.Text = Assembly.GetEntryAssembly().GetName().Version.ToString() + "\n" + date + "\n" + branch + "\n" + tags + "\n" + committer + "\n" + message;
+
+			//timer for gui update
+			System.Windows.Forms.Timer guiUpdate = new System.Windows.Forms.Timer();
+			guiUpdate.Tick += new EventHandler(updateGui);
+			guiUpdate.Interval = 100;
+			guiUpdate.Enabled = true;
+
+			Connection.frameReceived += this.frameReceiver;
+		}
+
+		private void updateGui(Object myObject, EventArgs myEventArgs) {
+
+			if (Connection.state == Connection.connectionStates.Connected) {
+				textConnection.Text = "Connected\n" + deviceType + "\n" + Math.Round(((float)deviceConfigSize / 1024), 2).ToString() + "kB\n" + deviceFWVersion + "\n" + deviceUid;
+				textLiveData.Text = "-\n-\n-\n-\n";
+				if (rxFailsafe) textLiveData.Text += "-\n-\n";
+				else {
+					textLiveData.Text += rxScaled.ToString() + "%\n" + rxRaw.ToString() + "us";
+                }
+			}
+			else {
+				configDirty = true;
+				textConnection.Text = "Disconnected\n-\n-\n-\n-";
+				textLiveData.Text = "-\n-\n-\n-\n-\n-\n-";
+			}
+
+			if (newTraceboxText != "") {
+				traceBox.AppendText(newTraceboxText + "\n");
+				traceBox.ScrollToEnd();
+				newTraceboxText = "";
+			}
+
+		}
+
+		private void frameReceiver(ref cRxFrame rxFrame) {
+
+			if (rxFrame.scope == (byte)xwCom.SCOPE.COMMAND) {
+
+				if (rxFrame.data[0] == (byte)xwCom.COMMAND_RESPONSE.RESPONSE_STATIC_INFO) {
+					deviceUid = "0x";
+					for (int i = 0; i < 12; i++) deviceUid += BitConverter.ToString(new byte[] { rxFrame.data[i + 1] });
+					deviceConfigSize = BitConverter.ToInt32(new byte[] { rxFrame.data[16], rxFrame.data[15], rxFrame.data[14], rxFrame.data[13] }, 0);
+					deviceType = ((xwCom.HW_VERSIONS)rxFrame.data[17]).ToString();
+					deviceFWVersion = rxFrame.data[18].ToString() + "." + rxFrame.data[19].ToString();
+				}
+
+				if (rxFrame.data[0] == (byte)xwCom.COMMAND_RESPONSE.RESPONSE_DYNAMIC_INFO) {
+					if (rxFrame.data[1] == 0) rxFailsafe = false; else rxFailsafe = true;
+					if (!rxFailsafe) {
+						rxScaled = BitConverter.ToInt16(new byte[] { rxFrame.data[3], rxFrame.data[2] }, 0);
+						rxRaw = (uint)(rxFrame.data[4] << 8) + (uint)(rxFrame.data[5]);
+					}
+				}
+
+			}
+
+			if (rxFrame.scope == (byte)xwCom.SCOPE.CONFIG) {
+
+				if (rxFrame.data[0] == (byte)xwCom.CONFIG_RESPONSE.RESPONSE_CONFIG) {
+					if (configDirty) {
+						configDirty = false;
+						configSelection = rxFrame.data[1];
+						configVoltage = rxFrame.data[2];
+					}
+				}
+
+			}
+
+			if (rxFrame.scope == (byte)xwCom.SCOPE.TRACE) {
+				if (!tracePause) {
+					string msg = System.Text.Encoding.Default.GetString(rxFrame.data).Substring(0, rxFrame.rxCount);
+					msg = DateTime.Now.ToString("HH:mm:ss.fff") + " :  " + msg;
+					if (newTraceboxText.Length == 0) newTraceboxText = msg;
+					else newTraceboxText += "\n" + msg;
+				}
+			}
+		}
+
+
+		private void bTrash_Click(object sender, RoutedEventArgs e) {
+			traceBox.Text = "";
+        }
+
+        private void bPlayPauseClick(object sender, RoutedEventArgs e) {
+			if (tracePause) {
+				tracePause = false;
+				iconPlayPause.Icon = FontAwesome.Sharp.IconChar.Pause;
+			}
+			else {
+				tracePause = true;
+				iconPlayPause.Icon = FontAwesome.Sharp.IconChar.Play;
+			}
+        }
+    }
+
+	
+
+}

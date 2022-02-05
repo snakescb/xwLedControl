@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 //*****************************************************************************
-// LOCAL DEFINITIONS
+// FIRMWARE VERSION
 //*****************************************************************************
 #define SW_VER_MAJOR         1
 #define SW_VER_MINOR         0
@@ -20,7 +20,6 @@
 // LOCAL CONTROL SWITCHES
 //*****************************************************************************
 #define TRACE(n) teco_stringTrace((uint8_t*)n)
-
 #define null  0
 #define false 0
 #define FALSE 0

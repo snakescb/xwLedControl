@@ -8,8 +8,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define HW_IDENT_1_IS_HIGH  ((GPIOA->IDR) & GPIO_PIN_11)
-#define HW_IDENT_2_IS_HIGH  ((GPIOA->IDR) & GPIO_PIN_12)
+#define HW_IDENT_1_IS_HIGH  (GPIOA->IDR & GPIO_PIN_11)
+#define HW_IDENT_2_IS_HIGH  (GPIOA->IDR & GPIO_PIN_12)
 
 /* Private variables ---------------------------------------------------------*/
 
@@ -28,12 +28,9 @@ uint8_t hwVersion_read(void) {
  ******************************************************************************/
 void hwVersion_init(void) {
 
-    //PA11 und PA12 sind für HW indentifikation reserviert. Aktiviere Pullups
-    GPIO_InitTypeDef GPIO_InitStruct;
-    GPIO_InitStruct.Pin = GPIO_PIN_11 | GPIO_PIN_12;
-    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct); 
+    //Thank you HAL for NOTHING -> HAL did not set the pullup config, doing it manually
+    GPIOA->CRH &= ~(GPIO_CRH_CNF11_0 | GPIO_CRH_CNF12_0);
+    GPIOA->CRH |=   GPIO_CRH_CNF11_1 | GPIO_CRH_CNF12_1;
+    GPIOA->BSRR = GPIO_PIN_11 | GPIO_PIN_12;
 
 }
