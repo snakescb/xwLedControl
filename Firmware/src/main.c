@@ -17,6 +17,7 @@
 /*******************************************************************************
  * Globale variabeln
  ******************************************************************************/
+char msgBuffer[128];
 
 /***************************************************************************//**
  * Forward delcarations
@@ -48,6 +49,8 @@ int main(void)  {
     statusLed_init();
 
     TRACE("xwLedControl restarted");
+    sprintf(msgBuffer, "Firmware Version: %d.%d", SW_VER_MAJOR, SW_VER_MINOR);
+    TRACE(msgBuffer);
 
     if(!config_boardConfigRead()) {
         TRACE("Boardconfig Error!!");

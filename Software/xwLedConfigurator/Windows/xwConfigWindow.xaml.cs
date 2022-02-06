@@ -61,7 +61,7 @@ namespace xwLedConfigurator {
 			//timer for gui update
 			System.Windows.Forms.Timer guiUpdate = new System.Windows.Forms.Timer();
 			guiUpdate.Tick += new EventHandler(updateGui);
-			guiUpdate.Interval = 100;
+			guiUpdate.Interval = 50;
 			guiUpdate.Enabled = true;
 
 			Connection.frameReceived += this.frameReceiver;
@@ -70,12 +70,13 @@ namespace xwLedConfigurator {
 		private void updateGui(Object myObject, EventArgs myEventArgs) {
 
 			if (Connection.state == Connection.connectionStates.Connected) {
-				textConnection.Text = "Connected\n" + deviceType + "\n" + Math.Round(((float)deviceConfigSize / 1024), 2).ToString() + "kB\n" + deviceFWVersion + "\n" + deviceUid;
+				textConnection.Text = "Connected (" + Connection.portName + ")\n" + deviceType + "\n" + Math.Round(((float)deviceConfigSize / 1024), 2).ToString() + "kB\n" + deviceFWVersion + "\n" + deviceUid;
 				textLiveData.Text = "-\n-\n-\n-\n";
-				if (rxFailsafe) textLiveData.Text += "No Receiver\nNo Receiver\n";
+				if (rxFailsafe) textLiveData.Text += "No Receiver\nNo Receiver";
 				else {
-					textLiveData.Text += rxScaled.ToString() + "%\n" + rxRaw.ToString() + "us\n-";
+					textLiveData.Text += rxScaled.ToString() + "%\n" + rxRaw.ToString() + "us";
                 }
+				textLiveData.Text += "\nNo Battery";
 			}
 			else {
 				textConnection.Text = "Disconnected\n-\n-\n-\n-";
@@ -122,13 +123,11 @@ namespace xwLedConfigurator {
 			}
 
 			if (rxFrame.scope == (byte)xwCom.SCOPE.CONFIG) {
-
 				if (rxFrame.data[0] == (byte)xwCom.CONFIG_RESPONSE.RESPONSE_CONFIG) {
 					configSelection = rxFrame.data[1];
 					configVoltage = rxFrame.data[2];
 					configUpdated = true;
 				}
-
 			}
 
 			if (rxFrame.scope == (byte)xwCom.SCOPE.TRACE) {
@@ -186,6 +185,7 @@ namespace xwLedConfigurator {
         private void bReset_Click(object sender, RoutedEventArgs e) {
 			Connection.putFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.RESET });
 		}
+
     }
 
 	
