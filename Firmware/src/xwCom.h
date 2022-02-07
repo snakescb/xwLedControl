@@ -20,8 +20,7 @@
     typedef enum  {
         COMMAND_RESET                        = 0x01 ,
         COMMAND_GET_STATIC_INFO              = 0x02 ,
-        COMMAND_GET_DYNAMIC_INFO             = 0x03 ,
-        COMMAND_GET_VARIABLE_INFO            = 0x04 ,
+        COMMAND_GET_DYNAMIC_INFO             = 0x03 
     } query_command_e;
 
 	typedef enum {

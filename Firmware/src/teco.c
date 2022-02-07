@@ -101,61 +101,42 @@ void teco_commandHandler(comFrame_t* frame) {
             break;
         }
 
-        case COMMAND_GET_VARIABLE_INFO: {
-
-            uint8_t rsp[] = {COMMAND_RESPONSE_VARIABLE_INFO};
-            teco_send(SCOPE_COMMAND, 1, rsp);
-
-            /*
-            extern uint8_t  numSequences;
-            extern selectionMode_e selectionMode;
-            extern uint32_t ledControl_configSize;
-
-            uint8_t  rsp[8];
-            
-            rsp[0] = COMMAND_RESPONSE_VARIABLE_INFO;
-            rsp[1] = (uint8_t)(ledControl_configSize >> 24);
-            rsp[2] = (uint8_t)(ledControl_configSize >> 16);
-            rsp[3] = (uint8_t)(ledControl_configSize >>  8);
-            rsp[4] = (uint8_t)(ledControl_configSize);
-            rsp[5] = numSequences;
-            rsp[6] = (uint8_t)selectionMode;
-            rsp[7] = boardConfig.batteryMinVoltage;
-            
-
-            teco_send(DLCI_COMMAND, 8, rsp);
-            */
-            break;
-        }
-
-        case COMMAND_GET_DYNAMIC_INFO: {
-            
+        case COMMAND_GET_DYNAMIC_INFO: {        
+            extern uint8_t   numSequences;
             extern uint8_t   currentSequence;
             extern uint16_t  auxSignal;
             extern uint8_t   battVoltageRounded;
             extern bool      batteryWarning;            
             extern uint8_t   numOutputsReport;
             extern uint8_t   sequenceDimReport;
+            extern uint32_t  ledControl_configSize;
+            extern runMode_e runMode;
 
             int16_t rxScaled = recv_signal();
             uint16_t rxRaw = recv_rawSignal();
             uint8_t dim = auxSignal / 10;
-            uint8_t rsp[12];
+            uint8_t rsp[18];
 
-            rsp[0]  = COMMAND_RESPONSE_DYNAMIC_INFO;
-            rsp[1]  = (uint8_t)recv_failsafe();
-            rsp[2]  = (uint8_t)(rxScaled >> 8);
-            rsp[3]  = (uint8_t)(rxScaled);
-            rsp[4]  = (uint8_t)(rxRaw >> 8);
-            rsp[5]  = (uint8_t)(rxRaw);
-            rsp[6]  = dim;
-            rsp[7]  = (uint8_t)batteryWarning;
-            rsp[8]  = battVoltageRounded;
-            rsp[9]  = currentSequence;
-            rsp[10]  = numOutputsReport;
-            rsp[11]  = sequenceDimReport;
+            rsp[0]   = COMMAND_RESPONSE_DYNAMIC_INFO;
+            rsp[1]   = (uint8_t)recv_failsafe();
+            rsp[2]   = (uint8_t)(rxScaled >> 8);
+            rsp[3]   = (uint8_t)(rxScaled);
+            rsp[4]   = (uint8_t)(rxRaw >> 8);
+            rsp[5]   = (uint8_t)(rxRaw);
+            rsp[6]   = dim;
+            rsp[7]   = battVoltageRounded;
+            rsp[8]   = (uint8_t)batteryWarning;            
+            rsp[9]   = numSequences;
+            rsp[10]  = currentSequence;
+            rsp[11]  = numOutputsReport;
+            rsp[12]  = sequenceDimReport;
+            rsp[13]  = (uint8_t)runMode;
+            rsp[14]  = (uint8_t)(ledControl_configSize >> 24);
+            rsp[15]  = (uint8_t)(ledControl_configSize >> 16);
+            rsp[16]  = (uint8_t)(ledControl_configSize >>  8);
+            rsp[17]  = (uint8_t)(ledControl_configSize);
 
-            teco_send(SCOPE_COMMAND, 12, rsp);
+            teco_send(SCOPE_COMMAND, 18, rsp);
             
             break;
         }
@@ -237,6 +218,7 @@ void teco_configHandler(comFrame_t* frame) {
             boardConfig.modeSelection = frame->data[1];
             boardConfig.batteryMinVoltage = frame->data[2];
             config_boardConfigWrite();
+            ledControl_init();
             uint8_t rsp[] = {CONFIG_RESPONSE_ACKNOWLEDGE, true};
             teco_send(SCOPE_CONFIG, 2, rsp);
             break;

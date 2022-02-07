@@ -13,8 +13,8 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 
-#define ADC_LP_LENGTH      128
-#define ADC_LP_SHIFT         7
+#define ADC_LP_LENGTH       32
+#define ADC_LP_SHIFT         5
 #define ADC_CHANNEL_REFINT  17
 #define ADC_CHANNEL_VBAT     6
 
@@ -28,8 +28,8 @@ lowpassHandle_t batteryLP = DEFINE_LOWPASS_FILTER(adc_LPBuf,ADC_LP_LENGTH,ADC_LP
  ******************************************************************************/
 void adc_update(void) {
     //berechne batteriespannung in millivolt. Spannungsteiler = 5.7 / 1, Referenzspanung = 3.22Volt
-    //adc_battery = (((uint32_t)lowpass_update(&batteryLP, ADC1->DR)) * 18345) >> 12;
-    adc_battery = lowpass_update(&batteryLP, ADC1->DR);
+    adc_battery = (((uint32_t)lowpass_update(&batteryLP, ADC1->DR)) * 18345) >> 12;
+    //adc_battery = lowpass_update(&batteryLP, ADC1->DR);
     ADC1->CR2 |= ADC_CR2_ADON;
 }
 
@@ -73,6 +73,6 @@ void adc_init(void) {
     // Regular channel length 1, set battery input channel ---------------------
     ADC1->SQR1 = ADC_SQR1_L_0;
     ADC1->SQR2 = 0;
-    ADC1->SQR3 = ADC_CHANNEL_REFINT;
+    ADC1->SQR3 = ADC_CHANNEL_VBAT;
 }
 

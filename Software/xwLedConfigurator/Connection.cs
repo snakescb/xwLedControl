@@ -219,7 +219,6 @@ namespace xwLedConfigurator {
                                                                     state = connectionStates.Connected;
                                                                     portName = comPort.PortName;
                                                                     //request inital informations required by windows
-                                                                    putFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_VARIABLE_INFO });
                                                                     putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.GET_CONFIG });
                                                                 }
 

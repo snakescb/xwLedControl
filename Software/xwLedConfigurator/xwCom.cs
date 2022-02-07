@@ -5,10 +5,17 @@ using System.Text;
 namespace xwLedConfigurator {
     public static class xwCom {
 
-        public enum HW_VERSIONS : byte {
-            Unknown = 0x00,
-            xwLedControl_V1 = 0x01
-        }
+        public static string[] deviceTypes = {
+            "Unknown Device", //0
+            "xwLedControl V1.0" //1
+        };
+
+        public static string[] runModes = {
+            "Disabled", //0
+            "Master", //1
+            "Slave", //2
+            "Simulation" //3
+        };
 
         public enum SCOPE : byte {
             TRACE = 0x00,
@@ -20,8 +27,7 @@ namespace xwLedConfigurator {
         public enum COMMAND : byte {
             RESET = 0x01,
             GET_STATIC_INFO = 0x02,
-            GET_DYNAMIC_INFO = 0x03,
-            GET_VARIABLE_INFO = 0x04,
+            GET_DYNAMIC_INFO = 0x03
         }
 
         public enum COMMAND_RESPONSE : byte {

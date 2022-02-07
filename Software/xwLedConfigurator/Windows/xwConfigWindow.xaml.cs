@@ -27,7 +27,14 @@ namespace xwLedConfigurator {
 		string deviceType = "";
 		string deviceFWVersion = "";
 		int deviceConfigSize = 0;
+		int deviceUsedConfigSize = 0;
+		int sequence = 0;
+		int numSequences = 0;
+		int dim = 0;
+		int battery = 0;
+		bool batteryWarning = false;
 		string newTraceboxText = "";
+		string runMode = "";
 		bool tracePause = false;
 		bool rxFailsafe = true;
 		int rxScaled = 0;
@@ -71,12 +78,21 @@ namespace xwLedConfigurator {
 
 			if (Connection.state == Connection.connectionStates.Connected) {
 				textConnection.Text = "Connected (" + Connection.portName + ")\n" + deviceType + "\n" + Math.Round(((float)deviceConfigSize / 1024), 2).ToString() + "kB\n" + deviceFWVersion + "\n" + deviceUid;
-				textLiveData.Text = "-\n-\n-\n-\n";
-				if (rxFailsafe) textLiveData.Text += "No Receiver\nNo Receiver";
+
+				textLiveData.Text = runMode + "\n";
+				if (sequence == 0xFF) textLiveData.Text += "OFF / " + numSequences.ToString() + "\n";
+				else textLiveData.Text += (sequence+1).ToString() + " / " + numSequences.ToString() + "\n";
+				textLiveData.Text += dim.ToString() + "%\n";
+				textLiveData.Text += "100%\n";
+				if (rxFailsafe) textLiveData.Text += "No Receiver\n";
+				else textLiveData.Text += rxScaled.ToString() + "% ( " + rxRaw.ToString() + "us )\n";
+				if (battery < 50) textLiveData.Text += "No Battery\n";
 				else {
-					textLiveData.Text += rxScaled.ToString() + "%\n" + rxRaw.ToString() + "us";
-                }
-				textLiveData.Text += "\nNo Battery";
+					textLiveData.Text += ((float)battery / 10).ToString("0.0") + "V";
+					if (batteryWarning) textLiveData.Text += " ( WARNING )\n";
+					else textLiveData.Text += "\n";
+				}
+				textLiveData.Text += ((float)deviceUsedConfigSize / 1024).ToString("0.00") + "kB";
 			}
 			else {
 				textConnection.Text = "Disconnected\n-\n-\n-\n-";
@@ -108,7 +124,7 @@ namespace xwLedConfigurator {
 					deviceUid = "0x";
 					for (int i = 0; i < 12; i++) deviceUid += BitConverter.ToString(new byte[] { rxFrame.data[i + 1] });
 					deviceConfigSize = BitConverter.ToInt32(new byte[] { rxFrame.data[16], rxFrame.data[15], rxFrame.data[14], rxFrame.data[13] }, 0);
-					deviceType = ((xwCom.HW_VERSIONS)rxFrame.data[17]).ToString();
+					deviceType = xwCom.deviceTypes[rxFrame.data[17]];
 					deviceFWVersion = rxFrame.data[18].ToString() + "." + rxFrame.data[19].ToString();
 				}
 
@@ -118,6 +134,15 @@ namespace xwLedConfigurator {
 						rxScaled = BitConverter.ToInt16(new byte[] { rxFrame.data[3], rxFrame.data[2] }, 0);
 						rxRaw = (uint)(rxFrame.data[4] << 8) + (uint)(rxFrame.data[5]);
 					}
+					runMode = xwCom.runModes[rxFrame.data[13]];
+					sequence = rxFrame.data[10];
+					numSequences = rxFrame.data[9];
+					dim = rxFrame.data[6];
+					battery = rxFrame.data[7];
+					if (rxFrame.data[8] > 0) batteryWarning = true;
+					else batteryWarning = false;
+					deviceUsedConfigSize = BitConverter.ToInt32(new byte[] { rxFrame.data[17], rxFrame.data[16], rxFrame.data[15], rxFrame.data[14] }, 0);
+
 				}
 
 			}
@@ -160,7 +185,7 @@ namespace xwLedConfigurator {
 			if (voltageDisplay != null) {
 				if (voltageSlider.Value <= voltageSliderMin) voltageDisplay.Text = "Off";
 				else {
-					voltageDisplay.Text = (Math.Round(voltageSlider.Value) / 10).ToString() + "V";
+					voltageDisplay.Text = (Math.Round(voltageSlider.Value) / 10).ToString("0.0") + "V";
 				}
 			}
         }
