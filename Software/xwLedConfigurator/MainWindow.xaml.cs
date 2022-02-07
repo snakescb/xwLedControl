@@ -21,17 +21,13 @@ namespace xwLedConfigurator {
     public partial class MainWindow : Window {
 
         private Rect restoreLocation;
-        public Connection connection;
 
         public MainWindow() { 
             InitializeComponent();
-            btnMenuInfo.active = true;
+            btnMenuConfig.active = true;
 
-            //create connector
-            connection = new Connection();
-
-            //set connection variables
-            contentInfo.setConnection(ref connection);
+            //start connection
+            Connection.start();     
         }
 
         private void menuButton_click(object sender, EventArgs e) {
@@ -41,8 +37,7 @@ namespace xwLedConfigurator {
                 if (!itemClicked.active) {
                     btnMenuConfig.active = false;
                     btnMenuFirmware.active = false;
-                    btnMenuInfo.active = false;
-                    btnMenuSettings.active = false;
+                    btnMenuLed.active = false;
 
                     itemClicked.active = true;
                 }
@@ -50,8 +45,8 @@ namespace xwLedConfigurator {
                 contentInfo.Visibility = Visibility.Collapsed;
                 contentBootloader.Visibility = Visibility.Collapsed;
 
-                if (btnMenuInfo.active) contentInfo.Visibility = Visibility.Visible;
                 if (btnMenuFirmware.active) contentBootloader.Visibility = Visibility.Visible;
+                if (btnMenuConfig.active) contentInfo.Visibility = Visibility.Visible;
             }
         }
 
