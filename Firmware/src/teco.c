@@ -221,6 +221,7 @@ void teco_configHandler(comFrame_t* frame) {
             ledControl_init();
             uint8_t rsp[] = {CONFIG_RESPONSE_ACKNOWLEDGE, true};
             teco_send(SCOPE_CONFIG, 2, rsp);
+            TRACE("Configuration update confirmed");
             break;
         }
 

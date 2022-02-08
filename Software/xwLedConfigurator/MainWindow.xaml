@@ -58,6 +58,7 @@
             <!-- Content -->
             <local:xwConfigWindow x:Name="contentInfo" Grid.Row="2"/>
             <local:xwBootloaderWindow x:Name="contentBootloader" Grid.Row="2" Visibility="Collapsed" />
+            <local:xwLedWindow x:Name="contentLed" Grid.Row="2" Visibility="Collapsed" />
 
         </Grid>
     </Border>

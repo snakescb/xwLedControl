@@ -42,7 +42,7 @@
           }
         }
       },
-      "RelaxVersioner/2.4.0": {
+      "RelaxVersioner/2.5.0": {
         "type": "package",
         "build": {
           "build/RelaxVersioner.props": {},
@@ -142,6 +142,18 @@
         },
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
+        }
+      },
+      "System.Reactive/5.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/_._": {}
+        },
+        "build": {
+          "buildTransitive/netcoreapp3.1/System.Reactive.targets": {}
         }
       },
       "System.Security.AccessControl/5.0.0": {
@@ -264,10 +276,10 @@
         "version.txt"
       ]
     },
-    "RelaxVersioner/2.4.0": {
-      "sha512": "LU11jx6KQ7A03fkBItSSFZV9GKD7rxNr0pPMWz2wNMuJPVvooIAEvMy8/wXY5C9j9oDwdn4O/S0uvtS7S5vd9w==",
+    "RelaxVersioner/2.5.0": {
+      "sha512": "8ctyK0cnbyQF7aijX6oXsxMpIh/8lyEMzuWt20PvXWl5ZqQ+2u2hQ12+B0C7YlbKbrpxToDNlfXWJ9S/w2lmYw==",
       "type": "package",
-      "path": "relaxversioner/2.4.0",
+      "path": "relaxversioner/2.5.0",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -293,7 +305,7 @@
         "build/netstandard2.0/RelaxVersioner.Tasks.pdb",
         "buildMultiTargeting/RelaxVersioner.props",
         "buildMultiTargeting/RelaxVersioner.targets",
-        "relaxversioner.2.4.0.nupkg.sha512",
+        "relaxversioner.2.5.0.nupkg.sha512",
         "relaxversioner.nuspec",
         "tools/net461/LibGit2Sharp.dll",
         "tools/net461/LibGit2Sharp.dll.config",
@@ -708,6 +720,35 @@
         "version.txt"
       ]
     },
+    "System.Reactive/5.0.0": {
+      "sha512": "erBZjkQHWL9jpasCE/0qKAryzVBJFxGHVBAvgRN1bzM0q2s1S4oYREEEL0Vb+1kA/6BKb5FjUZMp5VXmy+gzkQ==",
+      "type": "package",
+      "path": "system.reactive/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/net5.0/_._",
+        "build/netcoreapp3.1/System.Reactive.dll",
+        "build/netcoreapp3.1/System.Reactive.targets",
+        "build/netcoreapp3.1/System.Reactive.xml",
+        "buildTransitive/net5.0/_._",
+        "buildTransitive/netcoreapp3.1/System.Reactive.targets",
+        "lib/net472/System.Reactive.dll",
+        "lib/net472/System.Reactive.xml",
+        "lib/net5.0-windows10.0.19041/System.Reactive.dll",
+        "lib/net5.0-windows10.0.19041/System.Reactive.xml",
+        "lib/net5.0/System.Reactive.dll",
+        "lib/net5.0/System.Reactive.xml",
+        "lib/netcoreapp3.1/_._",
+        "lib/netstandard2.0/System.Reactive.dll",
+        "lib/netstandard2.0/System.Reactive.xml",
+        "lib/uap10.0.16299/System.Reactive.dll",
+        "lib/uap10.0.16299/System.Reactive.pri",
+        "lib/uap10.0.16299/System.Reactive.xml",
+        "system.reactive.5.0.0.nupkg.sha512",
+        "system.reactive.nuspec"
+      ]
+    },
     "System.Security.AccessControl/5.0.0": {
       "sha512": "dagJ1mHZO3Ani8GH0PHpPEe/oYO+rVdbQjvjJkBRNQkX4t0r1iaeGn8+/ybkSLEan3/slM0t59SVdHzuHf2jmw==",
       "type": "package",
@@ -814,8 +855,9 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "FontAwesome.Sharp >= 5.15.4",
-      "RelaxVersioner >= 2.4.0",
-      "System.IO.Ports >= 6.0.0"
+      "RelaxVersioner >= 2.5.0",
+      "System.IO.Ports >= 6.0.0",
+      "System.Reactive >= 5.0.0"
     ]
   },
   "packageFolders": {
@@ -870,11 +912,15 @@
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
             "target": "Package",
-            "version": "[2.4.0, )"
+            "version": "[2.5.0, )"
           },
           "System.IO.Ports": {
             "target": "Package",
             "version": "[6.0.0, )"
+          },
+          "System.Reactive": {
+            "target": "Package",
+            "version": "[5.0.0, )"
           }
         },
         "imports": [
@@ -890,6 +936,9 @@
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App": {
+            "privateAssets": "none"
           },
           "Microsoft.WindowsDesktop.App.WPF": {
             "privateAssets": "none"

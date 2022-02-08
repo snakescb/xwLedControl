@@ -42,11 +42,13 @@ namespace xwLedConfigurator {
                     itemClicked.active = true;
                 }
 
+                contentLed.Visibility = Visibility.Collapsed;
                 contentInfo.Visibility = Visibility.Collapsed;
                 contentBootloader.Visibility = Visibility.Collapsed;
 
                 if (btnMenuFirmware.active) contentBootloader.Visibility = Visibility.Visible;
                 if (btnMenuConfig.active) contentInfo.Visibility = Visibility.Visible;
+                if (btnMenuLed.active) contentLed.Visibility = Visibility.Visible;
             }
         }
 

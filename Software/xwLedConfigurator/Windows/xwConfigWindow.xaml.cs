@@ -96,7 +96,7 @@ namespace xwLedConfigurator {
 			}
 			else {
 				textConnection.Text = "Disconnected\n-\n-\n-\n-";
-				textLiveData.Text = "-\n-\n-\n-\n-\n-\n-\n-";
+				textLiveData.Text = "-\n-\n-\n-\n-\n-\n-";
 			}
 
 			if (newTraceboxText != "") {

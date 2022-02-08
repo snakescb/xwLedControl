@@ -11,33 +11,39 @@
     <Border Background="{StaticResource MenuInactiveColor}" CornerRadius="0" Margin="0">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="360"/>
-                <ColumnDefinition Width="360"/>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="350"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="240"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="150"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
 
-            <!-- Run information -->
-            <GroupBox Grid.Column="0" Grid.Row="0" Margin="10,10,0,0" Padding="10">
-                <GroupBox.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <fa:IconBlock FontSize="20" Icon="Heartbeat" Margin="5,0,5,0"/>
-                        <TextBlock FontSize="18" Margin="0,0,5,0">Live Information</TextBlock>
-                    </StackPanel>
-                </GroupBox.Header>
+            <!-- Run Information-->
+            <Grid Grid.Row="0" Grid.Column="0" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                <Grid VerticalAlignment="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <fa:IconBlock Foreground="{StaticResource MainFontColor}" FontSize="20" Icon="Heartbeat" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="18" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Live Information</TextBlock>
+                </StackPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource MainFontColor}"/>
 
-                    <TextBlock Grid.Column="0" Margin="0,0,5,0">
+
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Foreground="{StaticResource MainFontColor}">
                         Mode<LineBreak/>
                         Sequence<LineBreak/>
                         Dimming<LineBreak/>
@@ -46,7 +52,7 @@
                         Battery<LineBreak/>
                         Storage Used
                     </TextBlock>
-                    <TextBlock Grid.Column="1" Margin="0,0,8,0">
+                    <TextBlock Foreground="{StaticResource MainFontColor}" Margin="5,0,8,0">
                         :<LineBreak/>
                         :<LineBreak/>
                         :<LineBreak/>
@@ -55,65 +61,75 @@
                         :<LineBreak/>
                         :
                     </TextBlock>
-                    <TextBlock x:Name="textLiveData" Grid.Column="2">
+                    <TextBlock x:Name="textLiveData" Foreground="{StaticResource MainFontColor}">
                         Off
                     </TextBlock>
-                </Grid>
-            </GroupBox>
+                </StackPanel>
+            </Grid>
 
-            <!-- Device information -->
-            <GroupBox Grid.Column="1" Grid.Row="0" Margin="10,10,0,0" Padding="10">
-                <GroupBox.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <fa:IconBlock FontSize="20" Icon="Microchip" Margin="5,0,5,0"/>
-                        <TextBlock FontSize="18" Margin="0,0,5,0">Device Information</TextBlock>
-                    </StackPanel>
-                </GroupBox.Header>
+            <!-- Device Information-->
+            <Grid Grid.Row="0" Grid.Column="1" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                <Grid VerticalAlignment="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <fa:IconBlock Foreground="{StaticResource MainFontColor}" FontSize="20" Icon="Microchip" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="18" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Device Information</TextBlock>
+                </StackPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource MainFontColor}"/>
 
-                    <TextBlock Grid.Column="0" Margin="0,0,5,0">
+
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Foreground="{StaticResource MainFontColor}">
                         Connection<LineBreak/>
                         Device<LineBreak/>
                         Storage<LineBreak/>
                         Firmware<LineBreak/>
                         Serial
                     </TextBlock>
-                    <TextBlock Grid.Column="1" Margin="0,0,8,0">
+                    <TextBlock Foreground="{StaticResource MainFontColor}" Margin="5,0,8,0">
                         :<LineBreak/>
                         :<LineBreak/>
                         :<LineBreak/>
                         :<LineBreak/>
                         :
                     </TextBlock>
-                    <TextBlock x:Name="textConnection" Grid.Column="2">
-                        Connected
+                    <TextBlock x:Name="textConnection" Foreground="{StaticResource MainFontColor}">
+                        Off
                     </TextBlock>
-                </Grid>
-            </GroupBox>
+                </StackPanel>
+            </Grid>
 
-            <!-- Software information-->
-            <GroupBox Grid.Column="2" Grid.Row="0" Margin="10,10,10,0" Padding="10">
-                <GroupBox.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <fa:IconBlock FontSize="20" Icon="Microsoft" Margin="5,0,5,0"/>
-                        <TextBlock FontSize="18" Margin="0,0,5,0">Software Information</TextBlock>
-                    </StackPanel>
-                </GroupBox.Header>
+            <!-- Software Information-->
+            <Grid Grid.Row="0" Grid.Column="2" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                <Grid VerticalAlignment="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <fa:IconBlock Foreground="{StaticResource MainFontColor}" FontSize="20" Icon="Microsoft" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="18" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Software Information</TextBlock>
+                </StackPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource MainFontColor}"/>
 
-                    <TextBlock Grid.Column="0" Margin="0,0,5,0">
+
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Foreground="{StaticResource MainFontColor}">
                         Version<LineBreak/>
                         Buildtime<LineBreak/>
                         Git Branch<LineBreak/>
@@ -121,7 +137,7 @@
                         Git Committer<LineBreak/>
                         Git Message
                     </TextBlock>
-                    <TextBlock Grid.Column="1" Margin="0,0,8,0">
+                    <TextBlock Foreground="{StaticResource MainFontColor}" Margin="5,0,8,0">
                         :<LineBreak/>
                         :<LineBreak/>
                         :<LineBreak/>
@@ -129,83 +145,106 @@
                         :<LineBreak/>
                         :
                     </TextBlock>
-                    <TextBlock x:Name="versionInfoText" Grid.Column="2"/>
-                </Grid>
-            </GroupBox>
+                    <TextBlock x:Name="versionInfoText" Foreground="{StaticResource MainFontColor}">
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+
 
             <!-- Configuration -->
-            <GroupBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="10,10,10,10" Padding="2">
-                <GroupBox.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <fa:IconBlock FontSize="20" Icon="Cog" Margin="5,0,5,0"/>
-                        <TextBlock FontSize="18" Margin="0,0,5,0">Configuration</TextBlock>
-                    </StackPanel>
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="10"/>
-                    </Grid.RowDefinitions>
+            <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,15,0">Sequence Selection</TextBlock>
-                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,15,0">Warning Voltage</TextBlock>
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <fa:IconBlock Foreground="{StaticResource MainFontColor}" FontSize="20" Icon="Cogs" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="18" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Configuration</TextBlock>
+                </StackPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource MainFontColor}"/>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-                        <RadioButton x:Name="selectionJumper" GroupName="selectionmode" VerticalAlignment="Center"/>
-                        <TextBlock VerticalAlignment="Center" Margin="2,0,10,0">By Jumper</TextBlock>
-                        <RadioButton x:Name="selectionReceiver" GroupName="selectionmode" VerticalAlignment="Center"/>
-                        <TextBlock VerticalAlignment="Center" Margin="2,0,50,0">By Receiver</TextBlock>
-                    </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
-                        <Slider x:Name="voltageSlider" ValueChanged="voltageSlider_ValueChanged" Minimum="50" Maximum="125" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Width="170" SmallChange="1" TickPlacement="None"/>
-                        <TextBlock x:Name="voltageDisplay" VerticalAlignment="Center" Margin="2,0,10,0">Volt</TextBlock>
-                    </StackPanel>
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
 
-                    <Button x:Name="bSaveConfig" Click="bSaveConfig_Click" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" Height="50" Width="170" VerticalAlignment="Center" Margin="10,0,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:IconBlock Icon="Save" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
-                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Save Config</TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,15,0" Foreground="{StaticResource MainFontColor}">Sequence Selection</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,15,0" Foreground="{StaticResource MainFontColor}">Warning Voltage</TextBlock>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                            <RadioButton x:Name="selectionJumper" GroupName="selectionmode" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Margin="2,0,10,0" Foreground="{StaticResource MainFontColor}">By Jumper</TextBlock>
+                            <RadioButton x:Name="selectionReceiver" GroupName="selectionmode" VerticalAlignment="Center"/>
+                            <TextBlock VerticalAlignment="Center" Margin="2,0,50,0" Foreground="{StaticResource MainFontColor}">By Receiver</TextBlock>
                         </StackPanel>
-                    </Button>
 
-                    <Button x:Name="bFactoryDefault" Click="bFactoryDefault_Click" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Height="50" Width="170" VerticalAlignment="Center" Margin="5,0,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:IconBlock Icon="Industry" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
-                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Factory Default</TextBlock>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                            <Slider x:Name="voltageSlider" ValueChanged="voltageSlider_ValueChanged" Minimum="50" Maximum="125" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Width="170" SmallChange="1" TickPlacement="None"/>
+                            <TextBlock x:Name="voltageDisplay" VerticalAlignment="Center" Margin="2,0,10,0" Foreground="{StaticResource MainFontColor}">Volt</TextBlock>
                         </StackPanel>
-                    </Button>
 
-                    <Button x:Name="bReset" Click="bReset_Click" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Height="50" Width="170" VerticalAlignment="Center" Margin="5,0,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:IconBlock Icon="PowerOff" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
-                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Reboot Device</TextBlock>
-                        </StackPanel>
-                    </Button>
+                        <Button x:Name="bSaveConfig" Click="bSaveConfig_Click" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Height="50" Width="170" VerticalAlignment="Center" Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconBlock Icon="Save" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                                <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Save Config</TextBlock>
+                            </StackPanel>
+                        </Button>
 
+                        <Button x:Name="bFactoryDefault" Click="bFactoryDefault_Click" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Height="50" Width="170" VerticalAlignment="Center" Margin="5,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconBlock Icon="Industry" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                                <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Factory Default</TextBlock>
+                            </StackPanel>
+                        </Button>
 
-                </Grid>
-            </GroupBox>
+                        <Button x:Name="bReset" Click="bReset_Click" Grid.Row="0" Grid.Column="4" Grid.RowSpan="2" Height="50" Width="170" VerticalAlignment="Center" Margin="5,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconBlock Icon="PowerOff" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                                <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Reboot Device</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Grid>
 
             <!-- Debug Output -->
-            <GroupBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,10,10" Padding="2">
-                <GroupBox.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <fa:IconBlock FontSize="20" Icon="Bug" Margin="5,0,5,0"/>
-                        <TextBlock FontSize="18" Margin="0,0,5,0">Device Debug Output</TextBlock>
-                    </StackPanel>
-                </GroupBox.Header>
-                <Grid>
+            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <fa:IconBlock Foreground="{StaticResource MainFontColor}" FontSize="20" Icon="Bug" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="18" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Device Debug Output</TextBlock>
+                </StackPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource MainFontColor}"/>
+
+                <Grid Grid.Row="2" Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
 
@@ -213,18 +252,18 @@
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="traceBox" Grid.Column="0" IsReadOnly="true" Foreground="White" Background="{StaticResource MenuInactiveColor}" Margin="0,0,10,0" VerticalScrollBarVisibility="Visible"/>
                     <StackPanel Orientation="Vertical" Grid.Column="2">
-                        
+
                         <Button Height="50" Click="bTrash_Click">
                             <fa:IconBlock  Icon="Trash" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Button>
                         <Button Height="50" Click="bPlayPauseClick" Margin="0,10,0,0">
                             <fa:IconBlock x:Name="iconPlayPause" Icon="Pause" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Button>
-                        
+
                     </StackPanel>
-           
+
                 </Grid>
-            </GroupBox>
+            </Grid>
             
         </Grid>
     </Border>

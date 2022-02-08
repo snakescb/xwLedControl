@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "jLnr9zw94GiZC9+WoQtb5xyMpXT8hJiVH9QZkwVhxc9oiNfvxPjdcIYPcA9kK5Rvb0c4lyst4i+WUWCbjTK/Mg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lueth\\SynologyDrive\\Projekte\\GitHub\\xwLedControl\\Software\\Ruler.Wpf\\Ruler.Wpf.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lueth\\.nuget\\packages\\system.reactive\\4.1.5\\system.reactive.4.1.5.nupkg.sha512",
+    "C:\\Users\\lueth\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",
+    "C:\\Users\\lueth\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.2\\system.threading.tasks.extensions.4.5.2.nupkg.sha512",
+    "C:\\Users\\lueth\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}

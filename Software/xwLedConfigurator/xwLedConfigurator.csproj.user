@@ -10,7 +10,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Windows\xwConfigWindow.xaml.cs">
+    <Compile Update="Windows\xwLedWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\xwMenuItem.xaml.cs">
@@ -21,10 +21,22 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Windows\Docks\xwDockSequenceListItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Docks\xwDockSequenceName.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Docks\xwDockSequence.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\xwBootloaderWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\xwConfigWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\xwLedWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\xwMenuItem.xaml">

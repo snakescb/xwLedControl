@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\App.xaml
-5-454396041
+91272649785
 
-131873496655
-201-1926114269
-Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;Windows\xwBootloaderWindow.xaml;Windows\xwConfigWindow.xaml;
+18999872795
+202-1435947371
+Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;Windows\Docks\xwDockSequence.xaml;Windows\Docks\xwDockSequenceListItem.xaml;Windows\Docks\xwDockSequenceName.xaml;Windows\xwBootloaderWindow.xaml;Windows\xwConfigWindow.xaml;Windows\xwLedWindow.xaml;
 
 True
 
