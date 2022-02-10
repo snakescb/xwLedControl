@@ -6,7 +6,7 @@
     <SolidColorBrush x:Key="AppBorderColor" Color="#FFBBBBBB"/>
     <SolidColorBrush x:Key="AppTitleColor" Color="#FF72249A"/>
     
-    <SolidColorBrush x:Key="MenuInactiveColor" Color="White" Opacity="0.04"/>
+    <SolidColorBrush x:Key="MenuInactiveColor" Color="White" Opacity="0.08"/>
     <SolidColorBrush x:Key="MenuActiveColor" Color="#FF72249A"/>
     <SolidColorBrush x:Key="MenuHoverColor"  Color="White" Opacity="0.2"/>
     
@@ -45,6 +45,12 @@
         <Setter Property="Foreground" Value="{StaticResource MainFontColor}"/>
         <Setter Property="BorderThickness" Value="0.3"/>
         <Setter Property="BorderBrush" Value="{StaticResource 2ndFontColor}"/>
+    </Style>
+
+    <!-- ScrollBar Style -->
+    <Style TargetType="ScrollBar">
+        <Setter Property="Foreground" Value="{StaticResource MenuInactiveColor}"/>
+        <Setter Property="Background" Value="{StaticResource AppMainColor}"/>
     </Style>
 
 

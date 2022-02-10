@@ -20,27 +20,29 @@ namespace xwLedConfigurator {
 
     public partial class xwDockSequence : UserControl {
 
-        public delegate void eSequenceManagement(sequenceManagement_t action, string sequenceName);
+        public delegate void eSequenceManagement(sequenceManagement_t action, int sequenceIndex, string sequenceName);
         public event eSequenceManagement sequenceManagement;
 
         public enum sequenceManagement_t {
             NEW_SEQUENCE,
-            DELETE_SEQUENCE
+            DELETE_SEQUENCE,
+            LOAD_SEQUENCE
         }
 
         public xwDockSequence() {
             InitializeComponent();
 		}
 
-        public void show(List<cSequence> sequenceList) {
+        public void show(List<sequence_t> sequenceList) {
             this.Visibility = Visibility.Visible;
             sequenceItemList.Children.Clear();
 
             //add elements for each sequence to list
-            foreach (cSequence sequence in sequenceList) {
-                xwDockSequenceListItem i = new xwDockSequenceListItem(sequence.sequenceName);
-                i.sequenceRequest += sequenceRequest;
-                sequenceItemList.Children.Add(i);
+            for (int i = 0; i < sequenceList.Count; i++) {
+                sequence_t sequence = sequenceList[i];
+                xwDockSequenceList item = new xwDockSequenceList(i, sequence.name);
+                item.sequenceRequest += sequenceRequest;
+                sequenceItemList.Children.Add(item);
             }
         }
 
@@ -53,21 +55,25 @@ namespace xwLedConfigurator {
         }
 
         private void bCreateSequence_Click(object sender, RoutedEventArgs e) {
-            sequenceName.show();
+            sequenceNameNew.show();
         }
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            sequenceName.hide();
+            sequenceNameNew.hide();
         }
 
         private void sequenceName_nameUpdated(string newSequenceName) {
-            sequenceName.hide();
-            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.NEW_SEQUENCE, newSequenceName);
+            sequenceNameNew.hide();
+            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.NEW_SEQUENCE, -1, newSequenceName);
         }
 
-        private void sequenceRequest(xwDockSequenceListItem sender, xwDockSequenceListItem.sequenceRequest_t request) {
-            if (request == xwDockSequenceListItem.sequenceRequest_t.DELETE_SEQUENCE) {
-                if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.DELETE_SEQUENCE, sender.sequenceName);
+        private void sequenceRequest(xwDockSequenceList sender, xwDockSequenceList.sequenceRequest_t request) {
+            if (request == xwDockSequenceList.sequenceRequest_t.DELETE_SEQUENCE) {
+                if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.DELETE_SEQUENCE, sender.index, "");
+            }
+
+            if (request == xwDockSequenceList.sequenceRequest_t.LOAD_SEQUENCE) {
+                if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.LOAD_SEQUENCE, sender.index, "");
             }
         }
 

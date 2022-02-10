@@ -82,11 +82,14 @@
                 </StackPanel>
 
             </Grid>
-        
-            <!-- Hidden controls -->
-            <local:xwDockSequenceName nameUpdated="sequenceName_nameUpdated" x:Name="sequenceName" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Visibility="Hidden"/>
 
+            <!-- Hidden controls -->
+            <local:xwDockSequenceNew nameUpdated="sequenceName_nameUpdated" x:Name="sequenceNameNew" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Visibility="Hidden"/>
             
+            <!-- Hidden controls 
+            <local:xwDockSequenceNew nameUpdated="sequenceName_nameUpdated" x:Name="sequenceNameNew" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Visibility="Hidden"/>
+
+            -->
 
         </Grid>
     </Border>

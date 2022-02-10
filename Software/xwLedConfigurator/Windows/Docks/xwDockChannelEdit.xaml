@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="xwLedConfigurator.xwDockChannelEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:xwLedConfigurator"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="300">
+
+    <Border Background="{StaticResource AppMainColor}" CornerRadius="0,0,0,10" Margin="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock x:Name="title" Grid.Row="0" Foreground="{StaticResource MainFontColor}" FontSize="20" VerticalAlignment="Center" Margin="10">Channel Settings</TextBlock>
+            <Button x:Name="bClose" Click="bAbort_Click" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="25" BorderThickness="0" Margin="10" Height="30" Width="30">
+                <fa:IconBlock Icon="TimesCircle"/>
+            </Button>
+            
+            <!-- Restart -->
+            <TextBlock  Grid.Row="1" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10">Channel Restart</TextBlock>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <RadioButton GroupName="restart" Name="eolOption0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+                <RadioButton GroupName="restart" Name="eolOption1" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+                <RadioButton GroupName="restart" Name="eolOption2" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+                <RadioButton GroupName="restart" Name="eolOption3" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
+
+                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">Restart channel</TextBlock>
+                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Restart channel reversed</TextBlock>
+                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">Stop channel with last brigthness</TextBlock>
+                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">Stop channel with dark output</TextBlock>
+
+            </Grid>
+            
+
+
+            <!-- Buttons -->
+            <Grid Grid.Row="7">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="bSave" Click="bSave_Click" Grid.Column="0" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconBlock Icon="Save" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" />
+                        <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Save</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="bAbort" Click="bAbort_Click" Grid.Column="1" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconBlock Icon="TimesCircle" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" />
+                        <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Abort</TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

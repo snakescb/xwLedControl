@@ -159,7 +159,6 @@ void teco_configHandler(comFrame_t* frame) {
 
     switch(commandId) {
 
-
         case CONFIG_GET_FRAME_MAX_SIZE: {
             uint8_t rsp[] = {CONFIG_RESPONSE_FRAME_MAX_SIZE, (uint8_t)(configMaxFrameSize >> 8), (uint8_t)configMaxFrameSize};
             teco_send(SCOPE_CONFIG, 3, rsp);
@@ -242,7 +241,7 @@ void teco_configHandler(comFrame_t* frame) {
 
         default: {
             //ignore unsupported message types
-            TRACE("Unknown config command\r\n");
+            TRACE("Unknown config command");
             break;
         }
     }
@@ -258,16 +257,16 @@ void teco_ledHandler(comFrame_t* frame) {
     switch(commandId) {
 
         case LED_ENABLE_DISABLE: {
-            //uint8_t rsp[] = {LED_RESPONSE_ACKNOWLEDGE, true};
-            //ledControl_activate(handle->frame.pIfield[1]);
-            //teco_send(DLCI_LED, 2, rsp);
+            uint8_t rsp[] = {LED_RESPONSE_ACKNOWLEDGE, true};
+            ledControl_activate(frame->data[1]);
+            teco_send(SCOPE_LED, 2, rsp);
             break;
         }
 
         case LED_MANUAL_BRIGHTNESS: {
-            //uint8_t rsp[] = {LED_RESPONSE_ACKNOWLEDGE, true};
-            //ledControl_setPWM(&(handle->frame.pIfield[1]));
-            //teco_send(DLCI_LED, 2, rsp);
+            uint8_t rsp[] = {LED_RESPONSE_ACKNOWLEDGE, true};
+            ledControl_setPWM(&(frame->data[1]));
+            teco_send(SCOPE_LED, 2, rsp);
             break;
         }
 
@@ -338,7 +337,7 @@ void teco_ledHandler(comFrame_t* frame) {
 
         default: {
             //ignore unsupported message types
-            TRACE("Unknown LED command\r\n");
+            TRACE("Unknown LED command");
             break;
         }
     }
