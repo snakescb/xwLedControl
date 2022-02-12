@@ -11,7 +11,7 @@
     <SolidColorBrush x:Key="MenuHoverColor"  Color="White" Opacity="0.2"/>
     
     <SolidColorBrush x:Key="MainFontColor" Color="#FFEFEFEF"/>
-    <SolidColorBrush x:Key="2ndFontColor" Color="#FFBBBBBB"/>
+    <SolidColorBrush x:Key="2ndFontColor" Color="#FFD8D8D8"/>
 
     <!--Button Style -->
     <Style TargetType="{x:Type Button}">

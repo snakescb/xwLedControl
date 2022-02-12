@@ -1,0 +1,203 @@
+﻿<UserControl x:Class="xwLedConfigurator.xwBootloaderWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:xwLedConfigurator"
+             mc:Ignorable="d" FontSize="16"
+             d:DesignHeight="600" d:DesignWidth="1000" IsVisibleChanged="UserControl_IsVisibleChanged">
+
+    <Border Background="{StaticResource AppMainColor}" CornerRadius="0" Margin="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <!-- Buttons -->
+            <Grid Grid.Row="0" Grid.Column="0" Margin="10,10,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <fa:IconBlock Foreground="{StaticResource MainFontColor}" FontSize="20" Icon="ExclamationCircle" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="18" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Bootloader Actions</TextBlock>
+                </StackPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource MainFontColor}"/>
+
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="bSearch" Height="50" Width="120" VerticalAlignment="Top" Click="bSearch_Click" Margin="15,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconBlock  Icon="Search" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Connect</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="bFlash" Height="50" Width="120" VerticalAlignment="Top" Click="bFlash_Click" Margin="15,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconBlock  Icon="Fire" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Burn</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Device Information -->
+            <Grid Grid.Row="1" Grid.Column="0" Margin="10,20,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <fa:IconBlock Foreground="{StaticResource MainFontColor}" FontSize="20" Icon="Microchip" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="18" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Device Information</TextBlock>
+                </StackPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource MainFontColor}"/>
+
+                <Grid  Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Margin="0,0,5,0" Foreground="{StaticResource MainFontColor}">
+                        Serial Number<LineBreak/>
+                        Flash size<LineBreak/>
+                        Bootloader
+                    </TextBlock>
+                    <TextBlock Grid.Column="1" Margin="0,0,8,0" Foreground="{StaticResource MainFontColor}">
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :
+                    </TextBlock>
+                    <TextBlock x:Name="deviceInfo" Grid.Column="2" Foreground="{StaticResource MainFontColor}">
+                        -<LineBreak/>
+                        -<LineBreak/>
+                        -
+                    </TextBlock>
+                </Grid>
+            </Grid>
+
+            <!-- Settings -->
+            <Grid Grid.Row="2" Grid.Column="0" Margin="10,20,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <fa:IconBlock Foreground="{StaticResource MainFontColor}" FontSize="20" Icon="Cog" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="18" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Bootloader Settings</TextBlock>
+                </StackPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource MainFontColor}"/>
+
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <RadioButton x:Name="firmwareShipped" Grid.Column="0" Grid.Row="0" Margin="5" Click="firmwareShipped_Click" HorizontalAlignment="Center"/>
+                    <RadioButton x:Name="firmwareManual" Grid.Column="0" Grid.Row="1" Margin="5" Click="firmwareManual_Click" HorizontalAlignment="Center"/>
+                    <CheckBox x:Name="massErase" Grid.Column="0" Grid.Row="2" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0"  Foreground="{StaticResource MainFontColor}">Burn Firmware shipped with Software</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="1"  Foreground="{StaticResource MainFontColor}">Burn Firmware from File</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"  Foreground="{StaticResource MainFontColor}">Erase Device Configuration</TextBlock>
+                    <Button x:Name="bSelectFile"  Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Height="60" VerticalAlignment="Center" Margin="40,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconBlock Icon="FileCode" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Select Firmware</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                    <TextBlock Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Margin="25,0,5,0" Foreground="{StaticResource MainFontColor}">
+                        Firmware File Name<LineBreak/>
+                        Firmware Code Size<LineBreak/>
+                        Firmware Flash Pages
+                    </TextBlock>
+                    <TextBlock Grid.Column="4" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource MainFontColor}">
+                        :<LineBreak/>
+                        :<LineBreak/>
+                        :
+                    </TextBlock>
+                    <TextBlock x:Name="fileInfo" Grid.Column="5" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource MainFontColor}">
+                        -<LineBreak/>
+                        -<LineBreak/>
+                        -
+                    </TextBlock>
+                </Grid>
+            </Grid>
+
+            <!-- Message -->
+            <Grid Grid.Row="3" Grid.Column="0" Margin="10,20,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <fa:IconBlock Foreground="{StaticResource MainFontColor}" FontSize="20" Icon="EnvelopeOpenText" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="18" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Bootloader Messages</TextBlock>
+                </StackPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource MainFontColor}"/>
+
+                <Grid  Grid.Row="2" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <fa:IconBlock x:Name="loaderIcon" Grid.Column="0" FontSize="40" Icon="Search"  Margin="5,0,5,0" Foreground="{StaticResource MainFontColor}"/>
+                    <TextBlock x:Name="loaderMessage" Grid.Column="1" FontSize="24" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Connect device and search bootloader</TextBlock>
+
+                    <ProgressBar x:Name="progress" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="100" Value="75" Margin="10" Foreground="{StaticResource AppTitleColor}" Background="{StaticResource MenuHoverColor}" BorderBrush="{StaticResource MenuHoverColor}" Visibility="Hidden"/>
+                    <TextBlock x:Name="progressText" Grid.Column="0" Grid.ColumnSpan="2" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource MainFontColor}"  Visibility="Hidden">Flashing 50%</TextBlock>
+                </Grid>
+            </Grid>
+
+
+
+        </Grid>
+    </Border>
+</UserControl>
