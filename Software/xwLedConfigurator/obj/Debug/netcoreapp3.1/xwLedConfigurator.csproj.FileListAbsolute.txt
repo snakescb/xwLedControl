@@ -127,6 +127,7 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.dll
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.pdb
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Scilabs\CP210x_InterfaceLibrary\ManufacturingDLL\CP210xManufacturing.dll
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Scilabs\CP210x_InterfaceLibrary\RuntimeDLL\CP210xRuntime.dll
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.exe
@@ -138,6 +139,9 @@ C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurato
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\xwLedConfigurator.pdb
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\FontAwesome.Sharp.dll
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Microsoft.Win32.Registry.dll
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Microsoft.Xaml.Behaviors.dll
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\ColorPicker.dll
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\System.IO.Ports.dll
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\System.Security.AccessControl.dll
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\System.Security.Principal.Windows.dll
@@ -191,8 +195,23 @@ C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurato
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.dll
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.pdb
 C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
-C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\SOB.g.cs
-C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\SOB.baml
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\SOB.g.cs
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\SOB.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\sobSettings.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\xwDockObjectEdit.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\sobSettings.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\xwDockObjectEdit.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\brightness.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\brightness.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\lobSettings.g.cs
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\lobSettings.baml
+C:\Users\dagluethc\OneDrive - JT International\Desktop\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Microsoft.Xaml.Behaviors.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\ColorPicker.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\brightness.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\lobSettings.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\sobSettings.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\xwDockObjectEdit.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\brightness.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\lobSettings.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\sobSettings.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\Object Settings\xwDockObjectEdit.baml

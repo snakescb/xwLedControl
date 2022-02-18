@@ -6,9 +6,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:xwLedConfigurator"
              mc:Ignorable="d" AllowDrop="True" Drop="UserControl_Drop"
-             d:DesignHeight="150" d:DesignWidth="800">
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="190" d:DesignWidth="800">
 
-    <Grid>
+    <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
             <RowDefinition Height="10"/>
@@ -26,7 +27,7 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="5" Background="{StaticResource MenuInactiveColor}" CornerRadius="10,0,0,10" Margin="0"/>
-        <local:channelGrid HorizontalAlignment="Stretch" ClipToBounds="True" Height="120" x:Name="grid" Grid.Column="4" Grid.Row="2"/>
+        <local:channelGrid Height="150" MouseMove="grid_MouseMove" MouseLeave="grid_MouseLeave"  MouseLeftButtonDown="grid_MouseLeftButtonDown" MouseLeftButtonUp="grid_MouseLeftButtonUp" HorizontalAlignment="Stretch" ClipToBounds="True" x:Name="grid" Grid.Column="4" Grid.Row="2"/>
 
         <Border x:Name="rgbband" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" Visibility="Hidden"  Margin="0,5,0,5" CornerRadius="2">
             <Border.Background>
@@ -42,8 +43,8 @@
         <Border x:Name="bwband" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" Visibility="Visible" Margin="0,5,0,5" CornerRadius="2">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="black" Offset="0.75" />
-                    <GradientStop Color="white" Offset="0" />
+                    <GradientStop Color="black" Offset="1" />
+                    <GradientStop x:Name="channelColorBand" Color="White" Offset="0" />
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
@@ -55,7 +56,7 @@
                         <ScaleTransform/>
                         <SkewTransform/>
                         <RotateTransform Angle="-90"/>
-                        <TranslateTransform X="2" Y="120"/>
+                        <TranslateTransform X="2" Y="135"/>
                     </TransformGroup>
                 </Label.RenderTransform>
             </Label>

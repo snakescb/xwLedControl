@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "YVo8Y8hnHticsunqk72aafzZ1Nrx7bP/fLl2Dd8sHuQ5owRhz9rj/bTiugDVEiyRGIZL90fpWXvpdXIYEWt4Mw==",
+  "dgSpecHash": "Jvn+IuBMSlhjrPI7/n61Qyvtfp/qQCdyDYkYutGpsxVkavBXckNfE+RSMgP+VNNCuH1WOD+132ov2+iqQAtqJA==",
   "success": true,
   "projectFilePath": "C:\\Users\\lueth\\SynologyDrive\\Projekte\\GitHub\\xwLedControl\\Software\\xwLedConfigurator\\xwLedConfigurator.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lueth\\.nuget\\packages\\fontawesome.sharp\\5.15.4\\fontawesome.sharp.5.15.4.nupkg.sha512",
     "C:\\Users\\lueth\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\lueth\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
+    "C:\\Users\\lueth\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.31\\microsoft.xaml.behaviors.wpf.1.1.31.nupkg.sha512",
+    "C:\\Users\\lueth\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\lueth\\.nuget\\packages\\pixieditor.colorpicker\\3.2.0\\pixieditor.colorpicker.3.2.0.nupkg.sha512",
     "C:\\Users\\lueth\\.nuget\\packages\\relaxversioner\\2.5.0\\relaxversioner.2.5.0.nupkg.sha512",
     "C:\\Users\\lueth\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
     "C:\\Users\\lueth\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",

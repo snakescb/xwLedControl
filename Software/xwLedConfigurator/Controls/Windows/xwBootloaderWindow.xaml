@@ -191,7 +191,7 @@
                     <fa:IconBlock x:Name="loaderIcon" Grid.Column="0" FontSize="40" Icon="Search"  Margin="5,0,5,0" Foreground="{StaticResource MainFontColor}"/>
                     <TextBlock x:Name="loaderMessage" Grid.Column="1" FontSize="24" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">Connect device and search bootloader</TextBlock>
 
-                    <ProgressBar x:Name="progress" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="100" Value="75" Margin="10" Foreground="{StaticResource AppTitleColor}" Background="{StaticResource MenuHoverColor}" BorderBrush="{StaticResource MenuHoverColor}" Visibility="Hidden"/>
+                    <ProgressBar x:Name="progress" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="100" Value="75" Margin="10" Height="50" Foreground="{StaticResource AppTitleColor}" Background="{StaticResource MenuHoverColor}" BorderBrush="{StaticResource MenuHoverColor}" Visibility="Hidden"/>
                     <TextBlock x:Name="progressText" Grid.Column="0" Grid.ColumnSpan="2" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource MainFontColor}"  Visibility="Hidden">Flashing 50%</TextBlock>
                 </Grid>
             </Grid>

@@ -53,5 +53,12 @@
         <Setter Property="Background" Value="{StaticResource AppMainColor}"/>
     </Style>
 
+    <!-- Tooltip Style -->
+    <Style TargetType="ToolTip" BasedOn="{StaticResource {x:Type ToolTip}}">
+        <Setter Property="Background" Value="{StaticResource AppMainColor}" />
+        <Setter Property="Foreground" Value="{StaticResource MainFontColor}" />
+    </Style>
+
+
 
 </ResourceDictionary>

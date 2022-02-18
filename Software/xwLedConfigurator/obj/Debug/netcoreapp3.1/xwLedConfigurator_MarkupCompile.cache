@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\App.xaml
-13-135741526
+16-997271716
 
-21516088702
-202-1435947371
-Controls\Windows\Docks\xwDockChannel.xaml;Controls\Windows\Docks\xwDockChannelEdit.xaml;Controls\Windows\Docks\xwDockSequence.xaml;Controls\Windows\Docks\xwDockSequenceEdit.xaml;Controls\Windows\Docks\xwDockSequenceList.xaml;Controls\Windows\Docks\xwDockSequenceNew.xaml;Controls\Windows\LedObjects\SOB.xaml;Controls\Windows\xwBootloaderWindow.xaml;Controls\Windows\xwConfigWindow.xaml;Controls\Windows\xwLedWindow.xaml;Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;
+29546669037
+205-310453596
+Controls\Windows\Docks\Object Settings\brightness.xaml;Controls\Windows\Docks\Object Settings\lobSettings.xaml;Controls\Windows\Docks\Object Settings\sobSettings.xaml;Controls\Windows\Docks\Object Settings\xwDockObjectEdit.xaml;Controls\Windows\Docks\xwDockChannel.xaml;Controls\Windows\Docks\xwDockChannelEdit.xaml;Controls\Windows\Docks\xwDockSequence.xaml;Controls\Windows\Docks\xwDockSequenceEdit.xaml;Controls\Windows\Docks\xwDockSequenceList.xaml;Controls\Windows\Docks\xwDockSequenceNew.xaml;Controls\Windows\xwBootloaderWindow.xaml;Controls\Windows\xwConfigWindow.xaml;Controls\Windows\xwLedWindow.xaml;Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;
 
 False
 

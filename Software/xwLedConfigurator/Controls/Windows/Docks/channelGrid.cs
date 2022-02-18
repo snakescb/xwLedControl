@@ -16,17 +16,17 @@ namespace xwLedConfigurator {
 
     public class channelGrid : Canvas {
 
-        private int resolution = 10; //pixels per second
+        private double resolution = 10; //pixels per second
         private double offset = 0;   //offset in pixel
         private double major = 1;    //seconds per major tick
         private int sub = 4;         //number        
 
-        public void refresh(double setoffset, double setmajor, int setsub, int setresolution) {
+        public void refresh(double offset, double major, int sub, double resolution) {
 
-            major = setmajor;
-            sub = setsub;
-            resolution = setresolution;
-            offset = setoffset;
+            this.major = major;
+            this.sub = sub;
+            this.resolution = resolution;
+            this.offset = offset;
 
             this.InvalidateVisual();
         }
@@ -43,18 +43,18 @@ namespace xwLedConfigurator {
             //draw background with border
             dc.DrawRectangle(background, penBorder, new System.Windows.Rect(0,0, size.Width, size.Height));
 
-            //get the offset in seconds
-            double offset_s = offset / resolution;
+            //calulations
             double major_px = major * resolution;
-            double firstMajor_px = (major - offset_s % major) * resolution;
-            double firstMajor_s = Math.Ceiling(offset_s / major) * major;
             double minor_px = major_px / sub;
+            double offset_s = offset / resolution;
+            double firstMajor_s = Math.Round(offset_s / major) * major;
+            double firstMajor_px = (firstMajor_s - offset_s) * resolution;
 
             int tickCount = 0;
             //draw minors before first major
             while (true) {
                 tickCount++;
-                double nextMinor_px = firstMajor_px - tickCount * minor_px;
+                double nextMinor_px = Math.Round( firstMajor_px - tickCount * minor_px );
                 if (nextMinor_px <=0 ) break;
                 else dc.DrawLine(penMinor, new Point(nextMinor_px, 0), new Point(nextMinor_px, size.Height));
             }
@@ -62,12 +62,12 @@ namespace xwLedConfigurator {
             //draw majors, minors and text until the end of the canvas is reached
             tickCount = 0;
             while (true) {    
-                double nextMajor_px = firstMajor_px + tickCount * major_px;
+                double nextMajor_px = Math.Round( firstMajor_px + tickCount * major_px );
                 if (nextMajor_px >= size.Width) break;
                 else {
                     if (nextMajor_px > 0) dc.DrawLine(penMajor, new Point(nextMajor_px, 0), new Point(nextMajor_px, size.Height));
-                    for (int i = 0; i < sub; i++) {
-                        double nextMinor_px = nextMajor_px + i * minor_px;
+                    for (int i = 1; i < sub; i++) {
+                        double nextMinor_px = Math.Round( nextMajor_px + i * minor_px );
                         if (nextMinor_px <= size.Width) dc.DrawLine(penMinor, new Point(nextMinor_px, 0), new Point(nextMinor_px, size.Height));
                     }
 
@@ -84,36 +84,6 @@ namespace xwLedConfigurator {
                 }
                 tickCount++;
             }
-
-            /*
-
-            //draw grid
-            int numMajors = (int) Math.Ceiling(length / major) - 1;
-            double pixelsPerMajor = major * resolution;
-            double pixelsPerMinor = pixelsPerMajor / sub;
-            for (int i = 0; i <= numMajors; i++) {
-                double majorStart = pixelsPerMajor * i;
-                if (i > 0) dc.DrawLine(penMajor, new Point(majorStart, 0), new Point(majorStart, size.Height));
-                for (int j = 1; j < sub; j++) {
-                    double minorStart = majorStart + j * pixelsPerMinor;
-                    if (minorStart < size.Width) dc.DrawLine(penMinor, new Point(minorStart, 0), new Point(minorStart, size.Height));
-                }
-            }
-
-            //draw text
-            for (int i = 1; i <= numMajors+1; i++) {
-                double majorStart = pixelsPerMajor * i;
-
-                int seconds = (int) ( i * major );
-                int minutes = (int) Math.Floor((double)seconds / 60);
-                seconds -= minutes * 60;
-
-                FormattedText text = new FormattedText(String.Format("{0}:{1:D2}", minutes, seconds), CultureInfo.GetCultureInfo("en-us"), System.Windows.FlowDirection.LeftToRight, new Typeface("Verdana"), 9, Brushes.White, VisualTreeHelper.GetDpi(this).PixelsPerDip);
-                if (text.Width < pixelsPerMajor - 10) {
-                    if(majorStart < size.Width) dc.DrawText(text, new Point(majorStart - text.Width - 3, size.Height - text.Height - 3));
-                }
-            }
-            */
 
         }
     }

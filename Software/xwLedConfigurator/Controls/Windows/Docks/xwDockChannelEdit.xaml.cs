@@ -21,7 +21,7 @@ namespace xwLedConfigurator {
 
     public partial class xwDockChannelEdit : UserControl, INotifyPropertyChanged {
 
-        public delegate void channelSettingsSaved();
+        public delegate void channelSettingsSaved(channel_t channel);
         public event channelSettingsSaved settingsSaved;
 
         public delegate void testOutputRequest(int i);
@@ -30,8 +30,7 @@ namespace xwLedConfigurator {
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName) {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public Visibility rgbVisibility {
@@ -48,23 +47,32 @@ namespace xwLedConfigurator {
             }
         }
 
+        public Color channelColor {
+            get { return currentChannelColor; }
+        }
+
         public xwDockChannelEdit() {
             InitializeComponent();
 		}
 
         channel_t channel;
+        Color currentChannelColor = Colors.White;
 
-        public void show(channel_t channel_) {
-            channel = channel_;
-            title.Text = String.Format("Channel {0} Settings", channel.index + 1);
+        public void show(channel_t channel) {
+            this.channel = channel;
+            title.Text = String.Format("Channel {0} Settings", channel.channelNumber);
             OnPropertyChanged("rgbVisibility");
-            OnPropertyChanged("bwVisibility");
+            OnPropertyChanged("bwVisibility");                        
             this.Visibility = Visibility.Visible;
 
             eolOption0.IsChecked = false;
             eolOption1.IsChecked = false;
             eolOption2.IsChecked = false;
             eolOption3.IsChecked = false;
+
+            currentChannelColor = channel.color;
+            channelColorPicker.SelectedColor = currentChannelColor;
+            OnPropertyChanged("channelColor");
 
             if (channel.eolOption == 0) eolOption0.IsChecked = true;
             if (channel.eolOption == 1) eolOption1.IsChecked = true;
@@ -99,8 +107,14 @@ namespace xwLedConfigurator {
                 channel.outputs[1].assignment = assignmentSelectorG.SelectedIndex;
                 channel.outputs[2].assignment = assignmentSelectorB.SelectedIndex;
             }
+            else {
+                //channel color: Color is changed to hsv, the brightness is increase to maximum, and then converted back to rgb
+                hsvColor hsv = new hsvColor(channelColorPicker.SelectedColor);
+                hsv.value = 1;
+                channel.color = hsv.toRGB();
+            }
 
-            if (settingsSaved != null) settingsSaved();
+            if (settingsSaved != null) settingsSaved(channel);
             hide();
         }
 
@@ -124,6 +138,10 @@ namespace xwLedConfigurator {
             }
         }
 
+        private void channelColorPicker_ColorChanged(object sender, RoutedEventArgs e) {
+            if(channel != null) currentChannelColor = channelColorPicker.SelectedColor;
+            OnPropertyChanged("channelColor");
+        }
     }	
 
 }

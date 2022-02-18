@@ -5,6 +5,7 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:xwLedConfigurator"
+             xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="800" d:DesignWidth="300">
@@ -14,10 +15,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="10"/>
-                <RowDefinition Height="50"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="auto"/>
@@ -30,7 +33,7 @@
             </Button>
 
             <!-- Output -->
-            <TextBlock Grid.Row="2" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10">Output Assignment</TextBlock>
+            <TextBlock Grid.Row="2" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">Output Assignment</TextBlock>
             <Grid Grid.Row="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -47,7 +50,7 @@
                 <TextBlock Visibility="{Binding rgbVisibility}" Foreground="{StaticResource MainFontColor}" FontSize="20" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="0,0,10,0">R</TextBlock>
 
                 <ComboBox x:Name="assignmentSelectorR" Grid.Column="2" Height="30" Grid.Row="0">
-                    <ComboBoxItem Content="Output 1"/>
+                    <ComboBoxItem Content="Output 1" Foreground="Black"/>
                     <ComboBoxItem Content="Output 2"/>
                     <ComboBoxItem Content="Output 3"/>
                     <ComboBoxItem Content="Output 4"/>
@@ -169,15 +172,14 @@
             <Border Grid.Row="1" Margin="5,0,5,0" CornerRadius="5" Visibility="{Binding bwVisibility}">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="white" Offset="0.0" />
-                        <GradientStop Color="Gray" Offset="0.3" />
-                        <GradientStop Color="Black" Offset="1.0" />
+                        <GradientStop Color="{Binding channelColor}" Offset="0.5" />
+                        <GradientStop Color="Black" Offset="0.9" />
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
 
             <!-- Restart -->
-            <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10">Channel Restart</TextBlock>
+            <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">Channel Restart</TextBlock>
             <Grid Grid.Row="6">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
@@ -202,10 +204,13 @@
                 <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">Stop channel with dark output</TextBlock>
 
             </Grid>
-            
 
+            <!-- Channel color -->
+            <TextBlock Grid.Row="7" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10" Visibility="{Binding bwVisibility}">Channel Color</TextBlock>
+            <colorpicker:SquarePicker  Grid.Row="8" x:Name="channelColorPicker" ColorChanged="channelColorPicker_ColorChanged" Width="150" Height="150" Visibility="{Binding bwVisibility}"/>
+            
             <!-- Buttons -->
-            <Grid Grid.Row="8">
+            <Grid Grid.Row="11">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

@@ -26,7 +26,8 @@ namespace xwLedConfigurator {
         public enum sequenceManagement_t {
             NEW_SEQUENCE,
             DELETE_SEQUENCE,
-            LOAD_SEQUENCE
+            LOAD_SEQUENCE,
+            SAVE_SEQUENCES
         }
 
         public xwDockSequence() {
@@ -77,6 +78,9 @@ namespace xwLedConfigurator {
             }
         }
 
+        private void bSaveToFile_Click(object sender, RoutedEventArgs e) {
+            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.SAVE_SEQUENCES, 0, "");
+        }
     }	
 
 }

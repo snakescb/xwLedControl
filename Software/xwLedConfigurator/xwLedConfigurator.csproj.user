@@ -15,7 +15,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Windows\LedObjects\SOB.xaml">
+    <Page Update="Controls\Windows\Docks\Object Settings\brightness.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Docks\Object Settings\lobSettings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Docks\Object Settings\sobSettings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Docks\Object Settings\xwDockObjectEdit.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
