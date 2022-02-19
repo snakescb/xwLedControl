@@ -144,8 +144,8 @@ namespace xwLedConfigurator {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/xwLedConfigurator;V1.0.0.0;component/controls/windows/docks/object%20settings/xw" +
-                    "dockobjectedit.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/xwLedConfigurator;component/controls/windows/docks/object%20settings/xwdockobjec" +
+                    "tedit.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\..\Controls\Windows\Docks\Object Settings\xwDockObjectEdit.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

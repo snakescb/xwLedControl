@@ -38,10 +38,20 @@ namespace xwLedConfigurator {
             this.color = ledobject.toRGB();
         }
 
-        public override byte[] getBuffer(bool reversed) {
+        public override byte[] getBuffer(int colorChannel, bool reversed) {
             byte[] buffer = new byte[12];
+            buffer[0] = 0x01;
+
+            if (colorChannel == 0) buffer[1] = (byte)((new hsvColor(color)).value * 255);
+            if (colorChannel == 1) buffer[1] = color.R;
+            if (colorChannel == 2) buffer[1] = color.G;
+            if (colorChannel == 3) buffer[1] = color.B;
+
+            buffer[2] = (byte)(length);
+            buffer[3] = (byte)(length / 256);
             return buffer;
         }
+
 
     }
 }

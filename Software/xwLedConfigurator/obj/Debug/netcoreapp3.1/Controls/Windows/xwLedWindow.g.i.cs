@@ -215,7 +215,7 @@ namespace xwLedConfigurator {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/xwLedConfigurator;V1.0.0.0;component/controls/windows/xwledwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/xwLedConfigurator;component/controls/windows/xwledwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Controls\Windows\xwLedWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

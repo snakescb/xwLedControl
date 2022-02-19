@@ -189,7 +189,7 @@ namespace xwLedConfigurator {
                 channel.ledObjects.Add(led);
                 grid.Children.Add(new ledVisual(led, 0, grid.Height - 40));
             }
-            else MessageBox.Show(objectType + " - NOT IMPLEMENTED YET");
+            else MessageBox.Show(objectType + " - NOT IMPLEMENTED YET");    
             
             refreshGrid();
         }

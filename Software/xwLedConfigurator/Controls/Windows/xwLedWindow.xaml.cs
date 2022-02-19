@@ -60,7 +60,7 @@ namespace xwLedConfigurator {
 			sequenceList.Add(s);
 			loadSequence(0);
 			addRegularChannel_Click(null, null);
-			addRgbChannel_Click(null, null);
+			//addRgbChannel_Click(null, null);
 
 			Connection.frameReceived += this.frameReceiver;
 		}

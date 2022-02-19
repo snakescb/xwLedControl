@@ -18,7 +18,7 @@ namespace xwLedConfigurator {
 
         public abstract void drawContent(DrawingContext dc, double width, double height);
         public abstract void updateChannelColor(Color channelColor, bool rgbChannel);
-        public abstract byte[] getBuffer(bool reversed);
+        public abstract byte[] getBuffer(int colorChannel, bool reversed); //channel 0 will access brightness, channel 1 is Red, channel 2 is Green, channel 3 is blue
 
     }
 }

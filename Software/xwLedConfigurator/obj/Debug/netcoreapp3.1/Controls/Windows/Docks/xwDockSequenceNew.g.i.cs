@@ -79,8 +79,7 @@ namespace xwLedConfigurator {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/xwLedConfigurator;V1.0.0.0;component/controls/windows/docks/xwdocksequencenew.xa" +
-                    "ml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/xwLedConfigurator;component/controls/windows/docks/xwdocksequencenew.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\Controls\Windows\Docks\xwDockSequenceNew.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

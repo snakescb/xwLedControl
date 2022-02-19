@@ -15,6 +15,7 @@
 #include "adc.h"
 //#include "skyBus.h"
 #include "crc.h"
+#include <stdio.h>
 
 /* Private define ------------------------------------------------------------*/
 #define LED_MAX_NUM_OUTPUTS          24
@@ -78,12 +79,9 @@ typedef struct {
     uint8_t   lineEnd;
     uint8_t   localControl;
     uint8_t   outputNumber;
-    uint8_t   extensionBackup[LED_OBJECT_SIZE];
     uint32_t  runTimeExtended;
     uint32_t  runTimeIncrement;
     uint16_t* pRand;
-    uint8_t   dreamAddress;
-    uint16_t  dreamNumPixel;
 } ledHandle_t;
 
 /* Private functions ---------------------------------------------------------*/
@@ -495,12 +493,18 @@ void ledControl_startObject(ledHandle_t* h, uint8_t* pObject) {
     switch ((objects_e)h->pCurrentObject[0]) {
 
         case SOB: {
+
             uint16_t lifeTime = ((uint16_t*)h->pCurrentObject)[1];
 
             ledControl_clearRuntime(h);
 
             h->pwm = h->pCurrentObject[1];
             h->lifeTime = lifeTime;
+
+            char buffer[128];
+            sprintf(buffer, "Start SOB Object - Output: %u -  Lifetime: %u - Brightness: %u", (unsigned int)h->outputNumber, (unsigned int)h->lifeTime , (unsigned int)h->pwm);
+            TRACE(buffer);
+
             break;
         }
 
@@ -774,9 +778,9 @@ void ledControl_activate(bool enable) {
 /******************************************************************************
  * ledControl_setSimObject
  ******************************************************************************/
-void ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObject) {
+bool ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObject) {
     //prüfe ob ausgang gültig ist
-    if (output >= LED_MAX_NUM_OUTPUTS) return;
+    if (output >= LED_MAX_NUM_OUTPUTS) return false;
 
     for (uint8_t j=0; j<numObjects; j++) {
         //check if buffer is full
@@ -784,18 +788,25 @@ void ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObje
         uint8_t wi = ledHandle[output].simWriteIndex;
         uint8_t ni = (wi + 1) % LED_NUM_SIM_OBJECTS;
         //wenn puffer voll ist abbrechen
-        if (ni == ri) return;
+        if (ni == ri) return false;
         //speichere objekt
         uint8_t* p = pObject + (j*LED_OBJECT_SIZE);
         for (uint8_t i=0; i<LED_OBJECT_SIZE; i++) ledHandle[output].simObjects[wi][i] = p[i];
         ledHandle[output].simWriteIndex = ni;
     }
+
+    return true;
 }
 
 /******************************************************************************
  * ledControl_startSim
  ******************************************************************************/
 void ledControl_startSim(uint32_t speedInfo, uint8_t dimInfo, bool useOffsetData, uint8_t* pDirectionData, uint8_t* pOffsetData) {
+
+    char buffer[128];
+    sprintf(buffer, "Start Sim - Speed: %u - Dim: %u", (unsigned int)speedInfo, (unsigned int)dimInfo);
+    TRACE(buffer);
+
     ledControl_stopSequence();
     runMode = RUNMODE_SIMULATION;
     numOutputsReport = 0;

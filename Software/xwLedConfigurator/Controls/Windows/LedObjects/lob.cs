@@ -51,7 +51,7 @@ namespace xwLedConfigurator {
             colorStop = objectStop.toRGB();
         }
 
-        public override byte[] getBuffer(bool reversed) {
+        public override byte[] getBuffer(int colorChannel, bool reversed) {
             byte[] buffer = new byte[12];
             return buffer;
         }

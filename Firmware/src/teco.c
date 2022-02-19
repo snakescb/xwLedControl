@@ -3,7 +3,6 @@
  * @author      Created: Christian Luethi
  * @brief       Test and config module
  ******************************************************************************/
-
 #include "teco.h"
 #include "uart1.h"
 #include "ledControl.h"
@@ -265,45 +264,46 @@ void teco_ledHandler(comFrame_t* frame) {
 
         case LED_MANUAL_BRIGHTNESS: {
             uint8_t rsp[] = {LED_RESPONSE_ACKNOWLEDGE, true};
-            ledControl_setPWM(&(frame->data[1]));
+            ledControl_setPWM(frame->data + 1);
             teco_send(SCOPE_LED, 2, rsp);
             break;
         }
 
         case LED_SIM_SET_OBJECTS: {
-            //ledControl_setSimObjects(handle->frame.pIfield[1], handle->frame.pIfield[2], handle->frame.pIfield + 3);
+            uint8_t rsp[] = {LED_RESPONSE_ACKNOWLEDGE, false};
+            rsp[1] = ledControl_setSimObjects(frame->data[1], frame->data[2], frame->data + 3);
+            teco_send(SCOPE_LED, 2, rsp);
             break;
         }
 
         case LED_SIM_GET_BUFFER_INFO: {
-            //int8_t rsp[4];
-            //ledControl_getBufferInfo(rsp);
-            //teco_send(DLCI_LED, 4, rsp);
+            uint8_t rsp[4];
+            ledControl_getBufferInfo(rsp);
+            teco_send(SCOPE_LED, 4, rsp);
             break;
         }
 
         case LED_SIM_GET_BUFFER_STATE: {
-            //uint8_t rsp[25];
-            //ledControl_getBufferState(rsp);
-            //teco_send(DLCI_LED, 25, rsp);
+            uint8_t rsp[25];
+            ledControl_getBufferState(rsp);
+            teco_send(SCOPE_LED, 25, rsp);
             break;
         }
 
         case LED_START_SIM: {
-            /*
+
             uint8_t rsp[] = {LED_RESPONSE_ACKNOWLEDGE, true};
             uint32_t s = 0;
             uint8_t  d = 0;
 
-            s += handle->frame.pIfield[1] << 24;
-            s += handle->frame.pIfield[2] << 16;
-            s += handle->frame.pIfield[3] <<  8;
-            s += handle->frame.pIfield[4];
-            d  = handle->frame.pIfield[5];
+            s += frame->data[1] << 24;
+            s += frame->data[2] << 16;
+            s += frame->data[3] <<  8;
+            s += frame->data[4];
+            d  = frame->data[5];            
 
             ledControl_startSim(s, d, false, null, null);
-            teco_send(DLCI_LED, 2, rsp);
-            */
+            teco_send(SCOPE_LED, 2, rsp);
             break;
         }
 

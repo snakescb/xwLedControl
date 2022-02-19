@@ -72,7 +72,7 @@ void ledControl_activate(bool enable);
 /*******************************************************************//**
 * @brief    Speichert ein neues simulationsobjekt in der warteschlange
 ***********************************************************************/
-void ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObject);
+bool ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObject);
 
 /*******************************************************************//**
 * @brief    Gets the status if the simulation buffers
