@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="xwLedConfigurator.lobSettings
+             "
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:xwLedConfigurator"
+             xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="600" d:DesignWidth="400">
+
+    <Border Background="{StaticResource AppMainColor}" CornerRadius="0,0,0,10" Margin="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            
+            <Grid Grid.Row="0" x:Name="rgbSelectors">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Grid.Row="0" FontSize="18" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,20,0,10" Foreground="{StaticResource MainFontColor}">Color Start</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" FontSize="18" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,20,0,10" Foreground="{StaticResource MainFontColor}">Color Stop</TextBlock>
+
+                <colorpicker:SquarePicker x:Name="colorPicker1" Grid.Column="0" Grid.Row="1" PickerType="HSV" Height="140" Width="140"/>
+                <colorpicker:SquarePicker x:Name="colorPicker2" Grid.Column="1" Grid.Row="1" PickerType="HSV" Height="140" Width="140"/>
+
+                <colorpicker:HexColorTextBox Grid.Column="0" Grid.Row="2" ColorState="{Binding ElementName=colorPicker1, Path=ColorState, Mode=TwoWay}" ShowAlpha="False" Margin="0,15,0,0" VerticalAlignment="Center"/>
+                <colorpicker:HexColorTextBox Grid.Column="1" Grid.Row="2" ColorState="{Binding ElementName=colorPicker2, Path=ColorState, Mode=TwoWay}" ShowAlpha="False" Margin="0,15,0,0" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Row="1" x:Name="bwSelectors">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" FontSize="18" HorizontalAlignment="Center" Margin="0,20,0,5" Foreground="{StaticResource MainFontColor}">Brightness Start</TextBlock>
+                <local:brightnesSlider Grid.Row="1"  x:Name="bwSelector1"/>
+
+                <TextBlock Grid.Row="2" FontSize="18" HorizontalAlignment="Center" Margin="0,20,0,5" Foreground="{StaticResource MainFontColor}">Brightness Stop</TextBlock>
+                <local:brightnesSlider Grid.Row="3"  x:Name="bwSelector2"/>
+
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

@@ -40,7 +40,7 @@
                         <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Create Sequence</TextBlock>
                     </StackPanel>
                 </Button>
-                <Button x:Name="bLoadFromFile" Grid.Column="0" Grid.Row="1" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button x:Name="bLoadFromFile" Click="bLoadFromFile_Click" Grid.Column="0" Grid.Row="1" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconBlock Icon="File" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" />
                         <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Load File</TextBlock>

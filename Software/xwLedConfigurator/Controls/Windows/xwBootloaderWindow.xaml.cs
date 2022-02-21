@@ -25,7 +25,6 @@ namespace xwLedConfigurator
     /// </summary>
     /// 
 
-
     public partial class xwBootloaderWindow : UserControl {
 
 		public xwBootloaderWindow() {
@@ -37,23 +36,23 @@ namespace xwLedConfigurator
 			guiUpdate.Enabled = true;
 		}
 
-
-        string displayFileName = "";
         string currentMessage = "Connect device and search bootloader";
         string deviceInfoText = "";
-        bool reparseFirmware = false;
+        bool parseFirmwareRquest = false;
+        bool firmwareParsed = false;
+        string shippedFirmwareFile = System.IO.Path.Combine(Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName, "Firmware\\firmware.hex");
+        string slectedFirmwareFile = "";
         bool burning = false;
         FontAwesome.Sharp.IconChar currentIcon = FontAwesome.Sharp.IconChar.Search;
 
-		private void updateGui(Object myObject, EventArgs myEventArgs) {
+        private void updateGui(Object myObject, EventArgs myEventArgs) {
             loaderMessage.Text = currentMessage;
             loaderIcon.Icon = currentIcon;
             deviceInfo.Text = deviceInfoText;
 
-            if (reparseFirmware) {
-                reparseFirmware = false;
-                if ((bool)firmwareShipped.IsChecked) firmwareShipped_Click(null, null);
-                else firmwareManual_Click(null, null);
+            if (parseFirmwareRquest) {
+                parseFirmwareRquest = false;
+                parseFirmware();
             }
 
             if (burning) {                
@@ -121,7 +120,6 @@ namespace xwLedConfigurator
                     Thread.Sleep(200);
 
                     if (retval == 0) {
-
                         currentMessage = "Waiting for bootlaoder response";
                         currentIcon = FontAwesome.Sharp.IconChar.Fire;
                         Thread.Sleep(200);
@@ -141,7 +139,7 @@ namespace xwLedConfigurator
                                 currentMessage = "Bootloader connected. Select firmware and flash";
                                 currentIcon = FontAwesome.Sharp.IconChar.ThumbsUp;
                                 deviceInfoText = bootloader.serialnumber + "\n" + bootloader.flashsize + "kB\nV" + bootloader.blversion_major + "." + bootloader.blversion_minor;
-                                reparseFirmware = true;
+                                parseFirmwareRquest = true;
                                 return;
                             }
                         }
@@ -197,7 +195,6 @@ namespace xwLedConfigurator
                 deviceInfoText = "-\n-\n-";
                 bSearch.IsEnabled = true;
                 burning = false;
-                firmwareShipped_Click(null, null);
             }
             else {
                 //close bootloader if still open
@@ -205,38 +202,6 @@ namespace xwLedConfigurator
                 //start regular connection
                 Connection.start();
             }
-        }
-
-        private bool parseFirmware(string filename) {
-            if (bootloader != null) {
-                if (bootloader.parseFirmware(new StreamReader(filename))) {
-                    fileInfo.Text = displayFileName + "\n" + Math.Round(bootloader.codeSize, 2).ToString() + "kb\n" + bootloader.numPages.ToString();
-                    return true;
-                }
-                else {
-                    MessageBox.Show("not ok");
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        private void firmwareShipped_Click(object sender, RoutedEventArgs e) {
-            firmwareShipped.IsChecked = true;
-            firmwareManual.IsChecked = false;
-            bSelectFile.IsEnabled = false;
-            //string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName; // return the application.exe current folder
-            //string fileName = System.IO.Path.Combine(path, "Firmware\\firmware.hex"); // make the full path as folder/test.text
-
-            string fileName = "C://Users//lueth//SynologyDrive//Projekte//GitHub//xwLedControl//Firmware//bin//firmware.hex"; // make the full path as folder/test.text
-            displayFileName = "firmware.hex";
-            parseFirmware(fileName);    
-        }
-
-        private void firmwareManual_Click(object sender, RoutedEventArgs e) {
-            firmwareManual.IsChecked = true;
-            firmwareShipped.IsChecked = false;
-            bSelectFile.IsEnabled = true;
         }
 
         private void bSearch_Click(object sender, RoutedEventArgs e) {
@@ -249,12 +214,61 @@ namespace xwLedConfigurator
                 currentMessage = "Connect to device before burning";
                 currentIcon = FontAwesome.Sharp.IconChar.ExclamationTriangle;
             }
+            else if (!firmwareParsed) {
+                currentMessage = "Select a valid firmware file before burning";
+                currentIcon = FontAwesome.Sharp.IconChar.ExclamationTriangle;
+            }
             else {
                 if ((bool)massErase.IsChecked) bootloader.massErase = true;
                 else bootloader.massErase = false;
                 Thread worker = new Thread(burnThread);
                 worker.Start();               
             }
+        }
+
+        private void parseFirmware() {
+
+            if (bootloader == null) goto noFileParsed;
+
+            string file = "";
+            if (firmwareManual.IsChecked == true) {
+                if (slectedFirmwareFile.Length == 0) goto noFileParsed;
+                file = slectedFirmwareFile;
+            }
+            else file = shippedFirmwareFile;
+
+            if (bootloader.parseFirmware(new StreamReader(file))) {
+                string displayFileName = System.IO.Path.GetFileName(file);
+                fileInfo.Text = displayFileName + "\n" + Math.Round(bootloader.codeSize, 2).ToString() + "kb\n" + bootloader.numPages.ToString();
+                firmwareParsed = true;
+                return;
+            }
+            
+            MessageBox.Show("Cannot load firware file.");
+
+            noFileParsed:
+            fileInfo.Text = "-\n-\n-";
+            firmwareParsed = false;
+        }
+
+        private void firmwareShipped_Click(object sender, RoutedEventArgs e) {
+            parseFirmware();
+        }
+
+        private void firmwareManual_Click(object sender, RoutedEventArgs e) {
+            if (slectedFirmwareFile.Length > 0) parseFirmware();
+            else bSelectFile_Click(null, null);
+        }
+
+        private void bSelectFile_Click(object sender, RoutedEventArgs e) {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.DefaultExt = ".hex"; // Default file extension
+            openFileDialog.Filter = "S19 Firmware File | *.hex"; // Filter files by extension
+            if (openFileDialog.ShowDialog() == true) {
+                firmwareManual.IsChecked = true;
+                slectedFirmwareFile = openFileDialog.FileName;                
+            }
+            parseFirmware();
         }
     }
 

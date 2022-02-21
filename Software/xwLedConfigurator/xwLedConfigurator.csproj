@@ -66,19 +66,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Controls\Windows\Docks\Object Settings\brightness.xaml">
+    <Page Update="Controls\Windows\LedObjects\Object Settings\speedSlider.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Windows\Docks\Object Settings\lobSettings.xaml">
+    <Page Update="Controls\Windows\LedObjects\Object Settings\brightnesSlider.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Windows\Docks\Object Settings\sobSettings.xaml">
+    <Page Update="Controls\Windows\LedObjects\Object Settings\dimSettings.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Windows\Docks\Object Settings\xwDockObjectEdit.xaml">
+    <Page Update="Controls\Windows\LedObjects\Object Settings\blkSettings.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\lobSettings.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\sobSettings.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Windows\Docks\xwDockChannel.xaml">

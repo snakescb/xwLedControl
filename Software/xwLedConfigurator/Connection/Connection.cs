@@ -50,11 +50,16 @@ namespace xwLedConfigurator {
             state = connectionStates.Closed;
             Thread connectionWorker = new Thread(connectionThread);
             connectionWorker.Start();
-            Thread receiver = new Thread(dataReceiver);
-            receiver.Start();
+            Thread regularRefreshWorker = new Thread(regularDtataRefresh);
+            regularRefreshWorker.Start();
             connectionTimeoutTimer.Interval = COM_TIMEOUT;
             connectionTimeoutTimer.Elapsed += connectionTimeout;
             connectionTimeoutTimer.Enabled = false;
+        }
+
+        struct messageQueue_t {
+            public byte scope;
+            public byte[] data;
         }
 
         static SerialPort comPort;
@@ -62,10 +67,7 @@ namespace xwLedConfigurator {
         static cRxFrame rxFrame = new cRxFrame();
         static System.Timers.Timer connectionTimeoutTimer = new System.Timers.Timer();
         static Queue<messageQueue_t> messageQueue = new Queue<messageQueue_t>();
-        struct messageQueue_t {
-            public byte scope;
-            public byte[] data;
-        }
+
 
         static void connectionTimeout(Object source, ElapsedEventArgs e) {
             state = connectionStates.Searching;
@@ -79,6 +81,15 @@ namespace xwLedConfigurator {
             messageQueue.Enqueue(msg);
         }
 
+        static void regularDtataRefresh() {
+            while (true) {
+                if (state == connectionStates.Connected) {
+                    sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_DYNAMIC_INFO });
+                }
+                Thread.Sleep(100);
+            }
+        }
+
         static void connectionThread() {
 
             string[] portList = new string[1];
@@ -89,59 +100,56 @@ namespace xwLedConfigurator {
                 if (connectionEnabled) {
                     switch (state) {
                         case connectionStates.Closed: {
-                                comPort = new SerialPort();
-                                comPort.BaudRate = 115200;
-                                comPort.DataBits = 8;
-                                comPort.StopBits = StopBits.One;
-                                comPort.Parity = Parity.None;
-                                listIndex = 0;
+                            comPort = new SerialPort();
+                            comPort.DataReceived += dataReceived;
+                            comPort.BaudRate = 115200;
+                            comPort.DataBits = 8;
+                            comPort.StopBits = StopBits.One;
+                            comPort.Parity = Parity.None;
+                            listIndex = 0;
                                 
-                                state = connectionStates.Searching;
-                                break;
-                            }   
+                            state = connectionStates.Searching;
+                            break;
+                        }   
 
                         case connectionStates.Searching: {
                                 
-                                if (comPort.IsOpen) {
-                                    try { comPort.Close(); }
-                                    catch { }
-                                }
-
-                                portList = SerialPort.GetPortNames();
-                                if (portList.Length > 0) {
-                                    listIndex++;
-                                    if (listIndex >= portList.Length) listIndex = 0;
-                                    comPort.PortName = portList[listIndex];
-
-                                    try
-                                    {
-                                        comPort.Open();
-                                        sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_STATIC_INFO });
-                                        Thread.Sleep(50);
-                                    }
-                                    catch { Thread.Sleep(100); }
-
-                                }
-                                else Thread.Sleep(100);
-
-                                break;
+                            if (comPort.IsOpen) {
+                                try { comPort.Close(); }
+                                catch { }
                             }
+
+                            portList = SerialPort.GetPortNames();
+                            if (portList.Length > 0) {
+                                listIndex++;
+                                if (listIndex >= portList.Length) listIndex = 0;
+                                comPort.PortName = portList[listIndex];
+
+                                try {
+                                    comPort.Open();
+                                    sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_STATIC_INFO });
+                                    Thread.Sleep(50);
+                                }
+                                catch { Thread.Sleep(100); }
+
+                            }
+                            else Thread.Sleep(100);
+
+                            break;
+                        }
                                 
 
                         case connectionStates.Connected: {
 
-                                //check if there is a message in the queue
-                                if (messageQueue.Count > 0) {
-                                    messageQueue_t msg = messageQueue.Dequeue();
-                                    sendFrame(msg.scope, msg.data);
-                                }
-                                else {
-                                    sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_DYNAMIC_INFO });
-                                }                                
-                                Thread.Sleep(20);
+                            //when there are messages in the send queue, send them
+                            while (messageQueue.Count > 0) {
+                                messageQueue_t msg = messageQueue.Dequeue();
+                                sendFrame(msg.scope, msg.data);
+                            }                            
+                            Thread.Sleep(1);
 
-                                break;
-                            }
+                            break;
+                        }
                     }
 
                 }
@@ -152,106 +160,106 @@ namespace xwLedConfigurator {
                     }
                 }
 
-                Thread.Sleep(10);
+                Thread.Sleep(1);
             }            
         }
 
-        static void dataReceiver() {
-            while (true) {
-                //try to read data from port
-                if (comPort != null) {
-                    try {
-                        int bytesToRead = comPort.BytesToRead;
-                        if (bytesToRead > 0) {
-                            byte[] rxData = new byte[bytesToRead];
-                            int rxBytes = comPort.Read(rxData, 0, bytesToRead);
+        static void dataReceived(object sender, SerialDataReceivedEventArgs e) {
+            try {
+                int bytesToRead = comPort.BytesToRead;
+                if (bytesToRead > 0) {
+                    byte[] rxData = new byte[bytesToRead];
+                    int rxBytes = comPort.Read(rxData, 0, bytesToRead);
 
-                            for (int i = 0; i < rxBytes; i++) {
+                    for (int i = 0; i < rxBytes; i++) {
 
-                                byte c = rxData[i];
+                        byte c = rxData[i];
 
-                                //process received bytes
-                                switch (rxFrame.rxState) {
+                        //process received bytes
+                        switch (rxFrame.rxState) {
 
-                                    case cRxFrame.rxState_t.IDLE: {
-                                            rxFrame.crc = (byte)comControl.CRC_INIT;
-                                            rxFrame.isPadded = false;
-                                            rxFrame.rxCount = 0;
-                                            rxFrame.rxState = cRxFrame.rxState_t.SCOPE;
-                                            break;
-                                        }
+                            case cRxFrame.rxState_t.IDLE: {
+                                rxFrame.crc = (byte)comControl.CRC_INIT;
+                                rxFrame.isPadded = false;
+                                rxFrame.rxCount = 0;
+                                rxFrame.rxState = cRxFrame.rxState_t.SCOPE;
+                                break;
+                            }
 
-                                    case cRxFrame.rxState_t.SCOPE: 
-                                    case cRxFrame.rxState_t.DATA: {
-                                            if (!((c == (byte)comControl.SOF) || (c == (byte)comControl.EOF) || (c == (byte)comControl.PAD)) || (rxFrame.isPadded)) {
-                                                rxFrame.isPadded = false;
-                                                rxFrame.crc = updateCrc(rxFrame.crc, c);
+                            case cRxFrame.rxState_t.SCOPE:
+                            case cRxFrame.rxState_t.DATA: {
+                                if (!((c == (byte)comControl.SOF) || (c == (byte)comControl.EOF) || (c == (byte)comControl.PAD)) || (rxFrame.isPadded)) {
+                                    rxFrame.isPadded = false;
+                                    rxFrame.crc = updateCrc(rxFrame.crc, c);
 
-                                                if (rxFrame.rxState == cRxFrame.rxState_t.SCOPE) {
-                                                    rxFrame.scope = c;
-                                                    rxFrame.rxState = cRxFrame.rxState_t.DATA;
-                                                }
-                                                else {
-                                                    rxFrame.data[rxFrame.rxCount++] = c;
-                                                }
-                                            }
-                                            else {
-                                                switch (c) {
-                                                    case (byte)comControl.SOF: {
-                                                            //this is an error, restart reception
-                                                            rxFrame.rxState = cRxFrame.rxState_t.SCOPE;
-                                                            rxFrame.rxCount = 0;
-                                                            rxFrame.isPadded = false;
-                                                            rxFrame.crc = (byte)comControl.CRC_INIT;
-                                                            break;
-                                                        }
-
-                                                    case (byte)comControl.PAD: {
-                                                            rxFrame.isPadded = true;
-                                                            break;
-                                                        }
-
-                                                    case (byte)comControl.EOF: {
-                                                            //reception complete, the last received databyte was the crc, check crc (must be 0 here), and process if crc is correct
-                                                            rxFrame.rxCount--;
-                                                            rxFrame.rxState = cRxFrame.rxState_t.IDLE;
-                                                            if (rxFrame.crc == 0) {
-                                                                //successful reception
-                                                                //go to connected state if not there already
-                                                                if (state == connectionStates.Searching) {
-                                                                    state = connectionStates.Connected;
-                                                                    portName = comPort.PortName;
-                                                                    messageQueue.Clear();
-                                                                    //request inital informations required by windows
-                                                                    putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.GET_CONFIG });
-                                                                }
-
-                                                                //reset timeout timer
-                                                                connectionTimeoutTimer.Stop();
-                                                                connectionTimeoutTimer.Start();
-
-                                                                //raise event for data processing
-                                                                frameReceived(ref rxFrame);
-                                                            }
-                                                            break;
-                                                        }
-                                                }
-                                            }
-                                            break;
-                                        }
+                                    if (rxFrame.rxState == cRxFrame.rxState_t.SCOPE) {
+                                        rxFrame.scope = c;
+                                        rxFrame.rxState = cRxFrame.rxState_t.DATA;
+                                    }
+                                    else {
+                                        rxFrame.data[rxFrame.rxCount++] = c;
+                                    }
                                 }
+                                else {
+                                    switch (c) {
+                                        case (byte)comControl.SOF: {
+                                            //this is an error, restart reception
+                                            rxFrame.rxState = cRxFrame.rxState_t.SCOPE;
+                                            rxFrame.rxCount = 0;
+                                            rxFrame.isPadded = false;
+                                            rxFrame.crc = (byte)comControl.CRC_INIT;
+                                            break;
+                                        }
+
+                                        case (byte)comControl.PAD: {
+                                            rxFrame.isPadded = true;
+                                            break;
+                                        }
+
+                                        case (byte)comControl.EOF: {
+                                            //reception complete, the last received databyte was the crc, check crc (must be 0 here), and process if crc is correct
+                                            rxFrame.rxCount--;
+                                            rxFrame.rxState = cRxFrame.rxState_t.IDLE;
+                                            if (rxFrame.crc == 0) {
+                                                //successful reception
+                                                //go to connected state if not there already
+                                                if (state == connectionStates.Searching) {
+                                                    messageQueue.Clear();
+                                                    state = connectionStates.Connected;
+                                                    portName = comPort.PortName;
+                                                    
+                                                    //request inital informations required by windows
+                                                    putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.GET_CONFIG });
+                                                }
+
+                                                //reset timeout timer
+                                                connectionTimeoutTimer.Stop();
+                                                connectionTimeoutTimer.Start();
+
+                                                //raise event for data processing
+                                                frameReceived(ref rxFrame);
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                                break;
                             }
                         }
                     }
-                    catch {
-                        //do nothing
-                    }
                 }
-                Thread.Sleep(10);
+            }
+            catch {
+                //do nothing
             }
         }
 
         private static bool sendFrame(byte dataScope, byte[] data) {
+
+            if (dataScope == 0) return false;
+            if (data == null) return false;
+            if (data.Length == 0) return false;
+
             byte[] buffer = new byte[data.Length * 2 + 5];
             int bytesToSend = 0;
             byte crc = (byte)comControl.CRC_INIT;

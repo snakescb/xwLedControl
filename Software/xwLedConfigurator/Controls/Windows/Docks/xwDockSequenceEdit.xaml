@@ -32,13 +32,12 @@
             <TextBox x:Name="sequenceName" Grid.Row="2" MaxLength="12" Height="30" Width="280" Background="{StaticResource MenuInactiveColor}" Foreground="{StaticResource MainFontColor}" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
 
             <!-- Dimming -->
-            <TextBlock  Grid.Row="3" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10">Sequence Dimming</TextBlock>
-            <TextBlock  Grid.Row="4" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" Margin="10">To be done</TextBlock>
-
+            <TextBlock Grid.Row="3" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10">Sequence Dimming</TextBlock>
+            <local:brightnesSlider Grid.Row="4" Grid.ColumnSpan="5" x:Name="dimmingInfo"/>
 
             <!-- Speed -->
             <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10">Sequence Speed</TextBlock>
-            <TextBlock  Grid.Row="6" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" Margin="10">To be done</TextBlock>
+            <local:speedSlider Grid.Row="6" Grid.ColumnSpan="5" x:Name="speedInfo"/>
 
             <!-- Buttons -->
             <Grid Grid.Row="7">

@@ -9,7 +9,6 @@ namespace xwLedConfigurator {
 
     public abstract class ledObject {
 
-        public string objecttype;
         public double starttime;
         public double length;
      

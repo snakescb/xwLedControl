@@ -16,11 +16,12 @@ namespace xwLedConfigurator {
             public int output;            
             int colorChannel;
             channel_t channel;
-            bool isRunning;
-            bool isForward;
-            int lastObject;
-
-            bool test = false;
+            bool stopped;
+            bool forward;
+            bool insertBlankEnd;
+            double currentTime;
+            int currentObject;
+            byte[] breakFrame;
 
             public struct simFrameData {
                 public int numObjectsInFrame;
@@ -31,40 +32,132 @@ namespace xwLedConfigurator {
                 this.channel = channel;
                 this.output = output;
                 this.colorChannel = colorChannel;
-                isRunning = true;
-                isForward = true;
-                lastObject = -1;
+                stopped = false;
+                forward = true;
+                insertBlankEnd = false;
+                currentTime = 0;
+                currentObject = 0;
+                breakFrame = new byte[12];
+                breakFrame[0] = 0x01;
+                
+                if (channel.ledObjects.Count == 0) stopped = true;                            
             }
+
             public bool canSendMore() {
-                if (isRunning) return true;
-                return false;
+                if (stopped) return false;
+                return true;
             }
 
             public simFrameData newFrame(int maxObjects) {
 
+                simFrameData frameData = new simFrameData();
+                frameData.numObjectsInFrame = 0;
                 List<byte> dataList = new List<byte>();
 
-                int lifetime = 1000;
+                if (stopped) return frameData;
+                if (maxObjects == 0) return frameData;
+                
+                bool continueLoop = true;
+                int objectsPrepared = 0;
+                while (continueLoop && !stopped) {
 
-                for (int i = 0; i < maxObjects; i++) {
-
-                    byte[] objectData = new byte[12];
-                    objectData[0] = 0x01;
-                    objectData[1] = 0xFF;
-                    objectData[2] = (byte) lifetime;
-                    objectData[3] = (byte) (lifetime >> 8);
-
-                    if (!test) test = true;
-                    else {
-                        test = false;
-                        objectData[1] = 0x00;
+                    //insert a 1ms long 0 brightness sob, then stop output
+                    if (insertBlankEnd) {
+                        breakFrame[2] = 0x01;
+                        breakFrame[3] = 0x00;
+                        dataList.AddRange(breakFrame);
+                        objectsPrepared++;
+                        stopped = true;
+                        continue;
                     }
+                    
+                    ledObject led = channel.ledObjects[currentObject];
 
-                    dataList.AddRange(objectData);
-                }                
+                    if (forward) {
+                        //check if at the current time there is an object    
+                        if (currentTime == led.starttime) {
+                            //add data of this object to list
+                            dataList.AddRange(led.getBuffer(colorChannel, false));
+                            objectsPrepared++;
+                            if (objectsPrepared == maxObjects) continueLoop = false;
+                            currentTime += led.length;
+                            currentObject++;
 
-                simFrameData frameData = new simFrameData();
-                frameData.numObjectsInFrame = maxObjects;
+                            //when the last object in the channel was processed
+                            if (currentObject == channel.ledObjects.Count) {
+                                //check end of line option for this channel
+                                //Restart from beginngin
+                                if (channel.eolOption == 0) {
+                                    currentObject = 0;
+                                    currentTime = 0;
+                                }
+                                //start reversed
+                                if (channel.eolOption == 1) {
+                                    forward = false;
+                                    currentObject = channel.ledObjects.Count - 1;
+                                    currentTime = channel.ledObjects[currentObject].starttime + channel.ledObjects[currentObject].length - 1;
+                                }
+                                //stop output with last brigthness
+                                if (channel.eolOption == 2) stopped = true;
+                                //stop with output disabled, requires to insert a blank end frame
+                                if (channel.eolOption == 3) insertBlankEnd = true;
+                            }
+                            continue;
+                        }
+                        else {
+                            //we need to insert a blank pause element (sob with brightness 0)
+                            long breakLen = (long)(led.starttime - currentTime);
+                            breakFrame[2] = (byte)(breakLen);
+                            breakFrame[3] = (byte)(breakLen >> 8);
+                            dataList.AddRange(breakFrame);
+                            currentTime = led.starttime;
+                            objectsPrepared++;
+                            if (objectsPrepared == maxObjects) continueLoop = false;
+                            continue;
+                        }
+                    }
+                    else {
+                        //reverse mode
+                        if (currentTime == led.starttime + led.length - 1) {
+                            //add reversed data of this object to list
+                            dataList.AddRange(led.getBuffer(colorChannel, true));
+                            objectsPrepared++;
+                            if (objectsPrepared == maxObjects) continueLoop = false;
+                            currentTime -= led.length;
+                            if (currentObject > 0) currentObject--;
+
+                            //when the time pointer is below 0, restart channel in forward mode
+                            if (currentTime < 0) {
+                                currentObject = 0;
+                                currentTime = 0;
+                                forward = true;
+                            }
+                            continue;
+                        }
+                        else {
+                            //we need to insert a blank pause element (sob with brightness 0)
+                            long breakLen;
+                            if ((currentObject == 0) && (currentTime < led.starttime)) {
+                                //this will be the last break before the channel is reversed again
+                                breakLen = (long)led.starttime;
+                                currentTime = 0;
+                                forward = true;
+                            }
+                            else {
+                                breakLen = (long)(currentTime - led.starttime - led.length + 1);
+                                currentTime = led.starttime + led.length - 1;
+                            }
+                            breakFrame[2] = (byte)(breakLen);
+                            breakFrame[3] = (byte)(breakLen >> 8);
+                            dataList.AddRange(breakFrame);
+                            objectsPrepared++;
+                            if (objectsPrepared == maxObjects) continueLoop = false;
+                        }
+                    }
+                }
+
+                //return prepared data
+                frameData.numObjectsInFrame = objectsPrepared;
                 frameData.data = dataList.ToArray();
                 return frameData;
             }
@@ -84,9 +177,12 @@ namespace xwLedConfigurator {
         List<outputController> outputControllers = new List<outputController>();
         byte[] currentTxData;
         int maxObjectsPerTransfer = 0;
-        int maxObjectsPerOutput;     
-        int preFillCurrentController;
+        int maxObjectsPerOutput;
+        int maxOutputs;
+        int objectCounter;
+        int currentController;
         bool lastFrameAcknowledged;
+        int[] availableBuffers;
 
         public Simulation() {
             simState = simState_t.STOPPED;
@@ -94,7 +190,11 @@ namespace xwLedConfigurator {
 
         public void start(sequence_t sequence) {
             if (sequence.channels.Count == 0) return;
-            if (simState != simState_t.STOPPED) return;
+
+            if (simState != simState_t.STOPPED) {
+                simState = simState_t.STOPPED;
+                Thread.Sleep(120);
+            }
 
             //initialize
             simSequence = sequence;
@@ -120,6 +220,8 @@ namespace xwLedConfigurator {
                 if (rxFrame.data[0] == (byte)xwCom.LED_RESPONSE.RESPONSE_BUFFER_INFO) {
                     maxObjectsPerOutput = rxFrame.data[1];
                     maxObjectsPerTransfer = rxFrame.data[2];
+                    maxOutputs = rxFrame.data[3];
+                    availableBuffers = new int[maxOutputs];
 
                     //initialize output controllers
                     outputControllers.Clear();
@@ -135,19 +237,48 @@ namespace xwLedConfigurator {
                     }
 
                     //intitalize prefill counters
-                    preFillCurrentController = 0;
+                    currentController = 0;
+                    objectCounter = 0;
                     lastFrameAcknowledged = true;
 
                     //change state, start prefilling
                     simState = simState_t.PREFILL_BUFFER;
                 }
 
+                if(rxFrame.data[0] == (byte)xwCom.LED_RESPONSE.RESPONSE_BUFFER_STATE) {
+
+                    //for each channel, check how many new objects can be sent. Send new frame when 8 or more objects can be sent to reduce amount of frames
+                    foreach (outputController controller in outputControllers) {
+                        if (controller.canSendMore()) {
+                            int availbleBuffers = maxObjectsPerOutput - rxFrame.data[controller.output + 1];
+                            if (availbleBuffers >= maxObjectsPerTransfer) {
+
+                                //get the objects for this output
+                                outputController.simFrameData frame = controller.newFrame(maxObjectsPerTransfer);
+
+                                //send new object to device
+                                if (frame.numObjectsInFrame > 0) {
+                                    //prepare and send frame
+                                    byte[] txdata = new byte[frame.data.Length + 3];
+                                    txdata[0] = (byte)xwCom.LED.SIM_SET_OBJECTS;
+                                    txdata[1] = (byte)controller.output;
+                                    txdata[2] = (byte)frame.numObjectsInFrame;
+                                    frame.data.CopyTo(txdata, 3);
+
+                                    Connection.putFrame((byte)xwCom.SCOPE.LED, txdata);
+                                }
+                            }
+                        }
+                    }
+                 
+                }
+
             }
         }
 
         void sendStartSimCommand() {
-            int speed = 0x00010000;
-            byte dim = 0xFF;
+            long speed = simSequence.speedInfo;
+            byte dim = (byte) simSequence.dimInfo;
             byte[] tx = new byte[6];
             tx[0] = (byte)xwCom.LED.START_SIM;
             tx[1] = (byte)(speed >> 24);
@@ -178,81 +309,54 @@ namespace xwLedConfigurator {
 
                     case simState_t.PREFILL_BUFFER:
 
-                        outputController.simFrameData frame = outputControllers[0].newFrame(maxObjectsPerTransfer);
-
-                        //prepare transmit frame
-                        currentTxData = new byte[frame.data.Length + 3];
-                        currentTxData[0] = (byte)xwCom.LED.SIM_SET_OBJECTS;
-                        currentTxData[1] = (byte)outputControllers[0].output;
-                        currentTxData[2] = (byte)frame.numObjectsInFrame;
-                        frame.data.CopyTo(currentTxData, 3);
-
-                        Connection.putFrame((byte)xwCom.SCOPE.LED, currentTxData);
-
-                        Thread.Sleep(50);
-                        simState = simState_t.RUN;
-                        sendStartSimCommand();
-
-
-                        /*
                         if (lastFrameAcknowledged) {
-                            int maxObjects = maxNumObjects - preFillObjectsSent;
+                            int maxObjects = maxObjectsPerOutput - objectCounter;
                             if (maxObjects > maxObjectsPerTransfer) maxObjects = maxObjectsPerTransfer;
-                            if (maxObjects > maxObjectsPerOutput) maxObjects = maxObjectsPerOutput;
 
-                            //if the whole buffer is filled, switch to run state
-                            if (maxObjects == 0) {
-                                sendStartSimCommand();
-                                simState = simState_t.RUN;
-                            }
-                            else {
-                                //ask the next controlle who wants to send something. if no more controller has to send anything, switch to run state
-                                bool frameSent = false;
-                                for (int i = 0; i < outputControllers.Count; i++) {
-                                    if (outputControllers[preFillCurrentController].canSendMore()) {
-
-                                        //book keeping
-                                        outputController.simFrameData frame = outputControllers[preFillCurrentController].newFrame(maxObjects);
-                                        preFillObjectsSent += frame.numObjectsInFrame;
-
-                                        //prepare transmit frame
-                                        currentTxData = new byte[frame.data.Length + 3];
-                                        currentTxData[0] = (byte)xwCom.LED.SIM_SET_OBJECTS;
-                                        currentTxData[1] = (byte) outputControllers[preFillCurrentController].output;
-                                        currentTxData[2] = (byte)frame.numObjectsInFrame;
-                                        frame.data.CopyTo(currentTxData, 3);
-
-                                        //send frame
-                                        Connection.putFrame((byte)xwCom.SCOPE.LED, currentTxData);
-                                        lastFrameAcknowledged = false;
-                                        frameSent = true;
-                                        break;
-                                    }
-                                    else {
-                                        preFillCurrentController++;
-                                        if (preFillCurrentController >= outputControllers.Count) preFillCurrentController = 0;
-                                    }
-                                }
-
-                                //no controller wanted to send something, so switch to run state
-                                if (!frameSent) {
+                            //if the buffer for an output is full, or the controler does not have more objects, go to the next controller
+                            if ((maxObjects == 0) || !outputControllers[currentController].canSendMore()) {
+                                objectCounter = 0;
+                                currentController++;
+                                if (currentController == outputControllers.Count) {
+                                    //all controllers done, start simulation
                                     sendStartSimCommand();
                                     simState = simState_t.RUN;
+                                    Thread.Sleep(50);
+                                    break;
                                 }
+                            }
+                            else {
+                                //get the objects for the current controller
+                                outputController.simFrameData frame = outputControllers[currentController].newFrame(maxObjects);
+
+                                //check how many objects wil be sent
+                                objectCounter += frame.numObjectsInFrame;
+
+                                //prepare transmit frame
+                                currentTxData = new byte[frame.data.Length + 3];
+                                currentTxData[0] = (byte)xwCom.LED.SIM_SET_OBJECTS;
+                                currentTxData[1] = (byte)outputControllers[currentController].output;
+                                currentTxData[2] = (byte)frame.numObjectsInFrame;
+                                frame.data.CopyTo(currentTxData, 3);
+
+                                //send frame
+                                Connection.putFrame((byte)xwCom.SCOPE.LED, currentTxData);
+                                lastFrameAcknowledged = false;
                             }
                         }
                         else {
                             //resend last frame
                             Connection.putFrame((byte)xwCom.SCOPE.LED, currentTxData);
-                        }
-                        */
+                        }    
 
-                        Thread.Sleep(20);
+                        Thread.Sleep(50);
                         break;
 
                     case simState_t.RUN:
 
-                        Thread.Sleep(20);
+                        //request buffer update
+                        Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.SIM_GET_BUFFER_STATE });
+                        Thread.Sleep(50);
                         break;
 
 

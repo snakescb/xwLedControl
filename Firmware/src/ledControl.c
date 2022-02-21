@@ -15,7 +15,6 @@
 #include "adc.h"
 //#include "skyBus.h"
 #include "crc.h"
-#include <stdio.h>
 
 /* Private define ------------------------------------------------------------*/
 #define LED_MAX_NUM_OUTPUTS          24
@@ -493,18 +492,12 @@ void ledControl_startObject(ledHandle_t* h, uint8_t* pObject) {
     switch ((objects_e)h->pCurrentObject[0]) {
 
         case SOB: {
-
             uint16_t lifeTime = ((uint16_t*)h->pCurrentObject)[1];
 
             ledControl_clearRuntime(h);
 
             h->pwm = h->pCurrentObject[1];
             h->lifeTime = lifeTime;
-
-            char buffer[128];
-            sprintf(buffer, "Start SOB Object - Output: %u -  Lifetime: %u - Brightness: %u", (unsigned int)h->outputNumber, (unsigned int)h->lifeTime , (unsigned int)h->pwm);
-            TRACE(buffer);
-
             break;
         }
 
@@ -583,7 +576,7 @@ void ledControl_startObject(ledHandle_t* h, uint8_t* pObject) {
             //for (uint8_t i=0; i<6; i++) debugBytes[i] = ((uint8_t*)h->pCurrentObject)[4+i];
             ledControl_clearRuntime(h);
 
-            TRACE("DEBUG OBJECT EXECUTED ");
+            TRACE("DEBUG OBJECT EXECUTED");
             h->lifeTime = lifeTime;
             break;
         }
@@ -802,10 +795,6 @@ bool ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObje
  * ledControl_startSim
  ******************************************************************************/
 void ledControl_startSim(uint32_t speedInfo, uint8_t dimInfo, bool useOffsetData, uint8_t* pDirectionData, uint8_t* pOffsetData) {
-
-    char buffer[128];
-    sprintf(buffer, "Start Sim - Speed: %u - Dim: %u", (unsigned int)speedInfo, (unsigned int)dimInfo);
-    TRACE(buffer);
 
     ledControl_stopSequence();
     runMode = RUNMODE_SIMULATION;

@@ -32,6 +32,8 @@ namespace xwLedConfigurator {
         public void show(sequence_t sequence_) {
             sequence = sequence_;
             sequenceName.Text = sequence.name;
+            dimmingInfo.value = (byte)sequence.dimInfo;
+            speedInfo.value = sequence.speedInfo;
             this.Visibility = Visibility.Visible;
         }
 
@@ -46,6 +48,8 @@ namespace xwLedConfigurator {
         private void bSave_Click(object sender, RoutedEventArgs e) {
             if (sequenceName.Text.Length > 0) {
                 sequence.name = sequenceName.Text;
+                sequence.dimInfo = dimmingInfo.value;
+                sequence.speedInfo = speedInfo.value;
                 if (settingsSaved != null) settingsSaved();
                 hide();
             }

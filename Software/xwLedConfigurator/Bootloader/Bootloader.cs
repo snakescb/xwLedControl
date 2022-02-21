@@ -117,7 +117,7 @@ namespace xwLedConfigurator {
 
                         if (!readOK) state = loaderstate_t.ERROR;
                         else {
-                            //decode data to falsh size
+                            //decode data to flash size
                             flashsize = (byte)data[0] + (256 * ((byte)data[1]));
                             //Connection completed successfully
                             state = loaderstate_t.SUCCESS;

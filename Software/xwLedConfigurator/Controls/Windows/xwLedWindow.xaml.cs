@@ -38,7 +38,7 @@ namespace xwLedConfigurator {
 	public class sequence_t {
 		public string name;
 		public int dimInfo;
-		public int speedInfo;
+		public long speedInfo;
 		public List<channel_t> channels = new List<channel_t>();
     }
 
@@ -57,11 +57,27 @@ namespace xwLedConfigurator {
 			//sample sequences
 			sequence_t s = new sequence_t();
 			s.name = "Welcome";
+			s.dimInfo = 0xFF;
+			s.speedInfo = 0x10000;
 			sequenceList.Add(s);
 			loadSequence(0);
 			addRegularChannel_Click(null, null);
-			//addRgbChannel_Click(null, null);
+			addRgbChannel_Click(null, null);
 
+			sequenceList[0].channels[0].outputs[0].assignment = 2;
+			sequenceList[0].channels[0].ledObjects.Add(new sob());
+			sequenceList[0].channels[0].ledObjects[0].starttime = 50;
+			sequenceList[0].channels[0].ledObjects[0].length = 50;
+			hsvColor c = new hsvColor(Colors.White);
+			c.value = 0.5;
+			((sob)sequenceList[0].channels[0].ledObjects[0]).color = c.toRGB();
+			reloadChannels();
+			zoomIn_Click(null, null);
+			zoomIn_Click(null, null);
+			zoomIn_Click(null, null);
+			zoomIn_Click(null, null);
+			zoomIn_Click(null, null);
+		
 			Connection.frameReceived += this.frameReceiver;
 		}
 
@@ -89,17 +105,40 @@ namespace xwLedConfigurator {
 			}
 
 			//save all sequences to file
-			if (action == xwDockSequence.sequenceManagement_t.SAVE_SEQUENCES) {
+			if (action == xwDockSequence.sequenceManagement_t.SAVE_TO_FILE) {
 				SaveFileDialog saveFileDialog = new SaveFileDialog();
 				saveFileDialog.FileName = "xwLedConfig"; // Default file name
 				saveFileDialog.DefaultExt = ".xwled"; // Default file extension
-				saveFileDialog.Filter = "xw led files (.xwled)|*.xwled"; // Filter files by extension
+				saveFileDialog.Filter = "xwled files | *.xwled"; // Filter files by extension
 				if (saveFileDialog.ShowDialog() == true) {
-					string json = JsonConvert.SerializeObject(sequenceList, Formatting.Indented);
+
+					JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+					string json = JsonConvert.SerializeObject(sequenceList, settings);
 					File.WriteAllText(saveFileDialog.FileName, json);
 					MessageBox.Show("File saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 					dockSequence.hide();
 				}					
+			}
+
+			//load sequences from file
+			if (action == xwDockSequence.sequenceManagement_t.LOAD_FROM_FILE) {
+				OpenFileDialog openFileDialog = new OpenFileDialog();
+				openFileDialog.DefaultExt = ".xwled"; // Default file extension
+				openFileDialog.Filter = "xwled files | *.xwled"; // Filter files by extension
+				if (openFileDialog.ShowDialog() == true) {
+
+					string filecontent = File.ReadAllText(openFileDialog.FileName);
+					try {
+						JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+						sequenceList = JsonConvert.DeserializeObject<List<sequence_t>>(filecontent, settings);
+						sequenceIndex = 0;
+						loadSequence(sequenceIndex);
+						dockSequence.hide();
+					}
+					catch (Exception ex) {
+						MessageBox.Show("Error while reading file", "Invalid file", MessageBoxButton.OK, MessageBoxImage.Error);
+					}				
+				}
 			}
 		}
 
@@ -139,6 +178,8 @@ namespace xwLedConfigurator {
 		private void createSequence(string sequenceName) {
 			sequence_t newSequence = new sequence_t();
 			newSequence.name = sequenceName;
+			newSequence.dimInfo = 0xFF;
+			newSequence.speedInfo = 0x10000;
 			sequenceList.Add(newSequence);
 			dockSequence.hide();
 			currentSequence = sequenceList.Count - 1;

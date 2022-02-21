@@ -11,7 +11,6 @@ namespace xwLedConfigurator {
         public Color color;
 
         public sob() {
-            objecttype = "sob";
             color = Colors.Black;
         }
 

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\App.xaml
-16-997271716
+19-51917971
 
-31-943310271
+36-1183934579
 205-310453596
-Controls\Windows\Docks\Object Settings\brightness.xaml;Controls\Windows\Docks\Object Settings\lobSettings.xaml;Controls\Windows\Docks\Object Settings\sobSettings.xaml;Controls\Windows\Docks\Object Settings\xwDockObjectEdit.xaml;Controls\Windows\Docks\xwDockChannel.xaml;Controls\Windows\Docks\xwDockChannelEdit.xaml;Controls\Windows\Docks\xwDockSequence.xaml;Controls\Windows\Docks\xwDockSequenceEdit.xaml;Controls\Windows\Docks\xwDockSequenceList.xaml;Controls\Windows\Docks\xwDockSequenceNew.xaml;Controls\Windows\xwBootloaderWindow.xaml;Controls\Windows\xwConfigWindow.xaml;Controls\Windows\xwLedWindow.xaml;Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;
+Controls\Windows\Docks\xwDockChannel.xaml;Controls\Windows\Docks\xwDockChannelEdit.xaml;Controls\Windows\Docks\xwDockSequence.xaml;Controls\Windows\Docks\xwDockSequenceEdit.xaml;Controls\Windows\Docks\xwDockSequenceList.xaml;Controls\Windows\Docks\xwDockSequenceNew.xaml;Controls\Windows\LedObjects\Object Settings\blkSettings.xaml;Controls\Windows\LedObjects\Object Settings\brightnesSlider.xaml;Controls\Windows\LedObjects\Object Settings\dimSettings.xaml;Controls\Windows\LedObjects\Object Settings\lobSettings.xaml;Controls\Windows\LedObjects\Object Settings\sobSettings.xaml;Controls\Windows\LedObjects\Object Settings\speedSlider.xaml;Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.xaml;Controls\Windows\xwBootloaderWindow.xaml;Controls\Windows\xwConfigWindow.xaml;Controls\Windows\xwLedWindow.xaml;Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;
 
-True
+False
 

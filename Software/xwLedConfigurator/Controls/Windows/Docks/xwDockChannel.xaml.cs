@@ -26,6 +26,9 @@ namespace xwLedConfigurator {
         public delegate void eObjectEditRquest(xwDockChannel sender, ledObject ledobject);
         public event eObjectEditRquest objectEditRquest;
 
+        public const int OBJECT_SHRINK = 40;
+        public const int OBJECT_OFFSET = 14;
+
         public enum channelEvent_t {            
             DELETE_CHANNEL,
             EDIT_CHANNEL,
@@ -95,7 +98,7 @@ namespace xwLedConfigurator {
             //create a new visual for each object
             foreach (ledObject led in channel.ledObjects) {                
                 led.updateChannelColor(channel.color, channel.isRGB);                
-                grid.Children.Add(new ledVisual(led, 0, grid.Height - 40));
+                grid.Children.Add(new ledVisual(led, 0, grid.Height - OBJECT_SHRINK));
             }
 
             //refresh grid again, so new visuals get properly aligned and displayed
@@ -121,7 +124,7 @@ namespace xwLedConfigurator {
                 visual.width = width;
                 visual.refresh();
                 Canvas.SetLeft(visual, start - gridOffset);
-                Canvas.SetTop(visual, 14);
+                Canvas.SetTop(visual, OBJECT_OFFSET);
 
                 if (visual.isHighlighted) Canvas.SetZIndex(visual, 2);
                 else Canvas.SetZIndex(visual, 1);
@@ -166,17 +169,16 @@ namespace xwLedConfigurator {
             double objectStartTime = Math.Round(releasetime_ms / zoomLevels[currentZoomLevel].snapsize_ms) * zoomLevels[currentZoomLevel].snapsize_ms;
 
             //new SOB created
+            ledObject newLedObject = null;
             if (objectType == "sob") {
                 sob led = new sob();
                 if (channel.isRGB) led.setColor(Colors.Purple);
                 else led.setColor(channel.color);
                 led.starttime = objectStartTime;
-                led.length = objectLength;
-                channel.ledObjects.Add(led);
-                grid.Children.Add(new ledVisual(led, 0, grid.Height - 40));
+                newLedObject = led;
             }
             //new LOB created
-            else if (objectType == "lob") {
+            if (objectType == "lob") {
                 lob led = new lob();
                 if (channel.isRGB) led.setColor(Colors.Blue, Colors.Red);
                 else {
@@ -184,13 +186,41 @@ namespace xwLedConfigurator {
                     c.value = 0;
                     led.setColor(c.toRGB(), channel.color);
                 }
-                led.starttime = objectStartTime;
-                led.length = objectLength;
-                channel.ledObjects.Add(led);
-                grid.Children.Add(new ledVisual(led, 0, grid.Height - 40));
+                newLedObject = led;
             }
-            else MessageBox.Show(objectType + " - NOT IMPLEMENTED YET");    
-            
+            //new BLK created
+            if (objectType == "blk") {
+                blk led = new blk();
+                led.period = Math.Round(objectLength / 3);
+                led.dutycycle = 50;
+                if (channel.isRGB) led.setColor(Colors.Blue, Colors.Red);
+                else {
+                    hsvColor c = new hsvColor(channel.color);
+                    c.value = 0;
+                    led.setColor(channel.color, c.toRGB());
+                }
+                newLedObject = led;
+            }
+            //new BLK created
+            if (objectType == "dim") {
+                dim led = new dim();
+                if (channel.isRGB) led.setColor(Colors.Red, Colors.Green);
+                else {
+                    hsvColor c = new hsvColor(channel.color);
+                    c.value = 0;
+                    led.setColor(c.toRGB(), channel.color);
+                }
+                newLedObject = led;
+            }            
+
+            if (newLedObject != null) {
+                newLedObject.starttime = objectStartTime;
+                newLedObject.length = objectLength;
+                channel.ledObjects.Add(newLedObject);
+                grid.Children.Add(new ledVisual(newLedObject, 0, grid.Height - OBJECT_SHRINK));
+            }
+            else MessageBox.Show(objectType + " - OBJECT NOT IMPLEMENTED");
+
             refreshGrid();
         }
 

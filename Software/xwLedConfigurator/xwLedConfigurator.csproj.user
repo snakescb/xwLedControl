@@ -15,16 +15,25 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Windows\Docks\Object Settings\brightness.xaml">
+    <Page Update="Controls\Windows\LedObjects\Object Settings\speedSlider.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Windows\Docks\Object Settings\lobSettings.xaml">
+    <Page Update="Controls\Windows\LedObjects\Object Settings\brightnesSlider.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Windows\Docks\Object Settings\sobSettings.xaml">
+    <Page Update="Controls\Windows\LedObjects\Object Settings\dimSettings.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Windows\Docks\Object Settings\xwDockObjectEdit.xaml">
+    <Page Update="Controls\Windows\LedObjects\Object Settings\blkSettings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\lobSettings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\sobSettings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

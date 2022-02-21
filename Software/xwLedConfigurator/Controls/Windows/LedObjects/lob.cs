@@ -11,7 +11,6 @@ namespace xwLedConfigurator {
         public Color colorStart, colorStop;
 
         public lob() {
-            objecttype = "lob";
             colorStart = Colors.Black;
             colorStop = Colors.White;
         }
@@ -52,8 +51,31 @@ namespace xwLedConfigurator {
         }
 
         public override byte[] getBuffer(int colorChannel, bool reversed) {
+
             byte[] buffer = new byte[12];
+            buffer[0] = 0x02;
+
+            Color color1 = colorStart;
+            Color color2 = colorStop;
+            if (reversed) {
+                color1 = colorStop;
+                color2 = colorStart;
+            }
+
+            if (colorChannel == 0) buffer[1] = (byte)((new hsvColor(color1).value * 255));
+            if (colorChannel == 1) buffer[1] = color1.R;
+            if (colorChannel == 2) buffer[1] = color1.G;
+            if (colorChannel == 3) buffer[1] = color1.B;
+
+            if (colorChannel == 0) buffer[2] = (byte)((new hsvColor(color2).value * 255));
+            if (colorChannel == 1) buffer[2] = color2.R;
+            if (colorChannel == 2) buffer[2] = color2.G;
+            if (colorChannel == 3) buffer[2] = color2.B;
+
+            buffer[4] = (byte)(length);
+            buffer[5] = (byte)(length / 256);
             return buffer;
+
         }
 
     }
