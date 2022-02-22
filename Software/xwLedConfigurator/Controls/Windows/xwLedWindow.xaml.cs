@@ -44,12 +44,20 @@ namespace xwLedConfigurator {
 
     public partial class xwLedWindow : UserControl {
 
+		public delegate void eSimAuxRequest(bool show);
+		public event eSimAuxRequest simAuxRequest;
+		public delegate void eDownloadRequest(List<sequence_t> sequenceList);
+		public event eDownloadRequest downloadRequest;
+
 		const int maxNumOutputs = 24;
 
 		int currentSequence = 0;
 		int outputsUsed = 0;		
 		List<sequence_t> sequenceList = new List<sequence_t>();
 		Simulation simulation = new Simulation();
+		ledObject copyPasteObject = null;
+		xwDockChannel copyPasteProvider = null;
+		bool copyPasteCutOperation = false;
 
 		public xwLedWindow() {
             InitializeComponent();
@@ -140,6 +148,17 @@ namespace xwLedConfigurator {
 					}				
 				}
 			}
+
+			//download to device
+			if (action == xwDockSequence.sequenceManagement_t.SAVE_TO_DEVICE) {
+				//puase device and simulation first
+				Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 0 });
+				simulation.stop();
+				if (simAuxRequest != null) simAuxRequest(false);
+				//start download usercontrol
+				if (downloadRequest != null) downloadRequest(sequenceList);
+				dockSequence.hide();
+			}
 		}
 
 		private void channelEvent(xwDockChannel sender, xwDockChannel.channelEvent_t request) {
@@ -170,6 +189,29 @@ namespace xwLedConfigurator {
 			dockEditSequence.hide();
 			dockEditObject.show(ledobject, sender.channel);
         }
+
+		private void objectCopyPasteRequest(xwDockChannel sender, xwDockChannel.channelCopyPasteEvent_t eventType, ledObject ledobject) {
+			if (eventType == xwDockChannel.channelCopyPasteEvent_t.OBJECT_COPY) {
+				copyPasteProvider = sender;
+				copyPasteObject = ledobject;
+				copyPasteCutOperation = false;
+			}
+			if (eventType == xwDockChannel.channelCopyPasteEvent_t.OBJECT_CUT) {
+				copyPasteProvider = sender;
+				copyPasteObject = ledobject;
+				copyPasteCutOperation = true;
+			}
+			if (eventType == xwDockChannel.channelCopyPasteEvent_t.OBJECT_PASTE) {
+				if (copyPasteObject != null) {
+					sender.pasteObject(copyPasteObject);
+					if (copyPasteCutOperation) {
+						copyPasteProvider.cutObject(copyPasteObject);
+						copyPasteObject = null;
+						copyPasteProvider = null;
+					}
+				}
+			}
+		}
 
 		private void channelUpdateOffset(xwDockChannel sender, double newOffset) {
 			foreach (xwDockChannel channel in channelPanel.Children) channel.setOffset(newOffset);
@@ -206,6 +248,7 @@ namespace xwLedConfigurator {
 				xwDockChannel dock = new xwDockChannel(channel);
 				dock.channelEvent += channelEvent;
 				dock.objectEditRquest += objectEditRequest;
+				dock.objectCopyPasteRequest += objectCopyPasteRequest;
 
 				//bookkeeping
 				if (channel.isRGB) outputsUsed += 3;
@@ -253,41 +296,40 @@ namespace xwLedConfigurator {
 			}
 		}
 
+		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
+			if (dragAreaSOB.IsMouseOver) {
+				DataObject data = new DataObject();
+				data.SetData("sob");
+				DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
+			}
+
+			if (dragAreaLOB.IsMouseOver) {
+				DataObject data = new DataObject();
+				data.SetData("lob");
+				DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
+			}
+
+			if (dragAreaBLK.IsMouseOver) {
+				DataObject data = new DataObject();
+				data.SetData("blk");
+				DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
+			}
+
+			if (dragAreaDIM.IsMouseOver) {
+				DataObject data = new DataObject();
+				data.SetData("dim");
+				DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
+			}
+		}
+
 		protected override void OnMouseMove(MouseEventArgs e) {
 			base.OnMouseMove(e);
-			if (e.LeftButton == MouseButtonState.Pressed) {
-				//check if drag comes from add object border elements
-				Point p = e.GetPosition(dragAreaSOB);
-				if ((p.X >= 0) && (p.X <= dragAreaSOB.ActualWidth) && (p.Y >= 0) && (p.Y <= dragAreaSOB.ActualHeight)) {
-					DataObject data = new DataObject();
-					data.SetData("sob");
-					DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
-				}
-				else {
-					p = e.GetPosition(dragAreaLOB);
-					if ((p.X >= 0) && (p.X <= dragAreaLOB.ActualWidth) && (p.Y >= 0) && (p.Y <= dragAreaLOB.ActualHeight)) {
-						DataObject data = new DataObject();
-						data.SetData("lob");
-						DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
-					}
-					else {
-						p = e.GetPosition(dragAreaBLK);
-						if ((p.X >= 0) && (p.X <= dragAreaBLK.ActualWidth) && (p.Y >= 0) && (p.Y <= dragAreaBLK.ActualHeight)) {
-							DataObject data = new DataObject();
-							data.SetData("blk");
-							DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
-						}
-						else {
-							p = e.GetPosition(dragAreaDIM);
-							if ((p.X >= 0) && (p.X <= dragAreaDIM.ActualWidth) && (p.Y >= 0) && (p.Y <= dragAreaDIM.ActualHeight)) {
-								DataObject data = new DataObject();
-								data.SetData("dim");
-								DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
-							}
-						}
-					}
-				}
+
+			if (Mouse.LeftButton == MouseButtonState.Released) {
+				if (dragAreaSOB.IsMouseOver || dragAreaLOB.IsMouseOver || dragAreaBLK.IsMouseOver || dragAreaDIM.IsMouseOver) Cursor = Cursors.Hand;
+				else Cursor = Cursors.Arrow;
 			}
+			else Cursor = Cursors.Arrow;
 		}
 
 		private void settings_Click(object sender, RoutedEventArgs e) {
@@ -313,11 +355,11 @@ namespace xwLedConfigurator {
 			}
 		}
 
-
         private void pause_Click(object sender, RoutedEventArgs e) {			
 			Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 0 });
 			simulation.stop();
-        }
+			if(simAuxRequest != null) simAuxRequest(false);
+		}
 
         private void startdevice_Click(object sender, RoutedEventArgs e) {
 			Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 1 });
@@ -330,23 +372,18 @@ namespace xwLedConfigurator {
 			Connection.putFrame((byte)xwCom.SCOPE.LED, data);
 		}
 
-		//handling Keypresses
-		private void UserControl_Loaded(object sender, RoutedEventArgs e) {
-			var window = Window.GetWindow(this);
-			window.KeyDown += HandleKeyPress;
-		}
-
-		private void HandleKeyPress(object sender, KeyEventArgs e) {
+		public void HandleKeyPress(object sender, KeyEventArgs e) {
 			foreach (xwDockChannel channel in channelPanel.Children) channel.keyPress(e);
 		}
 
 		//simulation control
         private void startSimulation_Click(object sender, RoutedEventArgs e) {
 			simulation.start(sequenceList[currentSequence]);
-        }
+			if (simAuxRequest != null) simAuxRequest(true);
+		}
 
 		private void frameReceiver(ref cRxFrame rxFrame) {
-			simulation.dataReceiver(ref rxFrame);
+			simulation.dataReceiver(ref rxFrame);			
 		}
 
 	}

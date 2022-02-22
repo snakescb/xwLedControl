@@ -29,6 +29,7 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\System.Reactive.dll
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Debug\netcoreapp3.1\System.Reactive.xml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Themes\Styles.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockAuxSim.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockChannel.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockChannelEdit.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockSequence.g.cs
@@ -36,12 +37,13 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceList.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceNew.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\blkSettings.g.cs
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\brightnesSlider.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\dimSettings.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\lobSettings.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\sobSettings.g.cs
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\speedSlider.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Sliders\brightnesSlider.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Sliders\speedSlider.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Sliders\voltageSlider.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\xwBootloaderWindow.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\xwConfigWindow.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\xwLedWindow.g.cs
@@ -52,6 +54,7 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator_MarkupCompile.cache
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator_MarkupCompile.lref
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\App.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockAuxSim.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockChannel.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockChannelEdit.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockSequence.baml
@@ -59,12 +62,13 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceList.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceNew.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\blkSettings.baml
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\brightnesSlider.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\dimSettings.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\lobSettings.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\sobSettings.baml
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\speedSlider.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Sliders\brightnesSlider.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Sliders\speedSlider.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Sliders\voltageSlider.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\xwBootloaderWindow.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\xwConfigWindow.baml
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\xwLedWindow.baml
@@ -80,3 +84,5 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.pdb
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockDownload.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Debug\netcoreapp3.1\Controls\Windows\Docks\xwDockDownload.baml

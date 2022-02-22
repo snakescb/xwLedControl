@@ -12,13 +12,11 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <!-- Title -->
@@ -28,19 +26,39 @@
             </Button>
 
             <!-- Name -->
-            <TextBlock Grid.Row="1" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10">Sequence Name</TextBlock>
-            <TextBox x:Name="sequenceName" Grid.Row="2" MaxLength="12" Height="30" Width="280" Background="{StaticResource MenuInactiveColor}" Foreground="{StaticResource MainFontColor}" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
-
+            <StackPanel Orientation="Vertical" Grid.Row="1">
+                <TextBlock  Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,0,0">Sequence Name</TextBlock>
+                <TextBox x:Name="sequenceName" MaxLength="12" Height="30" Width="280" Margin="10,10,0,0" Background="{StaticResource MenuInactiveColor}" Foreground="{StaticResource MainFontColor}" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
+            </StackPanel>
+                
             <!-- Dimming -->
-            <TextBlock Grid.Row="3" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10">Sequence Dimming</TextBlock>
-            <local:brightnesSlider Grid.Row="4" Grid.ColumnSpan="5" x:Name="dimmingInfo"/>
-
+            <StackPanel Orientation="Vertical" Grid.Row="2">
+                <TextBlock Grid.Row="3" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,0,0">Sequence Brightness</TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="20,10,10,10">
+                    <TextBlock Width="60" Foreground="{StaticResource MainFontColor}" Text="Mode" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="dimMode" Width="190" SelectionChanged="dimMode_SelectionChanged">
+                        <ComboBoxItem Content="Constant brigthness" IsSelected="True"/>
+                        <ComboBoxItem Content="Brightness by receiver"/>
+                    </ComboBox>
+                </StackPanel>
+                <local:brightnesSlider Grid.Row="4" Grid.ColumnSpan="5" x:Name="dimmingInfo" Margin="10,0,0,0"/>
+            </StackPanel>
+            
             <!-- Speed -->
-            <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10">Sequence Speed</TextBlock>
-            <local:speedSlider Grid.Row="6" Grid.ColumnSpan="5" x:Name="speedInfo"/>
+            <StackPanel Orientation="Vertical" Grid.Row="3">
+                <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,0,0">Sequence Speed</TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="20,10,10,10">
+                    <TextBlock Width="60" Foreground="{StaticResource MainFontColor}" Text="Mode" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="speedMode" Width="190" SelectionChanged="speedMode_SelectionChanged">
+                        <ComboBoxItem Content="Constant speed" IsSelected="True"/>
+                        <ComboBoxItem Content="Speed by receiver"/>
+                    </ComboBox>
+                </StackPanel>
+                <local:speedSlider Grid.Row="6" Grid.ColumnSpan="5" x:Name="speedInfo" Margin="10,0,0,0"/>
+            </StackPanel>
 
             <!-- Buttons -->
-            <Grid Grid.Row="7">
+            <Grid Grid.Row="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

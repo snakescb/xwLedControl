@@ -7,7 +7,7 @@ namespace xwLedConfigurator {
 
         public static string[] deviceTypes = {
             "Unknown Device", //0
-            "xwLedControl V1.0" //1
+            "xwLedControl V1" //1
         };
 
         public static string[] runModes = {

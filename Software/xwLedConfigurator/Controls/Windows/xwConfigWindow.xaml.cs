@@ -20,9 +20,6 @@ namespace xwLedConfigurator {
 
     public partial class xwConfigWindow : UserControl {
 
-		public const int voltageSliderMin =  50;
-		public const int voltageSliderMax = 125;
-
 		string deviceUid = "";
 		string deviceType = "";
 		string deviceFWVersion = "";
@@ -107,9 +104,7 @@ namespace xwLedConfigurator {
 
 			if (configUpdated) {
 				configUpdated = false;
-				if (configVoltage == 0) voltageSlider.Value = 50;
-				else voltageSlider.Value = configVoltage;
-				voltageSlider_ValueChanged(null, null);
+				voltageSlider.value = configVoltage;
 				if (configSelection == 0) selectionJumper.IsChecked = true;
 				else selectionReceiver.IsChecked = true;
 			}
@@ -165,7 +160,6 @@ namespace xwLedConfigurator {
 			}
 		}
 
-
 		private void bTrash_Click(object sender, RoutedEventArgs e) {
 			traceBox.Text = "";
         }
@@ -181,20 +175,10 @@ namespace xwLedConfigurator {
 			}
         }
 
-        private void voltageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-			if (voltageDisplay != null) {
-				if (voltageSlider.Value <= voltageSliderMin) voltageDisplay.Text = "Off";
-				else {
-					voltageDisplay.Text = (Math.Round(voltageSlider.Value) / 10).ToString("0.0") + "V";
-				}
-			}
-        }
-
         private void bSaveConfig_Click(object sender, RoutedEventArgs e) {
 			byte selection = 0;
-			byte voltage = 0;
+			byte voltage = voltageSlider.value;
 			if ((bool)selectionReceiver.IsChecked) selection = 1;
-			if (voltageSlider.Value > voltageSliderMin) voltage = (byte)Math.Round(voltageSlider.Value);
 
 			//send new config and request config update
 			byte[] command = new byte[] { (byte)xwCom.CONFIG.SET_CONFIG, selection, voltage };			

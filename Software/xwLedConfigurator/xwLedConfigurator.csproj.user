@@ -15,10 +15,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Windows\LedObjects\Object Settings\speedSlider.xaml">
+    <Page Update="Controls\Windows\Docks\xwDockDownload.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Windows\LedObjects\Object Settings\brightnesSlider.xaml">
+    <Page Update="Controls\Windows\Sliders\voltageSlider.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Sliders\speedSlider.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Sliders\brightnesSlider.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Docks\xwDockAuxSim.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Windows\LedObjects\Object Settings\dimSettings.xaml">

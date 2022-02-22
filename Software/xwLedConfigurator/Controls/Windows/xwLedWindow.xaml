@@ -5,7 +5,7 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:xwLedConfigurator"
-             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="1000">
 
     <Border Background="{StaticResource AppMainColor}" CornerRadius="0" Margin="0">
@@ -171,7 +171,7 @@
             <!-- Right Panels -->
             <local:xwDockChannelEdit x:Name="dockEditChannel" settingsSaved="dockEditChannel_settingsSaved" testoutput="dockEditChannel_testoutput" Grid.Column="2" Grid.Row="1" Visibility="Collapsed"/>
             <local:xwDockObjectEdit x:Name="dockEditObject" settingsSaved="dockEditObject_settingsSaved" Grid.Column="2" Grid.Row="1" Visibility="Collapsed"/>
-
+            
         </Grid>
     </Border>
 </UserControl>

@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="xwLedConfigurator.voltageSlider"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:xwLedConfigurator"
+             xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
+             mc:Ignorable="d" Loaded="Brightness_Loaded" IsVisibleChanged="UserControl_IsVisibleChanged"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="40" d:DesignWidth="300">
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="40"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0" Height="15" CornerRadius="8" Background="Gray" />
+
+        <Canvas x:Name="sliderCanvas" Grid.Column="0">
+            <Image x:Name="slider" Source="{StaticResource sliderButtonImage}" Width="22" Height="22" RenderOptions.BitmapScalingMode="HighQuality" Visibility="Visible"/>
+        </Canvas>
+
+        <TextBlock x:Name="display" Grid.Column="2" Text="11.1V" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{StaticResource MainFontColor}"/>
+    </Grid>
+</UserControl>

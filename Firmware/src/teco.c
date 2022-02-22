@@ -326,12 +326,10 @@ void teco_ledHandler(comFrame_t* frame) {
         }
 
         case LED_AUX_SIM: {
-            /*
             extern uint16_t auxSim;
             uint8_t rsp[] = {LED_RESPONSE_ACKNOWLEDGE, true};
-            auxSim = handle->frame.pIfield[1]*10;
-            teco_send(DLCI_LED, 2, rsp);
-            */
+            auxSim = frame->data[1]*10;
+            teco_send(SCOPE_LED, 2, rsp);
             break;
         }
 

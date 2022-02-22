@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:xwLedConfigurator"
         mc:Ignorable="d" FontSize="16" BorderThickness="0"
         WindowStyle="None" WindowState="Normal" ResizeMode="CanResize" AllowsTransparency="true" Background="Transparent"
-        MinWidth="1200" MinHeight="800"
+        MinWidth="1200" MinHeight="800" Loaded="UserControl_Loaded"
         Title="" Height="800" Width="1200"
         WindowStartupLocation="CenterScreen">
 
@@ -46,7 +46,7 @@
                     </StackPanel>
                 </Button>
                 <TextBlock Width="8"/>
-            </StackPanel>
+            </StackPanel> 
 
             <!-- Menu -->
             <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
@@ -54,7 +54,11 @@
                 <local:xwMenuItem x:Name="btnMenuConfig" Text="Configuration" Icon="Cog" click="menuButton_click"/>
                 <local:xwMenuItem x:Name="btnMenuFirmware" Text="Firmware" Icon="Microchip" click="menuButton_click"/>
             </StackPanel>
-            
+
+            <!-- Supporting Panels -->
+            <local:xwDockAuxSim x:Name="dockAuxSim" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed"/>
+            <local:xwDockDownload x:Name="dockDownload" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed"/>
+
             <!-- Content -->
             <local:xwConfigWindow x:Name="contentInfo" Grid.Row="2" Visibility="Collapsed"/>
             <local:xwBootloaderWindow x:Name="contentBootloader" Grid.Row="2" Visibility="Collapsed" />

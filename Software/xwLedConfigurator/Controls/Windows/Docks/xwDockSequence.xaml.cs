@@ -28,7 +28,8 @@ namespace xwLedConfigurator {
             DELETE_SEQUENCE,
             LOAD_SEQUENCE,
             SAVE_TO_FILE,
-            LOAD_FROM_FILE
+            LOAD_FROM_FILE,
+            SAVE_TO_DEVICE
         }
 
         public xwDockSequence() {
@@ -85,6 +86,10 @@ namespace xwLedConfigurator {
 
         private void bLoadFromFile_Click(object sender, RoutedEventArgs e) {
             if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.LOAD_FROM_FILE, 0, "");
+        }
+
+        private void bSaveToDevice_Click(object sender, RoutedEventArgs e) {
+            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.SAVE_TO_DEVICE, 0, "");
         }
     }	
 

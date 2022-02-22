@@ -28,6 +28,10 @@ namespace xwLedConfigurator {
             //btnMenuLed.active = true;
             menuButton_click(btnMenuLed, null);
 
+            //connect controls
+            contentLed.simAuxRequest += dockAuxSim.simAuxRequestHandler;
+            contentLed.downloadRequest += dockDownload.downloadRequestHandler;
+
             //start connection
             Connection.start();     
         }
@@ -95,6 +99,11 @@ namespace xwLedConfigurator {
             base.OnClosed(e);
             App.Current.Shutdown();
             Process.GetCurrentProcess().Kill();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+            var window = Window.GetWindow(this);
+            window.KeyDown += contentLed.HandleKeyPress;
         }
 
     }

@@ -8,7 +8,6 @@ using System.Timers;
 
 namespace xwLedConfigurator {
 
-
     public class Simulation {
 
         class outputController {

@@ -16,6 +16,7 @@ using System.Threading;
 using System.Timers;
 using System.Linq;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace xwLedConfigurator {
 
@@ -25,6 +26,8 @@ namespace xwLedConfigurator {
         public event eChannelEvent channelEvent;
         public delegate void eObjectEditRquest(xwDockChannel sender, ledObject ledobject);
         public event eObjectEditRquest objectEditRquest;
+        public delegate void eObjectCopyPasteRequets(xwDockChannel sender, channelCopyPasteEvent_t eventType, ledObject ledobject);
+        public event eObjectCopyPasteRequets objectCopyPasteRequest;
 
         public const int OBJECT_SHRINK = 40;
         public const int OBJECT_OFFSET = 14;
@@ -33,6 +36,12 @@ namespace xwLedConfigurator {
             DELETE_CHANNEL,
             EDIT_CHANNEL,
             GRID_OFFSET_CHANGED,    
+        }
+
+        public enum channelCopyPasteEvent_t {
+            OBJECT_COPY,
+            OBJECT_CUT,
+            OBJECT_PASTE       
         }
 
         public class cZoom {
@@ -64,11 +73,12 @@ namespace xwLedConfigurator {
             new cZoom (  64  ,   2,  4,   250,   250),
             new cZoom ( 128  ,   1,  5,   100,   100),
             new cZoom ( 256  ,   1, 10,    50,    50),
-            new cZoom ( 512  ,   1, 10,    25,    25)
+            new cZoom ( 512  ,   1, 10,    25,    25),
+            new cZoom (1024  ,   1, 10,    10,    10)
         };
 
         public double gridOffset = 0;
-        int currentZoomLevel = 6;
+        int currentZoomLevel = 8;
         public channel_t channel = null;
 
         public xwDockChannel(channel_t channel) {
@@ -148,6 +158,41 @@ namespace xwLedConfigurator {
         public void setOffset(double newOffset) {
             gridOffset = newOffset;
             refreshGrid();
+        }
+
+        public void pasteObject(ledObject ledObject) {
+            //create a new deepClone of the copied object using Json serialization
+            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Formatting = Formatting.None };
+            string json = JsonConvert.SerializeObject(ledObject, settings);
+            ledObject pastedObject = JsonConvert.DeserializeObject<ledObject>(json, settings);
+
+            //insert at the current position of the mouse and apply snap time
+            Point current = Mouse.GetPosition(grid);
+            double newStartTime = ((gridOffset + current.X ) * 1000) / zoomLevels[currentZoomLevel].resolution;
+            newStartTime = Math.Round(newStartTime / zoomLevels[currentZoomLevel].snapsize_ms) * zoomLevels[currentZoomLevel].snapsize_ms;
+            pastedObject.starttime = newStartTime;
+            channel.ledObjects.Add(pastedObject);
+
+            //for non rgb channels, the color needs to be ajusted
+            if (!channel.isRGB) pastedObject.updateChannelColor(channel.color, false);
+
+            //create visual for object
+            grid.Children.Add(new ledVisual(pastedObject, 0, grid.Height - OBJECT_SHRINK));
+
+            //refresh
+            refreshGrid();
+        }
+
+        public void cutObject(ledObject ledObject) {
+            foreach (ledVisual visual in grid.Children) {
+                if (visual.ledObject == ledObject) {
+                    channel.ledObjects.Remove(visual.ledObject);
+                    grid.Children.Remove(visual);                    
+                    dragObject = null;
+                    refreshGrid();
+                    return;
+                }
+            }
         }
 
         private void bDelete_Click(object sender, RoutedEventArgs e) {
@@ -237,24 +282,7 @@ namespace xwLedConfigurator {
             }
         }
 
-        public void keyPress(KeyEventArgs e) {
-            if ((e.Key == Key.C) && (Keyboard.IsKeyDown(Key.LeftCtrl))) {
-                if (dragObject != null) {
-                    MessageBox.Show("Object Copy");
-                }
-            }
-
-            if (e.Key == Key.Delete) {
-                if (dragObject != null) {
-                    grid.Children.Remove(dragObject);
-                    channel.ledObjects.Remove(dragObject.ledObject);
-                    dragObject = null;
-                    refreshGrid();
-                }
-            }
-        }
-
-        //Moving and resizing control
+        //Moving, resizing and keyboard control
         ledVisual dragObject = null;
         bool dragging = false;
         bool probablyClick = false;        
@@ -263,6 +291,7 @@ namespace xwLedConfigurator {
         double dragObjectLength;
         double dragStartPostion;
         enum dragAction_t {
+            NO_ACTION, 
             MOVE_GRID,
             MOVE_OBJECT,
             RESIZE_OBJECT_RIGHT,
@@ -270,7 +299,18 @@ namespace xwLedConfigurator {
         }
         dragAction_t dragAction = dragAction_t.MOVE_GRID;
 
-        private void grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        public void checkGridMove() {
+            //when resizing or moving objects, move the grid offset if needed
+            Point current = Mouse.GetPosition(grid);
+
+            refreshGrid();
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
+            base.OnMouseLeftButtonDown(e);
+
+            if (dragAction == dragAction_t.NO_ACTION) return;
+
             dragStartGridOffset = gridOffset;
             if (dragObject != null) {
                 dragObjectStartTime = dragObject.ledObject.starttime;
@@ -279,21 +319,21 @@ namespace xwLedConfigurator {
             dragStartPostion = e.GetPosition(grid).X;
             probablyClick = true;
             dragging = true;
+            Mouse.Capture(this);
         }
 
-        private void grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e) {
+            base.OnMouseLeftButtonUp(e);
+
             //check if it was a click and not a drag operation
             if (probablyClick && (dragObject != null)) if (objectEditRquest != null) objectEditRquest(this, dragObject.ledObject);
             dragging = false;
-            refreshGrid();
-        }
-        private void grid_MouseLeave(object sender, MouseEventArgs e) {
-            dragging = false;
-            Cursor = Cursors.Arrow;
+            Mouse.Capture(null);
             refreshGrid();
         }
 
-        private void grid_MouseMove(object sender, MouseEventArgs e) {
+        protected override void OnMouseMove(MouseEventArgs e) {
+            base.OnMouseMove(e);
 
             Point current = e.GetPosition(grid);
             if (Math.Abs(current.X - dragStartPostion) > 0) probablyClick = false;
@@ -302,7 +342,7 @@ namespace xwLedConfigurator {
                 double dragDistance = current.X - dragStartPostion;
 
                 switch (dragAction) {
-                   
+
                     //move the grid
                     case dragAction_t.MOVE_GRID:
                         double newOffset = dragStartGridOffset - dragDistance;
@@ -310,14 +350,14 @@ namespace xwLedConfigurator {
                         setOffset(newOffset);
                         if (channelEvent != null) channelEvent(this, channelEvent_t.GRID_OFFSET_CHANGED);
                         break;
-                    
+
                     //move an led object
                     case dragAction_t.MOVE_OBJECT:
                         double newStartTime = dragObjectStartTime + ((dragDistance * 1000) / zoomLevels[currentZoomLevel].resolution);
                         newStartTime = Math.Round(newStartTime / zoomLevels[currentZoomLevel].snapsize_ms) * zoomLevels[currentZoomLevel].snapsize_ms;
                         if (newStartTime < 0) newStartTime = 0;
                         dragObject.ledObject.starttime = newStartTime;
-                        refreshGrid();
+                        checkGridMove();
                         break;
 
                     //resize led object right
@@ -326,7 +366,7 @@ namespace xwLedConfigurator {
                         newLength = Math.Round(newLength / zoomLevels[currentZoomLevel].snapsize_ms) * zoomLevels[currentZoomLevel].snapsize_ms;
                         if (newLength < zoomLevels[currentZoomLevel].minwidth_ms) newLength = zoomLevels[currentZoomLevel].minwidth_ms;
                         dragObject.ledObject.length = newLength;
-                        refreshGrid();
+                        checkGridMove();
                         break;
 
                     //resize led object left
@@ -338,20 +378,19 @@ namespace xwLedConfigurator {
                         if (newObjectLength < zoomLevels[currentZoomLevel].minwidth_ms) {
                             newObjectLength = zoomLevels[currentZoomLevel].minwidth_ms;
                             newObjectStart = originalEndTime - newObjectLength + 1;
-                         }
+                        }
                         dragObject.ledObject.starttime = newObjectStart;
                         dragObject.ledObject.length = newObjectLength;
-                        refreshGrid();
+                        checkGridMove();
                         break;
                 }
             }
             else {
-
                 //check which action a mouse down will trigger
                 //check if mouse is over led object if it was on grid before
                 if (dragObject == null) {
                     bool refresh = false;
-                    foreach (ledVisual visual in grid.Children) { 
+                    foreach (ledVisual visual in grid.Children) {
                         if (visual.IsMouseOver) {
                             dragObject = visual;
                             dragObject.isHighlighted = true;
@@ -362,22 +401,28 @@ namespace xwLedConfigurator {
                 }
                 //check if mouse is not on led object anymore
                 else {
-                    if (!dragObject.IsMouseOver) {                        
+                    if (!dragObject.IsMouseOver) {
                         dragObject.isHighlighted = false;
                         dragObject = null;
                         refreshGrid();
                     }
                 }
 
-                //if the mouse is not on a led object, mouse down will move the grid
+                //if the mouse is not on a led object, mouse down will move the grid or do nothing
                 if (dragObject == null) {
-                    dragAction = dragAction_t.MOVE_GRID;
-                    Cursor = Cursors.ScrollWE;
+                    if (grid.IsMouseOver) {
+                        dragAction = dragAction_t.MOVE_GRID;
+                        Cursor = Cursors.ScrollWE;
+                    }
+                    else {
+                        dragAction = dragAction_t.NO_ACTION;
+                        Cursor = Cursors.Arrow; ;
+                    }
                 }
                 else {
                     Point relativePosition = e.GetPosition(dragObject);
                     //small led object can be moved only
-                    if (dragObject.width <= 10 ) {
+                    if (dragObject.width <= 10) {
                         dragAction = dragAction_t.MOVE_OBJECT;
                         Cursor = Cursors.SizeAll;
                     }
@@ -395,13 +440,38 @@ namespace xwLedConfigurator {
                     else {
                         dragAction = dragAction_t.MOVE_OBJECT;
                         Cursor = Cursors.SizeAll;
-                    }                    
+                    }
                 }
 
             }
-
         }
-        
-    }
 
+        public void keyPress(KeyEventArgs e) {
+            if ((e.Key == Key.C) && (Keyboard.IsKeyDown(Key.LeftCtrl))) {
+                if (dragObject != null) {
+                    if (objectCopyPasteRequest != null) objectCopyPasteRequest(this, channelCopyPasteEvent_t.OBJECT_COPY, dragObject.ledObject);
+                }
+            }
+
+            if ((e.Key == Key.X) && (Keyboard.IsKeyDown(Key.LeftCtrl))) {
+                if (dragObject != null) {
+                    if (objectCopyPasteRequest != null) objectCopyPasteRequest(this, channelCopyPasteEvent_t.OBJECT_CUT, dragObject.ledObject);
+                }
+            }
+
+            if ((e.Key == Key.V) && (Keyboard.IsKeyDown(Key.LeftCtrl))) {
+                if (objectCopyPasteRequest != null) if (grid.IsMouseOver) objectCopyPasteRequest(this, channelCopyPasteEvent_t.OBJECT_PASTE, null);
+            }
+
+            if (e.Key == Key.Delete) {
+                if (dragObject != null) {
+                    grid.Children.Remove(dragObject);
+                    channel.ledObjects.Remove(dragObject.ledObject);
+                    dragObject = null;
+                    refreshGrid();
+                }
+            }
+        }
+
+    }
 }

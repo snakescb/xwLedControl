@@ -27,7 +27,7 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="5" Background="{StaticResource MenuInactiveColor}" CornerRadius="10,0,0,10" Margin="0"/>
-        <local:channelGrid Height="150" MouseMove="grid_MouseMove" MouseLeave="grid_MouseLeave"  MouseLeftButtonDown="grid_MouseLeftButtonDown" MouseLeftButtonUp="grid_MouseLeftButtonUp" HorizontalAlignment="Stretch" ClipToBounds="True" x:Name="grid" Grid.Column="4" Grid.Row="2"/>
+        <local:channelGrid Height="150" HorizontalAlignment="Stretch" ClipToBounds="True" x:Name="grid" Grid.Column="4" Grid.Row="2"/>
 
         <Border x:Name="rgbband" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" Visibility="Hidden"  Margin="0,5,0,5" CornerRadius="2">
             <Border.Background>

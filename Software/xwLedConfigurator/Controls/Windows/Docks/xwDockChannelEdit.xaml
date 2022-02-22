@@ -179,7 +179,7 @@
             </Border>
 
             <!-- Restart -->
-            <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">Channel Restart</TextBlock>
+            <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">After last Object</TextBlock>
             <Grid Grid.Row="6">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
@@ -198,7 +198,7 @@
                 <RadioButton GroupName="restart" Name="eolOption2" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
                 <RadioButton GroupName="restart" Name="eolOption3" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
 
-                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">Restart channel</TextBlock>
+                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">Restart channel from beginning</TextBlock>
                 <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Restart channel reversed</TextBlock>
                 <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">Stop channel with last brigthness</TextBlock>
                 <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">Stop channel with dark output</TextBlock>

@@ -13,6 +13,9 @@
     <SolidColorBrush x:Key="MainFontColor" Color="#FFEFEFEF"/>
     <SolidColorBrush x:Key="2ndFontColor" Color="#FFD8D8D8"/>
 
+    <!-- Images -->
+    <BitmapImage x:Key="sliderButtonImage" UriSource="../Images/slider_button.png" />
+
     <!--Button Style -->
     <Style TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>

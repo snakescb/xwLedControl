@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\slider_button.png" />
     <None Remove="Theme\Colorxaml" />
   </ItemGroup>
 
@@ -21,6 +22,12 @@
     </PackageReference>
     <PackageReference Include="System.IO.Ports" Version="6.0.0" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\slider_button.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -66,13 +73,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Controls\Windows\LedObjects\Object Settings\speedSlider.xaml">
+    <Page Update="Controls\Windows\Docks\xwDockDownload.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Windows\LedObjects\Object Settings\brightnesSlider.xaml">
+    <Page Update="Controls\Windows\Sliders\voltageSlider.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Sliders\speedSlider.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Sliders\brightnesSlider.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Docks\xwDockAuxSim.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Windows\LedObjects\Object Settings\dimSettings.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
