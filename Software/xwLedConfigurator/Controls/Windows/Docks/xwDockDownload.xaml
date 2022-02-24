@@ -6,11 +6,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:xwLedConfigurator"
              mc:Ignorable="d"
-             d:DesignHeight="50" d:DesignWidth="500">
+             d:DesignHeight="60
+             " d:DesignWidth="420">
 
-    <Border Background="{StaticResource AppMainColor}" CornerRadius="0,10,0,0" Margin="0">
-        <StackPanel Orientation="Horizontal" Height="35">
-            <local:brightnesSlider x:Name="auxslider" Width="300" VerticalAlignment="Center"/>
-        </StackPanel>
+    <Border Background="{StaticResource AppMainColor}">
+        <Grid Margin="10">
+            <ProgressBar x:Name="progress"  Minimum="0" Maximum="100" Value="75" Height="25" Width="400" Foreground="{StaticResource AppTitleColor}" Background="{StaticResource MenuHoverColor}" BorderBrush="{StaticResource MenuHoverColor}" Visibility="Collapsed"/>
+            <TextBlock x:Name="progressText" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource MainFontColor}" Visibility="Collapsed">Downloading 50%</TextBlock>
+            <TextBlock x:Name="message" FontSize="20" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Right">Message</TextBlock>
+        </Grid>
     </Border>
 </UserControl>

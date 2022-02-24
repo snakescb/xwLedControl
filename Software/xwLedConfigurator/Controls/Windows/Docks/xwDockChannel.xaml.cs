@@ -78,19 +78,30 @@ namespace xwLedConfigurator {
         };
 
         public double gridOffset = 0;
-        int currentZoomLevel = 8;
+        public int currentZoomLevel = 8;
         public channel_t channel = null;
 
         public xwDockChannel(channel_t channel) {
             InitializeComponent();
+            createChannel(channel, 0, 8);
+        }
+
+        public xwDockChannel(channel_t channel, double offset, int zoom) {
+            InitializeComponent();
+            createChannel(channel, offset, zoom);
+        }
+
+        void createChannel(channel_t channel, double offset, int zoom) {
             this.channel = channel;
+            currentZoomLevel = zoom;
+            gridOffset = offset;
 
             //set name and color band of channel
             channelName.Content = String.Format("Channel {0}", channel.channelNumber);
             if (channel.isRGB) {
                 rgbband.Visibility = Visibility.Visible;
                 bwband.Visibility = Visibility.Hidden;
-            }                        
+            }
 
             //refresh the grid, then refresh all visuals and objects
             refreshGrid();
@@ -156,6 +167,7 @@ namespace xwLedConfigurator {
         }
 
         public void setOffset(double newOffset) {
+            if (newOffset < 0) newOffset = 0;
             gridOffset = newOffset;
             refreshGrid();
         }
@@ -209,8 +221,8 @@ namespace xwLedConfigurator {
             double releasetime_ms = Math.Round(((release.X + gridOffset) * 1000) / zoomLevels[currentZoomLevel].resolution);           
             string objectType = e.Data.GetData(DataFormats.StringFormat).ToString();
 
-            //create object with 1 major time length at the next snap point next to the mousepointer
-            double objectLength = zoomLevels[currentZoomLevel].major*1000;
+            //create object with 4 minor lengths at the next snap point next to the mousepointer
+            double objectLength = zoomLevels[currentZoomLevel].major * 1000 * 4 / zoomLevels[currentZoomLevel].sub;
             double objectStartTime = Math.Round(releasetime_ms / zoomLevels[currentZoomLevel].snapsize_ms) * zoomLevels[currentZoomLevel].snapsize_ms;
 
             //new SOB created
@@ -285,11 +297,12 @@ namespace xwLedConfigurator {
         //Moving, resizing and keyboard control
         ledVisual dragObject = null;
         bool dragging = false;
-        bool probablyClick = false;        
+        bool dragClickEnabled = false;        
         double dragStartGridOffset;
         double dragObjectStartTime;
         double dragObjectLength;
         double dragStartPostion;
+        double dragLastX;
         enum dragAction_t {
             NO_ACTION, 
             MOVE_GRID,
@@ -301,15 +314,31 @@ namespace xwLedConfigurator {
 
         public void checkGridMove() {
             //when resizing or moving objects, move the grid offset if needed
-            Point current = Mouse.GetPosition(grid);
-
+            //first, refresh grid
             refreshGrid();
+
+            //check drag direction
+            if (Mouse.GetPosition(grid).X - dragLastX > 0) {
+                double spaceRight = grid.ActualWidth - Canvas.GetLeft(dragObject) - dragObject.width;
+                if (spaceRight < 0) {
+                    setOffset(gridOffset - spaceRight);
+                    if (channelEvent != null) channelEvent(this, channelEvent_t.GRID_OFFSET_CHANGED);
+                }
+            }
+
+            if (Mouse.GetPosition(grid).X - dragLastX < 0) {
+                double spaceLeft = Canvas.GetLeft(dragObject);
+                if (spaceLeft < 0) {
+                    setOffset(gridOffset + spaceLeft);
+                    if (channelEvent != null) channelEvent(this, channelEvent_t.GRID_OFFSET_CHANGED);
+                }
+            }         
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
-            base.OnMouseLeftButtonDown(e);
+            base.OnMouseLeftButtonDown(e);            
 
-            if (dragAction == dragAction_t.NO_ACTION) return;
+            if (dragAction == dragAction_t.NO_ACTION) return;            
 
             dragStartGridOffset = gridOffset;
             if (dragObject != null) {
@@ -317,18 +346,19 @@ namespace xwLedConfigurator {
                 dragObjectLength = dragObject.ledObject.length;
             }
             dragStartPostion = e.GetPosition(grid).X;
-            probablyClick = true;
+            dragLastX = Mouse.GetPosition(grid).X;
+            dragClickEnabled = true;
             dragging = true;
             Mouse.Capture(this);
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e) {
             base.OnMouseLeftButtonUp(e);
+            Mouse.Capture(null);
 
             //check if it was a click and not a drag operation
-            if (probablyClick && (dragObject != null)) if (objectEditRquest != null) objectEditRquest(this, dragObject.ledObject);
-            dragging = false;
-            Mouse.Capture(null);
+            if (dragClickEnabled && (dragObject != null)) if (objectEditRquest != null) objectEditRquest(this, dragObject.ledObject);
+            dragging = false;            
             refreshGrid();
         }
 
@@ -336,7 +366,7 @@ namespace xwLedConfigurator {
             base.OnMouseMove(e);
 
             Point current = e.GetPosition(grid);
-            if (Math.Abs(current.X - dragStartPostion) > 0) probablyClick = false;
+            if (Math.Abs(current.X - dragStartPostion) > 0) dragClickEnabled = false;
 
             if (dragging) {
                 double dragDistance = current.X - dragStartPostion;
@@ -373,14 +403,16 @@ namespace xwLedConfigurator {
                     case dragAction_t.RESIZE_OBJECT_LEFT:
                         double newObjectStart = dragObjectStartTime + ((dragDistance * 1000) / zoomLevels[currentZoomLevel].resolution);
                         newObjectStart = Math.Round(newObjectStart / zoomLevels[currentZoomLevel].snapsize_ms) * zoomLevels[currentZoomLevel].snapsize_ms;
-                        double originalEndTime = dragObjectStartTime + dragObjectLength - 1;
-                        double newObjectLength = originalEndTime - newObjectStart + 1;
-                        if (newObjectLength < zoomLevels[currentZoomLevel].minwidth_ms) {
-                            newObjectLength = zoomLevels[currentZoomLevel].minwidth_ms;
-                            newObjectStart = originalEndTime - newObjectLength + 1;
-                        }
-                        dragObject.ledObject.starttime = newObjectStart;
-                        dragObject.ledObject.length = newObjectLength;
+                        if (newObjectStart >= 0) {
+                            double originalEndTime = dragObjectStartTime + dragObjectLength - 1;
+                            double newObjectLength = originalEndTime - newObjectStart + 1;
+                            if (newObjectLength < zoomLevels[currentZoomLevel].minwidth_ms) {
+                                newObjectLength = zoomLevels[currentZoomLevel].minwidth_ms;
+                                newObjectStart = originalEndTime - newObjectLength + 1;
+                            }
+                            dragObject.ledObject.starttime = newObjectStart;
+                            dragObject.ledObject.length = newObjectLength;
+                        }                        
                         checkGridMove();
                         break;
                 }
@@ -444,6 +476,7 @@ namespace xwLedConfigurator {
                 }
 
             }
+            dragLastX = Mouse.GetPosition(grid).X;
         }
 
         public void keyPress(KeyEventArgs e) {

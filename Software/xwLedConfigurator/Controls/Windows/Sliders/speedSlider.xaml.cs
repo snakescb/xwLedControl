@@ -65,13 +65,10 @@ namespace xwLedConfigurator {
 
         public speedSlider() {
             InitializeComponent();
+            this.SizeChanged += SizeChangedEventHandler;
         }
 
-        private void slider_Loaded(object sender, RoutedEventArgs e) {
-            updateGraphics();
-        }
-
-        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+        private void SizeChangedEventHandler(object sender, SizeChangedEventArgs e) {
             updateGraphics();
         }
 

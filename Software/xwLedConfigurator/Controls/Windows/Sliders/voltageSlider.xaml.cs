@@ -66,15 +66,14 @@ namespace xwLedConfigurator {
 
         public voltageSlider() {
             InitializeComponent();
+            this.SizeChanged += SizeChangedEventHandler;
         }
 
-        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+
+        private void SizeChangedEventHandler(object sender, SizeChangedEventArgs e) {
             updateGraphics();
         }
 
-        private void Brightness_Loaded(object sender, RoutedEventArgs e) {
-            updateGraphics();
-        }
 
         public void updateValue(byte newValue) {
             currentValue = newValue;

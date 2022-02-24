@@ -25,11 +25,12 @@ namespace xwLedConfigurator {
     public static class Connection {
 
         public const int COM_MAX_DATA_LEN = 256;
-        public const int COM_TIMEOUT = 500;
+        public const int COM_TIMEOUT = 1000;
         public static string portName = "";
 
         public delegate void frameReceiver(ref cRxFrame rxFrame);
-        static public event frameReceiver frameReceived; // event        
+        static public event frameReceiver frameReceived; // event
+                                                         //
 
         public enum comControl : byte {
             SOF = (byte) '{',
@@ -44,10 +45,11 @@ namespace xwLedConfigurator {
             Connected
         }
         public static connectionStates state = connectionStates.Closed;
-
+        public static bool refreshControl;
 
         static Connection() {
             state = connectionStates.Closed;
+            refreshControl = true;
             Thread connectionWorker = new Thread(connectionThread);
             connectionWorker.Start();
             Thread regularRefreshWorker = new Thread(regularDtataRefresh);
@@ -70,8 +72,10 @@ namespace xwLedConfigurator {
 
 
         static void connectionTimeout(Object source, ElapsedEventArgs e) {
-            state = connectionStates.Searching;
-            connectionTimeoutTimer.Stop();
+            if (refreshControl) {
+                state = connectionStates.Searching;
+                connectionTimeoutTimer.Stop();
+            }
         }
         
         public static void putFrame(byte dataScope, byte[] data) {
@@ -84,7 +88,7 @@ namespace xwLedConfigurator {
         static void regularDtataRefresh() {
             while (true) {
                 if (state == connectionStates.Connected) {
-                    sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_DYNAMIC_INFO });
+                    if (refreshControl) sendFrame((byte)xwCom.SCOPE.COMMAND, new byte[] { (byte)xwCom.COMMAND.GET_DYNAMIC_INFO });
                 }
                 Thread.Sleep(100);
             }

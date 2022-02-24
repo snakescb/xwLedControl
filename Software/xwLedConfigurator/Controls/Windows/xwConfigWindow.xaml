@@ -11,8 +11,8 @@
     <Border Background="{StaticResource AppMainColor}" CornerRadius="0" Margin="0">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="350"/>
-                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="340"/>
+                <ColumnDefinition Width="370"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -46,11 +46,11 @@
                     <TextBlock Foreground="{StaticResource MainFontColor}">
                         Mode<LineBreak/>
                         Sequence<LineBreak/>
-                        Dimming<LineBreak/>
+                        Brightness<LineBreak/>
                         Speed<LineBreak/>
+                        Aux<LineBreak/>
                         Receiver<LineBreak/>
                         Battery<LineBreak/>
-                        Storage Used
                     </TextBlock>
                     <TextBlock Foreground="{StaticResource MainFontColor}" Margin="5,0,8,0">
                         :<LineBreak/>

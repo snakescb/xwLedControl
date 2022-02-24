@@ -37,8 +37,8 @@ namespace xwLedConfigurator {
 
 	public class sequence_t {
 		public string name;
-		public int dimInfo;
-		public long speedInfo;
+		public byte dimInfo;
+		public uint speedInfo;
 		public List<channel_t> channels = new List<channel_t>();
     }
 
@@ -72,12 +72,12 @@ namespace xwLedConfigurator {
 			addRegularChannel_Click(null, null);
 			addRgbChannel_Click(null, null);
 
-			sequenceList[0].channels[0].outputs[0].assignment = 2;
+			sequenceList[0].channels[0].outputs[0].assignment = 0;
 			sequenceList[0].channels[0].ledObjects.Add(new sob());
 			sequenceList[0].channels[0].ledObjects[0].starttime = 50;
 			sequenceList[0].channels[0].ledObjects[0].length = 50;
 			hsvColor c = new hsvColor(Colors.White);
-			c.value = 0.5;
+			c.value = 0.7;
 			((sob)sequenceList[0].channels[0].ledObjects[0]).color = c.toRGB();
 			reloadChannels();
 			zoomIn_Click(null, null);
@@ -102,6 +102,13 @@ namespace xwLedConfigurator {
 
 			//delete sequence from list
 			if (action == xwDockSequence.sequenceManagement_t.DELETE_SEQUENCE) {
+				//if this is the active sequence, empty screen
+				if (sequenceIndex == currentSequence) {
+					currentSequence = -1;
+					sequenceDispayName.Text = "No Sequence";
+					channelPanel.Children.Clear();
+					dockSequence.hide();
+                }
 				sequenceList.RemoveAt(sequenceIndex);
 				dockSequence.show(sequenceList);
 			}
@@ -164,7 +171,7 @@ namespace xwLedConfigurator {
 		private void channelEvent(xwDockChannel sender, xwDockChannel.channelEvent_t request) {
 			if (request == xwDockChannel.channelEvent_t.DELETE_CHANNEL) {
 				if (sender.channel.isRGB) outputsUsed -= 3;
-				else outputsUsed--;
+				else outputsUsed--;				
 				sequenceList[currentSequence].channels.Remove(sender.channel);
 				reloadChannels();
 			}
@@ -236,16 +243,28 @@ namespace xwLedConfigurator {
 		}
 
 		private void reloadChannels() {
+
+			//if there are already channels loaded, reuse zoom and offset for the new channels
+			int zoom = -1;
+			double offset = -1;
+			if (channelPanel.Children.Count > 0) {
+				zoom = ((xwDockChannel)channelPanel.Children[0]).currentZoomLevel;
+				offset = ((xwDockChannel)channelPanel.Children[0]).gridOffset;
+			}
+
 			channelPanel.Children.Clear();
 			outputsUsed = 0;
 			int channelNumber = 0;
+
 			foreach (channel_t channel in sequenceList[currentSequence].channels) {
 				//Renumber the channels
 				channelNumber++;
 				channel.channelNumber = channelNumber;
 
 				//create new channel dock and attach event
-				xwDockChannel dock = new xwDockChannel(channel);
+				xwDockChannel dock;
+				if (zoom == -1)  dock = new xwDockChannel(channel);
+				else  dock = new xwDockChannel(channel, offset, zoom);
 				dock.channelEvent += channelEvent;
 				dock.objectEditRquest += objectEditRequest;
 				dock.objectCopyPasteRequest += objectCopyPasteRequest;
@@ -275,6 +294,7 @@ namespace xwLedConfigurator {
 		}
 
 		private void addChannel(bool isRGB) {
+			if (currentSequence == -1) return;
 			int outputsAvailable = maxNumOutputs - outputsUsed;
 			int outputsRequired = 1;
 			if (isRGB) outputsRequired = 3;
@@ -333,6 +353,7 @@ namespace xwLedConfigurator {
 		}
 
 		private void settings_Click(object sender, RoutedEventArgs e) {
+			if (currentSequence == -1) return;
 			dockSequence.hide();
 			dockEditChannel.hide();
 			dockEditObject.hide();
@@ -378,6 +399,7 @@ namespace xwLedConfigurator {
 
 		//simulation control
         private void startSimulation_Click(object sender, RoutedEventArgs e) {
+			if (currentSequence == -1) return;
 			simulation.start(sequenceList[currentSequence]);
 			if (simAuxRequest != null) simAuxRequest(true);
 		}

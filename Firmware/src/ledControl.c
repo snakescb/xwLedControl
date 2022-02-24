@@ -15,6 +15,7 @@
 #include "adc.h"
 //#include "skyBus.h"
 #include "crc.h"
+#include <stdio.h>
 
 /* Private define ------------------------------------------------------------*/
 #define LED_MAX_NUM_OUTPUTS          24
@@ -80,7 +81,6 @@ typedef struct {
     uint8_t   outputNumber;
     uint32_t  runTimeExtended;
     uint32_t  runTimeIncrement;
-    uint16_t* pRand;
 } ledHandle_t;
 
 /* Private functions ---------------------------------------------------------*/
@@ -110,7 +110,6 @@ uint16_t  sectionWidth, auxSignal, dimBatteryPreset, auxSim;
 int16_t   dimXMin, dimXMax, rxSignal;
 uint32_t  ledControl_configSize, variableTimeIncrement;
 uint32_t  speedInfoReport;
-uint16_t  randArray[LED_NUM_RANDOM_NUMBERS];
 uint16_t* pFlashRand;
 uint8_t   jumperDebounceArray[LED_JUMPER_DEBOUNCE_LEN];
 uint8_t   jumperDebounce;
@@ -331,7 +330,7 @@ void ledControl_lowSpeed() {
     /**************************************************************************
     * Batteriespannung Überwachen und Batteriedimmer berechnen
     ***************************************************************************/
-    //batteriespannung vom Millivolt auf Zehntelvolt runden
+    //batteriespannung vom Millivolt auf Zehntelvolt runden (add 50mv to get propoer rounding)
     battVoltageRounded = (adc_battery + 50) / 100;
     //prüfe ob batteriespannung zu tief und setzet gegebenenfalls flag
     if ((!batteryWarning) && (battWarningThreshold) && (battVoltageRounded) && (battVoltageRounded <= battWarningThreshold)) batteryWarning = true;
@@ -654,8 +653,7 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
     uint32_t  speedInfo = *((uint32_t*)&sequenceHeader[0x10]);
 
     uint32_t* offsetTable = (uint32_t*)&sequenceHeader[0x1C];
-    uint8_t*  optionTable = (uint8_t*)((uint32_t)offsetTable + (outputs << 2));
-    uint8_t*  rgbTable =    (uint8_t*)((uint32_t)optionTable + (outputs << 2));
+    uint8_t*  outputTable = (uint8_t*)((uint32_t)offsetTable + (outputs << 2));
 
     if (outputs > numControledOutputs) outputs = numControledOutputs;
 
@@ -683,9 +681,8 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
         ledHandle[i].pObjectTableBase = (uint8_t*)(configBase + offsetTable[i]);
         ledHandle[i].lineEnd = 0;
 
-        //check output type and set settings
-        uint8_t* pOption = &optionTable[4*i];
-        ledHandle[i].outputNumber = pOption[1];
+        //assign output
+        ledHandle[i].outputNumber = outputTable[i];
 
         //check if the first object is an EOL. In this case, do not start
         if ((objects_e)ledHandle[i].pObjectTableBase[0] == EOD) {
@@ -696,8 +693,6 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
             ledControl_startObject(&ledHandle[i], ledHandle[i].pObjectTableBase);
         }
 
-        uint8_t channel = (rgbTable[i] & 0x1F) % LED_NUM_RANDOM_NUMBERS;
-        ledHandle[i].pRand = &randArray[channel];
     }
 
 }
@@ -737,7 +732,6 @@ void ledControl_stopSequence() {
         ledHandle[i].sequenceDimMode = FIX_DIM;
         ledHandle[i].sequenceDim = LED_DEFAULT_DIM;
         ledHandle[i].outputNumber = i;
-        ledHandle[i].pRand = &randArray[0];
 
         ledControl_reinitRuntime(&ledHandle[i]);
     }
@@ -949,6 +943,7 @@ void ledControl_init() {
     //initialisiere variabeln und überprüfe die konfiguration
     configBase = (uint8_t*)configBaseFlash;
     bool configOk = true;
+
     //prüfe crc der konfiguration
     ledControl_configSize = ((uint32_t*)configBase)[0];
     if (ledControl_configSize > configConfigSize) configOk = false;
@@ -964,7 +959,7 @@ void ledControl_init() {
     uint8_t configVersion = configBase[7];
     if (numSequences == 0x00) configOk = false;
     if (numSequences == 0xFF) configOk = false;
-    if (configType != CONFIG_TYPE_SKYLED) configOk = false;
+    if (configType != CONFIG_TYPE_XWLEDCONTROL) configOk = false;
     if (configVersion != 2) configOk = false;
 
     //variabeln initialisieren

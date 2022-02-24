@@ -67,13 +67,10 @@ namespace xwLedConfigurator {
 
         public brightnesSlider() {
             InitializeComponent();
+            this.SizeChanged += SizeChangedEventHandler;
         }
 
-        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            updateGraphics();
-        }
-
-        private void Brightness_Loaded(object sender, RoutedEventArgs e) {
+        private void SizeChangedEventHandler(object sender, SizeChangedEventArgs e) {            
             updateGraphics();
         }
 

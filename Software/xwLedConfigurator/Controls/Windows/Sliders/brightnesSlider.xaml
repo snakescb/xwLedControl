@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:xwLedConfigurator"
              xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
-             mc:Ignorable="d" Loaded="Brightness_Loaded" IsVisibleChanged="UserControl_IsVisibleChanged"
+             mc:Ignorable="d"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="40" d:DesignWidth="300">
 

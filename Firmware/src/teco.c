@@ -10,6 +10,7 @@
 #include "conf.h"
 #include "hwVersion.h"
 #include "recv.h"
+#include <stdio.h>
 
 /* Definitions -------------------------------------------------------------*/
 #define TECO_TRACE_STRING_MAX_LENGTH 200
@@ -108,13 +109,13 @@ void teco_commandHandler(comFrame_t* frame) {
             extern bool      batteryWarning;            
             extern uint8_t   numOutputsReport;
             extern uint8_t   sequenceDimReport;
+            extern uint32_t  speedInfoReport;
             extern uint32_t  ledControl_configSize;
             extern runMode_e runMode;
 
             int16_t rxScaled = recv_signal();
             uint16_t rxRaw = recv_rawSignal();
-            uint8_t dim = auxSignal / 10;
-            uint8_t rsp[18];
+            uint8_t rsp[23];
 
             rsp[0]   = COMMAND_RESPONSE_DYNAMIC_INFO;
             rsp[1]   = (uint8_t)recv_failsafe();
@@ -122,20 +123,25 @@ void teco_commandHandler(comFrame_t* frame) {
             rsp[3]   = (uint8_t)(rxScaled);
             rsp[4]   = (uint8_t)(rxRaw >> 8);
             rsp[5]   = (uint8_t)(rxRaw);
-            rsp[6]   = dim;
-            rsp[7]   = battVoltageRounded;
-            rsp[8]   = (uint8_t)batteryWarning;            
-            rsp[9]   = numSequences;
-            rsp[10]  = currentSequence;
-            rsp[11]  = numOutputsReport;
-            rsp[12]  = sequenceDimReport;
-            rsp[13]  = (uint8_t)runMode;
-            rsp[14]  = (uint8_t)(ledControl_configSize >> 24);
-            rsp[15]  = (uint8_t)(ledControl_configSize >> 16);
-            rsp[16]  = (uint8_t)(ledControl_configSize >>  8);
-            rsp[17]  = (uint8_t)(ledControl_configSize);
+            rsp[6]   = (uint8_t)(auxSignal >> 8);
+            rsp[7]   = (uint8_t)(auxSignal);
+            rsp[8]   = battVoltageRounded;
+            rsp[9]   = (uint8_t)batteryWarning;            
+            rsp[10]   = (uint8_t)runMode;
+            rsp[11]  = numSequences;
+            rsp[12]  = currentSequence;
+            rsp[13]  = numOutputsReport;
+            rsp[14]  = sequenceDimReport;
+            rsp[15]  = (uint8_t)(speedInfoReport >> 24);
+            rsp[16]  = (uint8_t)(speedInfoReport >> 16);
+            rsp[17]  = (uint8_t)(speedInfoReport >>  8);
+            rsp[18]  = (uint8_t)(speedInfoReport);
+            rsp[19]  = (uint8_t)(ledControl_configSize >> 24);
+            rsp[20]  = (uint8_t)(ledControl_configSize >> 16);
+            rsp[21]  = (uint8_t)(ledControl_configSize >>  8);
+            rsp[22]  = (uint8_t)(ledControl_configSize);
 
-            teco_send(SCOPE_COMMAND, 18, rsp);
+            teco_send(SCOPE_COMMAND, 23, rsp);
             
             break;
         }
@@ -154,9 +160,9 @@ void teco_commandHandler(comFrame_t* frame) {
 void teco_configHandler(comFrame_t* frame) {
 
     //check the command
-    uint8_t commandId = frame->data[0];
+    uint8_t commandId = frame->data[0];    
 
-    switch(commandId) {
+    switch(commandId) {      
 
         case CONFIG_GET_FRAME_MAX_SIZE: {
             uint8_t rsp[] = {CONFIG_RESPONSE_FRAME_MAX_SIZE, (uint8_t)(configMaxFrameSize >> 8), (uint8_t)configMaxFrameSize};
@@ -164,16 +170,16 @@ void teco_configHandler(comFrame_t* frame) {
             break;
         }
 
-        case CONFIG_RESET_POINTER: {
-            config_resetPointers();
-            uint8_t rsp[] = {CONFIG_RESPONSE_ACKNOWLEDGE, true};
+        case CONFIG_ERASE_CONFIG: {
+            bool ret = config_erase();
+            uint8_t rsp[] = {CONFIG_RESPONSE_ACKNOWLEDGE, ret};
             teco_send(SCOPE_CONFIG, 2, rsp);
             break;
         }
 
-        case CONFIG_ERASE_CONFIG: {
-            bool ret = config_erase();
-            uint8_t rsp[] = {CONFIG_RESPONSE_ACKNOWLEDGE, ret};
+        case CONFIG_RESET_POINTER: {
+            config_resetPointers();
+            uint8_t rsp[] = {CONFIG_RESPONSE_ACKNOWLEDGE, true};
             teco_send(SCOPE_CONFIG, 2, rsp);
             break;
         }

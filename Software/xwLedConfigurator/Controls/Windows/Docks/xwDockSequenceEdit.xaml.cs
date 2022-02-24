@@ -60,7 +60,7 @@ namespace xwLedConfigurator {
                 else sequence.dimInfo = dimmingInfo.value;
 
                 if (speedMode.SelectedIndex == 1) sequence.speedInfo = 0;
-                else sequence.speedInfo = speedInfo.value;
+                else sequence.speedInfo = (uint) speedInfo.value;
 
                 if (settingsSaved != null) settingsSaved();
                 hide();

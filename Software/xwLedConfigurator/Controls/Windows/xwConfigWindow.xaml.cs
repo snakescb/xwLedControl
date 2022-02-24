@@ -28,6 +28,7 @@ namespace xwLedConfigurator {
 		int sequence = 0;
 		int numSequences = 0;
 		int dim = 0;
+		int speed = 0;
 		int battery = 0;
 		bool batteryWarning = false;
 		string newTraceboxText = "";
@@ -36,6 +37,7 @@ namespace xwLedConfigurator {
 		bool rxFailsafe = true;
 		int rxScaled = 0;
 		uint rxRaw = 0;
+		uint aux = 0;
 		byte configSelection = 0;
 		byte configVoltage = 0;
 		bool configUpdated = true;
@@ -74,13 +76,20 @@ namespace xwLedConfigurator {
 		private void updateGui(Object myObject, EventArgs myEventArgs) {
 
 			if (Connection.state == Connection.connectionStates.Connected) {
-				textConnection.Text = "Connected (" + Connection.portName + ")\n" + deviceType + "\n" + Math.Round(((float)deviceConfigSize / 1024), 2).ToString() + "kB\n" + deviceFWVersion + "\n" + deviceUid;
+				textConnection.Text = "Connected (" + Connection.portName + ")\n";
+				textConnection.Text += deviceType + "\n";
+				textConnection.Text += Math.Round(((float)deviceConfigSize / 1024), 2).ToString() + "kB";
+				textConnection.Text += " (" + ((float)deviceUsedConfigSize / 1024).ToString("0.00") + "kB used)\n";
+				textConnection.Text += deviceFWVersion + "\n";
+				textConnection.Text += deviceUid;
+
 
 				textLiveData.Text = runMode + "\n";
 				if (sequence == 0xFF) textLiveData.Text += "OFF / " + numSequences.ToString() + "\n";
 				else textLiveData.Text += (sequence+1).ToString() + " / " + numSequences.ToString() + "\n";
 				textLiveData.Text += dim.ToString() + "%\n";
-				textLiveData.Text += "100%\n";
+				textLiveData.Text += (Math.Round(speed*100.0 / 0x10000)).ToString() + "%\n";
+				textLiveData.Text += (Math.Round(aux/10.0)).ToString() + "%\n";
 				if (rxFailsafe) textLiveData.Text += "No Receiver\n";
 				else textLiveData.Text += rxScaled.ToString() + "% ( " + rxRaw.ToString() + "us )\n";
 				if (battery < 50) textLiveData.Text += "No Battery\n";
@@ -89,7 +98,7 @@ namespace xwLedConfigurator {
 					if (batteryWarning) textLiveData.Text += " ( WARNING )\n";
 					else textLiveData.Text += "\n";
 				}
-				textLiveData.Text += ((float)deviceUsedConfigSize / 1024).ToString("0.00") + "kB";
+				//textLiveData.Text += ((float)deviceUsedConfigSize / 1024).ToString("0.00") + "kB";
 			}
 			else {
 				textConnection.Text = "Disconnected\n-\n-\n-\n-";
@@ -124,20 +133,22 @@ namespace xwLedConfigurator {
 				}
 
 				if (rxFrame.data[0] == (byte)xwCom.COMMAND_RESPONSE.RESPONSE_DYNAMIC_INFO) {
-					if (rxFrame.data[1] == 0) rxFailsafe = false; else rxFailsafe = true;
+					if (rxFrame.data[1] == 0) rxFailsafe = false; 
+					else rxFailsafe = true;
 					if (!rxFailsafe) {
 						rxScaled = BitConverter.ToInt16(new byte[] { rxFrame.data[3], rxFrame.data[2] }, 0);
 						rxRaw = (uint)(rxFrame.data[4] << 8) + (uint)(rxFrame.data[5]);
 					}
-					runMode = xwCom.runModes[rxFrame.data[13]];
-					sequence = rxFrame.data[10];
-					numSequences = rxFrame.data[9];
-					dim = rxFrame.data[6];
-					battery = rxFrame.data[7];
-					if (rxFrame.data[8] > 0) batteryWarning = true;
+					aux = (uint)BitConverter.ToInt16(new byte[] { rxFrame.data[7], rxFrame.data[6] }, 0);
+					runMode = xwCom.runModes[rxFrame.data[10]];
+					sequence = rxFrame.data[12];
+					numSequences = rxFrame.data[11];
+					dim = (int)(rxFrame.data[14] / 2.55);
+					battery = rxFrame.data[8];
+					if (rxFrame.data[9] > 0) batteryWarning = true;
 					else batteryWarning = false;
-					deviceUsedConfigSize = BitConverter.ToInt32(new byte[] { rxFrame.data[17], rxFrame.data[16], rxFrame.data[15], rxFrame.data[14] }, 0);
-
+					deviceUsedConfigSize = BitConverter.ToInt32(new byte[] { rxFrame.data[22], rxFrame.data[21], rxFrame.data[20], rxFrame.data[19] }, 0);
+					speed = BitConverter.ToInt32(new byte[] { rxFrame.data[18], rxFrame.data[17], rxFrame.data[16], rxFrame.data[15] }, 0);
 				}
 
 			}
