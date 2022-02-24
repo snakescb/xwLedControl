@@ -52,7 +52,7 @@
                         <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Save File</TextBlock>
                     </StackPanel>
                 </Button>
-                <Button x:Name="bLoadFromDevice" Grid.Column="0" Grid.Row="2" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button x:Name="bLoadFromDevice" Click="bLoadFromDevice_Click" Grid.Column="0" Grid.Row="2" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconBlock Icon="Upload" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" />
                         <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Upload</TextBlock>

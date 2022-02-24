@@ -51,6 +51,19 @@ namespace xwLedConfigurator {
             return buffer;
         }
 
+        public void parseFromData(byte[] data, Color channelColor,  int colorChannel) {
+            if (colorChannel == 0) {
+                hsvColor hsv = new hsvColor(channelColor);
+                hsv.value = data[1] / 255.0;
+                color = hsv.toRGB();
+            }
+            if (colorChannel == 1) color.R = data[1];
+            if (colorChannel == 2) color.G = data[1];
+            if (colorChannel == 3) color.B = data[1];
+
+            length = data[2];
+            length += data[3] * 256;
+        }
 
     }
 }

@@ -15,11 +15,9 @@ namespace xwLedConfigurator {
         public event downloadEvent_t downloadEvent;
 
         public enum eventType {
-            ERROR_SEQUENCE_EMPTY,
             ERROR_NO_RESPONSE,
-            ERROR_VERIFY,
             PROGRESS_UPDATE,
-            SUCCESS
+            FINISHED
         }
 
         class outputController {
@@ -54,6 +52,7 @@ namespace xwLedConfigurator {
                                 byte[] blankFrame = new byte[12];
                                 blankFrame[0] = 0x01;
                                 blankFrame[2] = 0x01;
+                                blankFrame[11] = 1; //marker, so empty space can be reconstructed when uploaded
                                 outputData.AddRange(blankFrame); 
                             }
                             continueLoop = false;
@@ -66,6 +65,7 @@ namespace xwLedConfigurator {
                         blankFrame[0] = 0x01;
                         blankFrame[2] = (byte)(blankTime);
                         blankFrame[3] = (byte)(blankTime >> 8);
+                        blankFrame[11] = 1; //marker, so empty space can be reconstructed when uploaded
                         outputData.AddRange(blankFrame);
                         currentTime += blankTime;
                     }
@@ -108,22 +108,16 @@ namespace xwLedConfigurator {
             this.sequenceList = sequenceList;
             downloadState = downloadState_t.STATE_INIT;
 
-            //if sequence is empty, abort
-            if (sequenceList.Count == 0) {
-                if (downloadEvent != null) downloadEvent(eventType.ERROR_SEQUENCE_EMPTY, 0);
-                return;
-            }
-
             //prepare the data buffer
             fullConfig = new List<byte>();
 
             //prepare header            
-            fullConfig.AddRange(get32BitBuffer(0));   // length will be changed later
-            fullConfig.Add((byte)sequenceList.Count); // Number of sequencec
-            fullConfig.Add(0);                        // Unused
-            fullConfig.Add(1);                        // Config Type, 1 for xwLedControl
-            fullConfig.Add(2);                        // Config Version, 2 for the current xwLedControl FW
-            fullConfig.AddRange(new byte[16]);        // 16 unused bytes
+            fullConfig.AddRange(get32BitBuffer(0));     // length will be changed later
+            fullConfig.Add((byte)sequenceList.Count);   // Number of sequencec
+            fullConfig.Add(0);                          // Unused
+            fullConfig.Add((byte)xwCom.CONFIG_TYPE);    // Config Type, 1 for xwLedControl
+            fullConfig.Add((byte)xwCom.CONFIG_VERSION); // Config Version, 1 for the current xwLedControl FW
+            fullConfig.AddRange(new byte[16]);          // 16 unused bytes
 
             //add a space to put the offset to each sequence header later
             int sequenceTableAddress = fullConfig.Count;
@@ -245,7 +239,7 @@ namespace xwLedConfigurator {
                         }
                         //pointers have been resetted, send first data frame now
                         else if (downloadState == downloadState_t.STATE_RESET_POINTERS) {
-                            bytesLoaded = 0;                            
+                            bytesLoaded = 0;
                             setTimeout(500);
                             sendDataFrame();
                             downloadState = downloadState_t.STATE_DOWNLOAD;
@@ -268,7 +262,7 @@ namespace xwLedConfigurator {
                         else if (downloadState == downloadState_t.STATE_REINITIALIZE) {
                             stopTimeout();
                             Connection.refreshControl = true;
-                            if (downloadEvent != null) downloadEvent(eventType.SUCCESS, 0);
+                            if (downloadEvent != null) downloadEvent(eventType.FINISHED, 0);
                         }
                     }
                 }
@@ -284,7 +278,8 @@ namespace xwLedConfigurator {
             txframe[1] = (byte)frameSize;
             for (int i = 0; i < frameSize; i++) txframe[i+2] = fullConfig[i + bytesLoaded];
             bytesLoaded += frameSize;
-            if (downloadEvent != null) downloadEvent(eventType.PROGRESS_UPDATE, (double)bytesLoaded / fullConfig.Count);
+            double progressIndicator = bytesLoaded / (double)fullConfig.Count;
+            if (downloadEvent != null) downloadEvent(eventType.PROGRESS_UPDATE, progressIndicator);
             Connection.putFrame((byte)xwCom.SCOPE.CONFIG, txframe);
         }
 

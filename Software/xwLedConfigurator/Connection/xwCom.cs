@@ -5,6 +5,9 @@ using System.Text;
 namespace xwLedConfigurator {
     public static class xwCom {
 
+        public static int CONFIG_TYPE = 1;
+        public static int CONFIG_VERSION = 1;
+
         public static string[] deviceTypes = {
             "Unknown Device", //0
             "xwLedControl V1" //1

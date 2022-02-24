@@ -15,6 +15,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Windows\Docks\xwDockUpload.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Windows\Docks\xwDockDownload.xaml">
       <SubType>Designer</SubType>
     </Page>

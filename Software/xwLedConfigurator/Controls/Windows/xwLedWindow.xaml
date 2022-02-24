@@ -39,7 +39,7 @@
                         <fa:IconBlock Icon="SearchMinus" FontSize="20" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="addRegularChannel" Click="addRegularChannel_Click" Height="35" Width="35" VerticalAlignment="Center" Margin="30,0,0,0" ToolTip="Add single channel">
+                <Button x:Name="addRegularChannel" Click="addRegularChannel_Click" Height="35" Width="35" VerticalAlignment="Center" Margin="30,0,0,0" ToolTip="Add single color channel">
                     <Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                             <GradientStop Color="Black" Offset="0" />

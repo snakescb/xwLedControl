@@ -31,6 +31,8 @@ namespace xwLedConfigurator {
             //connect controls
             contentLed.simAuxRequest += dockAuxSim.simAuxRequestHandler;
             contentLed.downloadRequest += dockDownload.downloadRequestHandler;
+            contentLed.uploadRequest += dockUpload.uploadRequestHandler;
+            dockUpload.uploadFinishedEvent += contentLed.uploadFinished;
 
             //start connection
             Connection.start();     

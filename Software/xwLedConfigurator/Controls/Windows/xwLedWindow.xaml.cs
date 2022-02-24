@@ -19,6 +19,7 @@ using Microsoft.Win32;
 using Newtonsoft;
 using Newtonsoft.Json;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace xwLedConfigurator {
 
@@ -48,6 +49,8 @@ namespace xwLedConfigurator {
 		public event eSimAuxRequest simAuxRequest;
 		public delegate void eDownloadRequest(List<sequence_t> sequenceList);
 		public event eDownloadRequest downloadRequest;
+		public delegate void eUploadRequest(List<sequence_t> sequenceList);
+		public event eUploadRequest uploadRequest;
 
 		const int maxNumOutputs = 24;
 
@@ -108,7 +111,8 @@ namespace xwLedConfigurator {
 					sequenceDispayName.Text = "No Sequence";
 					channelPanel.Children.Clear();
 					dockSequence.hide();
-                }
+					outputsDisplay.Text = String.Format("Outputs: {0} / {1}", 0, maxNumOutputs);
+				}
 				sequenceList.RemoveAt(sequenceIndex);
 				dockSequence.show(sequenceList);
 			}
@@ -158,12 +162,23 @@ namespace xwLedConfigurator {
 
 			//download to device
 			if (action == xwDockSequence.sequenceManagement_t.SAVE_TO_DEVICE) {
-				//puase device and simulation first
+				//pause device and simulation first
 				Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 0 });
 				simulation.stop();
 				if (simAuxRequest != null) simAuxRequest(false);
 				//start download usercontrol
 				if (downloadRequest != null) downloadRequest(sequenceList);
+				dockSequence.hide();
+			}
+
+			//upload from device
+			if (action == xwDockSequence.sequenceManagement_t.LOAD_FROM_DEVICE) {
+				//pause device and simulation first
+				Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 0 });
+				simulation.stop();
+				if (simAuxRequest != null) simAuxRequest(false);
+				//start download usercontrol
+				if (uploadRequest != null) uploadRequest(sequenceList);
 				dockSequence.hide();
 			}
 		}
@@ -274,7 +289,22 @@ namespace xwLedConfigurator {
 				else outputsUsed++;
 				channelPanel.Children.Add(dock);
 			}
-			outputsDisplay.Text = String.Format("Outputs: {0} / {1}", outputsUsed, maxNumOutputs);
+			outputsDisplay.Text = String.Format("Outputs: {0} / {1}", outputsUsed, maxNumOutputs);			
+		}
+
+		public  void uploadFinished() {			
+			this.Dispatcher.BeginInvoke(new Action(() => {
+				if (sequenceList.Count > 0) {
+					currentSequence = 0;
+					reloadChannels();
+				}
+				else {
+					currentSequence = -1;
+					sequenceDispayName.Text = "No Sequence";
+					outputsDisplay.Text = String.Format("Outputs: {0} / {1}", 0, maxNumOutputs);
+					channelPanel.Children.Clear();
+				}				
+			}));			
 		}
 
 		private void zoomIn_Click(object sender, RoutedEventArgs e) {

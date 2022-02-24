@@ -946,26 +946,45 @@ void ledControl_init() {
 
     //prüfe crc der konfiguration
     ledControl_configSize = ((uint32_t*)configBase)[0];
-    if (ledControl_configSize > configConfigSize) configOk = false;
+    if (ledControl_configSize > configConfigSize) {
+        TRACE("Invalid sequence configuration size detected. Switching to backup configuration");
+        configOk = false;
+    }
     else {
         uint16_t crcCalc  = crc_calc(configBase, ledControl_configSize);
         uint16_t crcFlash = *((uint16_t*)(&configBase[ledControl_configSize]));
-        if(crcCalc != crcFlash) configOk = false;
+        if(crcCalc != crcFlash) {
+            TRACE("Invalid sequence configuration CRC detected. Switching to backup configuration");
+            configOk = false;
+        }
     }
 
     //prüfe config inhalte
     numSequences = configBase[4];
     uint8_t configType    = configBase[6];
     uint8_t configVersion = configBase[7];
-    if (numSequences == 0x00) configOk = false;
-    if (numSequences == 0xFF) configOk = false;
-    if (configType != CONFIG_TYPE_XWLEDCONTROL) configOk = false;
-    if (configVersion != 2) configOk = false;
+    if (configOk) {
+        if ((numSequences == 0x00) || (numSequences == 0xFF)) {
+            configOk = false;
+            TRACE("Invalid amount of seuquences in configuration. Switching to backup configuration");
+        }
+        if (configType != CONFIG_TYPE_XWLEDCONTROL) {
+            TRACE("Invalid seuquences configuration type. Switching to backup configuration");
+            configOk = false;
+        }
+        if (configVersion != 1) {
+            TRACE("Invalid seuquences configuration version. Switching to backup configuration");
+            configOk = false;
+        }
+    }
 
     //variabeln initialisieren
     if (!configOk) {
         ledControl_configSize = 0;
         configBase = (uint8_t*)configBaseBackup;
+    }
+    else {
+        TRACE("User sequence configuration loaded successfully");
     }
 
     //selection mode und batterie-abschaltspannung stehen im boarcConfig
