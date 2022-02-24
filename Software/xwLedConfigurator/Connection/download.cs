@@ -18,6 +18,7 @@ namespace xwLedConfigurator {
             ERROR_SEQUENCE_EMPTY,
             ERROR_NO_RESPONSE,
             ERROR_VERIFY,
+            PROGRESS_UPDATE,
             SUCCESS
         }
 
@@ -277,15 +278,15 @@ namespace xwLedConfigurator {
         //send next data frame
         public void sendDataFrame() {
             int frameSize = fullConfig.Count - bytesLoaded;
-            if (frameSize > maxFrameSize) frameSize = maxFrameSize;
+            if (frameSize > maxFrameSize) frameSize = maxFrameSize;            
             byte[] txframe = new byte[frameSize+2];
             txframe[0] = (byte)xwCom.CONFIG.SET_FRAME;
             txframe[1] = (byte)frameSize;
             for (int i = 0; i < frameSize; i++) txframe[i+2] = fullConfig[i + bytesLoaded];
             bytesLoaded += frameSize;
+            if (downloadEvent != null) downloadEvent(eventType.PROGRESS_UPDATE, (double)bytesLoaded / fullConfig.Count);
             Connection.putFrame((byte)xwCom.SCOPE.CONFIG, txframe);
         }
-
 
         public void bufferChange(ref List<byte> buffer, int offset, byte[] newdata) {
             for (int i = 0; i < newdata.Length; i++) buffer[i + offset] = newdata[i];
@@ -306,7 +307,6 @@ namespace xwLedConfigurator {
             buffer[1] = (byte)(value >> 8);
             return buffer;
         }
-
 
         void setTimeout(int milliseconds) {
             if (timeoutTimer == null) {
