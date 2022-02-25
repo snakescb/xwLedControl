@@ -51,18 +51,21 @@ namespace xwLedConfigurator {
             return buffer;
         }
 
-        public void parseFromData(byte[] data, Color channelColor,  int colorChannel) {
-            if (colorChannel == 0) {
-                hsvColor hsv = new hsvColor(channelColor);
-                hsv.value = data[1] / 255.0;
-                color = hsv.toRGB();
-            }
-            if (colorChannel == 1) color.R = data[1];
-            if (colorChannel == 2) color.G = data[1];
-            if (colorChannel == 3) color.B = data[1];
+        public override bool applyBuffer(byte[] buffer) {
+            if (buffer[0] != 0x01) return false;
 
-            length = data[2];
-            length += data[3] * 256;
+            hsvColor c = new hsvColor(Colors.White);
+            c.value = (double)buffer[1] / 255;
+            color = c.toRGB();
+            length = buffer[2];
+            length += buffer[3]*256;
+            return true;
+        }
+
+        public override void reconstructColors(ledObject red, ledObject green, ledObject blue) {
+            color.R = (byte)((new hsvColor(((sob)red).color)).value * 255);
+            color.G = (byte)((new hsvColor(((sob)green).color)).value * 255);
+            color.B = (byte)((new hsvColor(((sob)blue).color)).value * 255);
         }
 
     }

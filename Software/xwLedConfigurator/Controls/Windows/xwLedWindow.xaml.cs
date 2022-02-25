@@ -64,31 +64,7 @@ namespace xwLedConfigurator {
 
 		public xwLedWindow() {
             InitializeComponent();
-
-			//sample sequences
-			sequence_t s = new sequence_t();
-			s.name = "Welcome";
-			s.dimInfo = 0xFF;
-			s.speedInfo = 0x10000;
-			sequenceList.Add(s);
-			loadSequence(0);
-			addRegularChannel_Click(null, null);
-			addRgbChannel_Click(null, null);
-
-			sequenceList[0].channels[0].outputs[0].assignment = 0;
-			sequenceList[0].channels[0].ledObjects.Add(new sob());
-			sequenceList[0].channels[0].ledObjects[0].starttime = 50;
-			sequenceList[0].channels[0].ledObjects[0].length = 50;
-			hsvColor c = new hsvColor(Colors.White);
-			c.value = 0.7;
-			((sob)sequenceList[0].channels[0].ledObjects[0]).color = c.toRGB();
-			reloadChannels();
-			zoomIn_Click(null, null);
-			zoomIn_Click(null, null);
-			zoomIn_Click(null, null);
-			zoomIn_Click(null, null);
-			zoomIn_Click(null, null);
-		
+			currentSequence = -1;
 			Connection.frameReceived += this.frameReceiver;
 		}
 
@@ -100,87 +76,99 @@ namespace xwLedConfigurator {
         }
 
 		private void dockSequence_sequenceManagement(xwDockSequence.sequenceManagement_t action, int sequenceIndex, string sequenceName) {
-			//add new sequence to list
-			if (action == xwDockSequence.sequenceManagement_t.NEW_SEQUENCE) createSequence(sequenceName);
+			this.Dispatcher.BeginInvoke(new Action(() => {
+				//add new sequence to list
+				if (action == xwDockSequence.sequenceManagement_t.NEW_SEQUENCE) createSequence(sequenceName);
 
-			//delete sequence from list
-			if (action == xwDockSequence.sequenceManagement_t.DELETE_SEQUENCE) {
-				//if this is the active sequence, empty screen
-				if (sequenceIndex == currentSequence) {
-					currentSequence = -1;
-					sequenceDispayName.Text = "No Sequence";
-					channelPanel.Children.Clear();
-					dockSequence.hide();
-					outputsDisplay.Text = String.Format("Outputs: {0} / {1}", 0, maxNumOutputs);
-				}
-				sequenceList.RemoveAt(sequenceIndex);
-				dockSequence.show(sequenceList);
-			}
+				//delete sequence from list
+				if (action == xwDockSequence.sequenceManagement_t.DELETE_SEQUENCE) {
+					//delete sequence			
+					sequenceList.RemoveAt(sequenceIndex);
 
-			//load sequence from list
-			if (action == xwDockSequence.sequenceManagement_t.LOAD_SEQUENCE) {
-				loadSequence(sequenceIndex);
-				dockSequence.hide();
-			}
-
-			//save all sequences to file
-			if (action == xwDockSequence.sequenceManagement_t.SAVE_TO_FILE) {
-				SaveFileDialog saveFileDialog = new SaveFileDialog();
-				saveFileDialog.FileName = "xwLedConfig"; // Default file name
-				saveFileDialog.DefaultExt = ".xwled"; // Default file extension
-				saveFileDialog.Filter = "xwled files | *.xwled"; // Filter files by extension
-				if (saveFileDialog.ShowDialog() == true) {
-
-					JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-					string json = JsonConvert.SerializeObject(sequenceList, settings);
-					File.WriteAllText(saveFileDialog.FileName, json);
-					MessageBox.Show("File saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-					dockSequence.hide();
-				}					
-			}
-
-			//load sequences from file
-			if (action == xwDockSequence.sequenceManagement_t.LOAD_FROM_FILE) {
-				OpenFileDialog openFileDialog = new OpenFileDialog();
-				openFileDialog.DefaultExt = ".xwled"; // Default file extension
-				openFileDialog.Filter = "xwled files | *.xwled"; // Filter files by extension
-				if (openFileDialog.ShowDialog() == true) {
-
-					string filecontent = File.ReadAllText(openFileDialog.FileName);
-					try {
-						JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-						sequenceList = JsonConvert.DeserializeObject<List<sequence_t>>(filecontent, settings);
-						sequenceIndex = 0;
-						loadSequence(sequenceIndex);
-						dockSequence.hide();
+					//if this was the active sequence, load another one.
+					//if it was the last one, show empty screen
+					if (sequenceIndex == currentSequence) {
+						if (sequenceList.Count == 0) {
+							currentSequence = -1;
+							sequenceDispayName.Text = "-";
+							channelPanel.Children.Clear();
+							outputsDisplay.Text = String.Format("Outputs: {0} / {1}", 0, maxNumOutputs);
+							welcome.Visibility = Visibility.Visible;
+							dockSequence.hide();
+						}
+						else {
+							loadSequence(0);
+							dockSequence.show(sequenceList);
+						}
 					}
-					catch (Exception ex) {
-						MessageBox.Show("Error while reading file", "Invalid file", MessageBoxButton.OK, MessageBoxImage.Error);
-					}				
+					else dockSequence.show(sequenceList);
 				}
-			}
 
-			//download to device
-			if (action == xwDockSequence.sequenceManagement_t.SAVE_TO_DEVICE) {
-				//pause device and simulation first
-				Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 0 });
-				simulation.stop();
-				if (simAuxRequest != null) simAuxRequest(false);
-				//start download usercontrol
-				if (downloadRequest != null) downloadRequest(sequenceList);
-				dockSequence.hide();
-			}
+				//load sequence from list
+				if (action == xwDockSequence.sequenceManagement_t.LOAD_SEQUENCE) {
+					loadSequence(sequenceIndex);
+					dockSequence.hide();
+				}
 
-			//upload from device
-			if (action == xwDockSequence.sequenceManagement_t.LOAD_FROM_DEVICE) {
-				//pause device and simulation first
-				Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 0 });
-				simulation.stop();
-				if (simAuxRequest != null) simAuxRequest(false);
-				//start download usercontrol
-				if (uploadRequest != null) uploadRequest(sequenceList);
-				dockSequence.hide();
-			}
+				//save all sequences to file
+				if (action == xwDockSequence.sequenceManagement_t.SAVE_TO_FILE) {
+					SaveFileDialog saveFileDialog = new SaveFileDialog();
+					saveFileDialog.FileName = "xwLedConfig"; // Default file name
+					saveFileDialog.DefaultExt = ".xwled"; // Default file extension
+					saveFileDialog.Filter = "xwled files | *.xwled"; // Filter files by extension
+					if (saveFileDialog.ShowDialog() == true) {
+
+						JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+						string json = JsonConvert.SerializeObject(sequenceList, settings);
+						File.WriteAllText(saveFileDialog.FileName, json);
+						MessageBox.Show("File saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+						dockSequence.hide();
+					}					
+				}
+
+				//load sequences from file
+				if (action == xwDockSequence.sequenceManagement_t.LOAD_FROM_FILE) {
+					OpenFileDialog openFileDialog = new OpenFileDialog();
+					openFileDialog.DefaultExt = ".xwled"; // Default file extension
+					openFileDialog.Filter = "xwled files | *.xwled"; // Filter files by extension
+					if (openFileDialog.ShowDialog() == true) {
+
+						string filecontent = File.ReadAllText(openFileDialog.FileName);
+						try {
+							JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+							sequenceList = JsonConvert.DeserializeObject<List<sequence_t>>(filecontent, settings);
+							sequenceIndex = 0;
+							loadSequence(sequenceIndex);
+							dockSequence.hide();
+						}
+						catch (Exception ex) {
+							MessageBox.Show("Error while reading file", "Invalid file", MessageBoxButton.OK, MessageBoxImage.Error);
+						}				
+					}
+				}
+
+				//download to device
+				if (action == xwDockSequence.sequenceManagement_t.SAVE_TO_DEVICE) {
+					//pause device and simulation first
+					Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 0 });
+					simulation.stop();
+					if (simAuxRequest != null) simAuxRequest(false);
+					//start download usercontrol
+					if (downloadRequest != null) downloadRequest(sequenceList);
+					dockSequence.hide();
+				}
+
+				//upload from device
+				if (action == xwDockSequence.sequenceManagement_t.LOAD_FROM_DEVICE) {
+					//pause device and simulation first
+					Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 0 });
+					simulation.stop();
+					if (simAuxRequest != null) simAuxRequest(false);
+					//start download usercontrol
+					if (uploadRequest != null) uploadRequest(sequenceList);
+					dockSequence.hide();
+				}
+			}));
 		}
 
 		private void channelEvent(xwDockChannel sender, xwDockChannel.channelEvent_t request) {
@@ -240,6 +228,10 @@ namespace xwLedConfigurator {
 		}
 
 		private void createSequence(string sequenceName) {
+			//hide welcome message
+			welcome.Visibility = Visibility.Collapsed;
+
+			//create sequence
 			sequence_t newSequence = new sequence_t();
 			newSequence.name = sequenceName;
 			newSequence.dimInfo = 0xFF;
@@ -258,6 +250,9 @@ namespace xwLedConfigurator {
 		}
 
 		private void reloadChannels() {
+
+			//hide welcome message
+			welcome.Visibility = Visibility.Collapsed;
 
 			//if there are already channels loaded, reuse zoom and offset for the new channels
 			int zoom = -1;

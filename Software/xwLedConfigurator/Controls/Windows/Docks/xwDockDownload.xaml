@@ -10,8 +10,8 @@
              " d:DesignWidth="420">
 
     <Border Background="{StaticResource AppMainColor}">
-        <Grid Margin="10">
-            <ProgressBar x:Name="progress"  Minimum="0" Maximum="100" Value="75" Height="30" Width="400" VerticalAlignment="Center" Foreground="{StaticResource AppTitleColor}" Background="{StaticResource MenuHoverColor}" BorderBrush="{StaticResource MenuHoverColor}"/>
+        <Grid Margin="10" x:Name="progressGrid">
+            <ProgressBar x:Name="progressBar"  Minimum="0" Maximum="100" Value="75" Height="30" Width="400" VerticalAlignment="Center" Foreground="{StaticResource AppTitleColor}" Background="{StaticResource MenuHoverColor}" BorderBrush="{StaticResource MenuHoverColor}"/>
             <TextBlock x:Name="progressText" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource MainFontColor}">Downloading 50%</TextBlock>
             <TextBlock x:Name="message" FontSize="20" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Right">Message</TextBlock>
         </Grid>

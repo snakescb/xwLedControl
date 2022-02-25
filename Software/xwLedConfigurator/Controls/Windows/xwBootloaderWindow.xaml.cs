@@ -111,13 +111,13 @@ namespace xwLedConfigurator
                     int retval = 0;
                     retval += CP210x.Open(0, ref handle);
                     retval += CP210x.WriteLatch(handle, 3, 2);
-                    Thread.Sleep(50);
+                    Thread.Sleep(100);
                     retval += CP210x.WriteLatch(handle, 1, 1);
-                    Thread.Sleep(50);
-                    retval += CP210x.WriteLatch(handle, 2, 0);
-                    Thread.Sleep(50);
-                    retval += CP210x.Close(handle);
                     Thread.Sleep(200);
+                    retval += CP210x.WriteLatch(handle, 2, 0);
+                    Thread.Sleep(100);
+                    retval += CP210x.Close(handle);
+                    Thread.Sleep(100);
 
                     if (retval == 0) {
                         currentMessage = "Waiting for bootlaoder response";

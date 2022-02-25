@@ -199,7 +199,7 @@ namespace xwLedConfigurator {
             if (fill > 0) sequenceConfig.AddRange(new byte[4-fill]);
 
             //here, add 4 bytes for each output channel, so the SW can reconstruct SW channels and colors when uploaded from the device
-            //byte 1 2 and 3 are color channel RGB when a single channel, or 0 for RGB channels. byte 4 is the outpus color assignment
+            //byte 1 2 and 3 are color channel RGB when a single channel, or 0 for RGB channels. byte 4 is the outputs color assignment, 0 for a single color channel, 1 for Red channel, 2 Green, 3 Blue
             sequenceConfig.AddRange(reconstructBuffer.ToArray());
 
             //for each output, get the whole buffer, copy it into the config, and adjust the offset (to configBase) in the base table

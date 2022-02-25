@@ -5,11 +5,19 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <PlatformTarget>x86</PlatformTarget>
+    <ApplicationIcon>Images\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\jet.jpg" />
     <None Remove="Images\slider_button.png" />
+    <None Remove="Images\wallaper.jpg" />
+    <None Remove="Images\wallpaper.jpg" />
     <None Remove="Theme\Colorxaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\jet.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\slider_button.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

@@ -1,0 +1,90 @@
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\Scilabs\CP210x_InterfaceLibrary\ManufacturingDLL\CP210xManufacturing.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\Scilabs\CP210x_InterfaceLibrary\RuntimeDLL\CP210xRuntime.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\xwLedConfigurator.exe
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\Firmware\firmware.hex
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\xwLedConfigurator.deps.json
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\xwLedConfigurator.runtimeconfig.json
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\xwLedConfigurator.runtimeconfig.dev.json
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\xwLedConfigurator.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\xwLedConfigurator.pdb
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\FontAwesome.Sharp.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\Microsoft.Win32.Registry.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\Microsoft.Xaml.Behaviors.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\ColorPicker.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\System.IO.Ports.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\System.Security.AccessControl.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\System.Security.Principal.Windows.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\win\lib\netstandard2.0\Microsoft.Win32.Registry.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\linux-arm\native\libSystem.IO.Ports.Native.so
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\linux-arm64\native\libSystem.IO.Ports.Native.so
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\linux-x64\native\libSystem.IO.Ports.Native.so
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\osx-arm64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\osx-x64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.IO.Ports.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.IO.Ports.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Security.AccessControl.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\System.Reactive.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\bin\Release\netcoreapp3.1\System.Reactive.xml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Themes\Styles.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockAuxSim.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockChannel.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockChannelEdit.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockDownload.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockSequence.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceEdit.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceList.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceNew.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockUpload.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\blkSettings.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\dimSettings.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\lobSettings.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\sobSettings.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Sliders\brightnesSlider.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Sliders\speedSlider.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Sliders\voltageSlider.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\xwBootloaderWindow.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\xwConfigWindow.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\xwLedWindow.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\xwMenuItem.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\MainWindow.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\App.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator_MarkupCompile.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator_MarkupCompile.lref
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\App.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockAuxSim.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockChannel.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockChannelEdit.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockDownload.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockSequence.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceEdit.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceList.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockSequenceNew.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Docks\xwDockUpload.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\blkSettings.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\dimSettings.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\lobSettings.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\sobSettings.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Sliders\brightnesSlider.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Sliders\speedSlider.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\Sliders\voltageSlider.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\xwBootloaderWindow.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\xwConfigWindow.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\Windows\xwLedWindow.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\xwMenuItem.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\MainWindow.baml
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.g.resources
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.AssemblyInfoInputs.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.AssemblyInfo.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.csproj.CoreCompileInputs.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.csproj.CopyComplete
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.dll
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.pdb
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator_Content.g.cs

@@ -16,6 +16,7 @@ using System.Threading;
 using System.Timers;
 using System.Linq;
 using System.Windows.Threading;
+using System.Threading.Tasks;
 
 namespace xwLedConfigurator {
 
@@ -25,90 +26,86 @@ namespace xwLedConfigurator {
         public event uploadFinishedEvent_t uploadFinishedEvent;
 
         Upload upload;
-        string messageText = "";
-        int hideTimeout = -1;
-        double progressValue;
 
         public xwDockUpload() {
             InitializeComponent();
             upload = new Upload();
             upload.uploadEvent += uploadEventHandler;
             Connection.frameReceived += upload.frameReceiver;
-
-            System.Windows.Forms.Timer guiUpdate = new System.Windows.Forms.Timer();
-            guiUpdate.Tick += updateGui;
-            guiUpdate.Interval = 50;
-            guiUpdate.Enabled = true;
         }
       
         public void uploadRequestHandler(List<sequence_t> sequenceList) {
-            message.Visibility = Visibility.Visible;
-            progress.Visibility = Visibility.Collapsed;
-            progressText.Visibility = Visibility.Collapsed;
-            this.Visibility = Visibility.Visible;
-                                   
-            upload.startDownload(sequenceList);
+            this.Dispatcher.BeginInvoke(new Action(() => {
 
-            progressValue = 0;
-            hideTimeout = 0;
-            messageText = "Initating upload...";
-            updateGui(null, null);
+                this.Visibility = Visibility.Visible;
+                showText("Initating upload...");
+                upload.startUpload(sequenceList);
+
+            }));
         }
 
         void uploadEventHandler(Upload.eventType type, double eventData) {
-            switch (type) {
-                case Upload.eventType.ERROR_NO_RESPONSE: {
-                    messageText = "Error: No response from device";
-                    progressValue = 0;
-                    hideTimeout = 50;
-                    break;
+            this.Dispatcher.BeginInvoke(new Action(() => {
+
+                switch (type) {
+                    case Upload.eventType.ERROR_NO_RESPONSE: {
+                        showText("Error: No response from device");
+                        hideWindowIn(3000);
+                        break;
+                    }
+
+                    case Upload.eventType.ERROR_PROCESSING: {
+                        showText("Error: Cannot process data");
+                        hideWindowIn(3000);
+                        break;
+                    }
+
+                    case Upload.eventType.ERROR_DEVICE_EMPTY: {
+                        showText("Error: The device is empty");
+                        hideWindowIn(3000);
+                        break;
+                    }
+
+                    case Upload.eventType.PROGRESS_UPDATE: {
+                        showProgress(eventData);
+                        break;
+                    }
+
+                    case Upload.eventType.FINISHED: {
+                        if (uploadFinishedEvent != null) uploadFinishedEvent();
+                        hideWindowIn(3000);                        
+                        break;
+                    }
                 }
 
-                case Upload.eventType.ERROR_PROCESSING: {
-                    messageText = "Error: Cannot process data";
-                    progressValue = 0;
-                    hideTimeout = 50;
-                    break;
-                }
-
-                case Upload.eventType.PROGRESS_UPDATE: {
-                    progressValue = eventData;
-                    break;
-                }
-
-                case Upload.eventType.FINISHED: {
-                    messageText = "Upload completed";
-                    progressValue = 0;
-                    hideTimeout = 50;
-                    if (uploadFinishedEvent != null) uploadFinishedEvent();
-                    break;
-                }
-            }
+            }));            
         }
 
-        void updateGui(Object myObject, EventArgs myEventArgs) {         
+        void hideWindowIn(int milliseconds) {
+            Task.Run(() => {
+                Thread.Sleep(milliseconds);
+                this.Dispatcher.BeginInvoke(new Action(() => {
+                    this.Visibility = Visibility.Collapsed;
+                }));
+            });
+        }
 
-            if (hideTimeout > 0) {
-                hideTimeout--;
-                if (hideTimeout == 0) this.Visibility = Visibility.Collapsed;
-            }
+        void showText(string text) {
+            message.Visibility = Visibility.Visible;
+            progressBar.Visibility = Visibility.Collapsed;
+            progressText.Visibility = Visibility.Collapsed;
 
-            if (progressValue > 0) {
-                message.Visibility = Visibility.Collapsed;
-                progress.Visibility = Visibility.Visible;
-                progressText.Visibility = Visibility.Visible;
+            message.Text = text;
+        }
 
-                int percent = (int)(progressValue * 100);
-                progress.Value = percent;
-                progressText.Text = String.Format("Uploading {0}%", percent);
-            }
-            else {
-                message.Visibility = Visibility.Visible;
-                progress.Visibility = Visibility.Collapsed;
-                progressText.Visibility = Visibility.Collapsed;
+        void showProgress(double progress) {
+            message.Visibility = Visibility.Collapsed;
+            progressBar.Visibility = Visibility.Visible;
+            progressText.Visibility = Visibility.Visible;
 
-                message.Text = messageText;
-            }
+            int percent = (int)(progress * 100);
+            progressBar.Value = percent;
+            progressText.Text = String.Format("Uploading {0}%", percent);
         }
 
 

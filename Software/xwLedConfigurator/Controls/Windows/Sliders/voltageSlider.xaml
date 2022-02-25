@@ -21,7 +21,7 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Column="0" Height="15" CornerRadius="8" Background="Gray" />
+        <Border x:Name="sliderborder" Grid.Column="0" Height="15" CornerRadius="8" Background="Gray" />
 
         <Canvas x:Name="sliderCanvas" Grid.Column="0">
             <Image x:Name="slider" Source="{StaticResource sliderButtonImage}" Width="22" Height="22" RenderOptions.BitmapScalingMode="HighQuality" Visibility="Visible"/>

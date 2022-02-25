@@ -135,7 +135,7 @@
                     Sequence:
                 </TextBlock>
                 <TextBlock x:Name="sequenceDispayName" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" FontSize="26" Margin="10,0,0,0">
-                    No Sequence
+                    -
                 </TextBlock>
             </StackPanel>
 
@@ -162,6 +162,29 @@
                 <StackPanel x:Name="channelPanel" Orientation="Vertical" CanVerticallyScroll="True" CanHorizontallyScroll="True">
                 </StackPanel>
             </ScrollViewer>
+          
+            <!-- Welcome -->
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"  x:Name="welcome">
+                <Image Source="../../Images/jet.jpg" Stretch="UniformToFill" Opacity="0.6">
+                    <Image.OpacityMask>
+                        <LinearGradientBrush EndPoint="0,0" StartPoint="0,0.1">
+                            <GradientStop Color="Black" Offset="0.5"/>
+                            <GradientStop Color="Transparent" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Image.OpacityMask>
+                </Image>
+
+                <StackPanel>
+                    <TextBlock  Foreground="{StaticResource MainFontColor}" FontSize="36" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,140,0,0">
+                        Welcome to xwLedConfigurator
+                    </TextBlock>
+
+                    <TextBlock Width="650" TextWrapping="Wrap" Foreground="{StaticResource MainFontColor}" FontSize="28" VerticalAlignment="Center" TextAlignment="Center" Margin="0,30,0,0">
+                        Start creating your light sequences by opening a file, uploading from your xwLedController, or creating a new sequence from scratch!
+                    </TextBlock>
+
+                </StackPanel>
+            </Grid>
 
 
             <!-- Left Panels -->           

@@ -23,12 +23,23 @@ namespace xwLedConfigurator {
 
         public byte value { get { return currentValue; } set { updateValue(value); } }
 
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
+            base.OnMouseLeftButtonDown(e);
+
+            if (sliderborder.IsMouseOver && !slider.IsMouseOver) {
+                double newLeft = Mouse.GetPosition(sliderCanvas).X - slider.ActualWidth / 2;
+                if (newLeft < 0) newLeft = 0;
+                if (newLeft > sliderCanvas.ActualWidth - slider.ActualWidth) newLeft = sliderCanvas.ActualWidth - slider.ActualWidth;
+                currentSliderPosition = newLeft * 100 / (sliderCanvas.ActualWidth - slider.ActualWidth);
+                updateGraphics();
+            }
+        }
+
         protected override void OnMouseMove(MouseEventArgs e) {
 			base.OnMouseMove(e);
 
             if (!dragging) {
-                Point p = e.GetPosition(slider);
-                if ((p.X >= 0) && (p.X <= slider.ActualWidth) && (p.Y >= 0) && (p.Y <= slider.ActualHeight)) {
+                if (slider.IsMouseOver) {
                     Cursor = Cursors.Hand;
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         dragStartMouse = e.GetPosition(sliderCanvas).X;
@@ -37,6 +48,7 @@ namespace xwLedConfigurator {
                         dragging = true;
                     }
                 }
+                else if (sliderborder.IsMouseOver) Cursor = Cursors.Hand;
                 else Cursor = Cursors.Arrow;
             }
             else {

@@ -71,5 +71,29 @@ namespace xwLedConfigurator {
 
         }
 
+        public override bool applyBuffer(byte[] buffer) {
+            if (buffer[0] != 0x04) return false;
+
+            hsvColor hsv = new hsvColor(Colors.White);
+            hsv.value = (double)buffer[1] / 255;
+            colorMinimum = hsv.toRGB();
+            hsv.value = (double)buffer[2] / 255;
+            colorMaximum = hsv.toRGB();
+            length = buffer[4];
+            length += buffer[5] * 256;
+            return true;
+
+        }
+
+        public override void reconstructColors(ledObject red, ledObject green, ledObject blue) {
+            colorMinimum.R = (byte)((new hsvColor(((dim)red).colorMinimum)).value * 255);
+            colorMinimum.G = (byte)((new hsvColor(((dim)green).colorMinimum)).value * 255);
+            colorMinimum.B = (byte)((new hsvColor(((dim)blue).colorMinimum)).value * 255);
+
+            colorMaximum.R = (byte)((new hsvColor(((dim)red).colorMaximum)).value * 255);
+            colorMaximum.G = (byte)((new hsvColor(((dim)green).colorMaximum)).value * 255);
+            colorMaximum.B = (byte)((new hsvColor(((dim)blue).colorMaximum)).value * 255);
+        }
+
     }
 }

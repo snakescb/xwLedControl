@@ -231,7 +231,6 @@ namespace xwLedConfigurator {
                 sob led = new sob();
                 if (channel.isRGB) led.setColor(Colors.Purple);
                 else led.setColor(channel.color);
-                led.starttime = objectStartTime;
                 newLedObject = led;
             }
             //new LOB created
@@ -297,7 +296,7 @@ namespace xwLedConfigurator {
         //Moving, resizing and keyboard control
         ledVisual dragObject = null;
         bool dragging = false;
-        bool dragClickEnabled = false;        
+        bool dragPreview = false;
         double dragStartGridOffset;
         double dragObjectStartTime;
         double dragObjectLength;
@@ -346,9 +345,8 @@ namespace xwLedConfigurator {
                 dragObjectLength = dragObject.ledObject.length;
             }
             dragStartPostion = e.GetPosition(grid).X;
-            dragLastX = Mouse.GetPosition(grid).X;
-            dragClickEnabled = true;
-            dragging = true;
+            dragLastX = dragStartPostion;
+            dragPreview = true;
             Mouse.Capture(this);
         }
 
@@ -357,8 +355,9 @@ namespace xwLedConfigurator {
             Mouse.Capture(null);
 
             //check if it was a click and not a drag operation
-            if (dragClickEnabled && (dragObject != null)) if (objectEditRquest != null) objectEditRquest(this, dragObject.ledObject);
-            dragging = false;            
+            if (dragPreview && (dragObject != null)) if (objectEditRquest != null) objectEditRquest(this, dragObject.ledObject);
+            dragPreview = false;
+            dragging = false;
             refreshGrid();
         }
 
@@ -366,9 +365,17 @@ namespace xwLedConfigurator {
             base.OnMouseMove(e);
 
             Point current = e.GetPosition(grid);
-            if (Math.Abs(current.X - dragStartPostion) > 0) dragClickEnabled = false;
+            if (dragPreview) {
+                if (Math.Abs(current.X - dragStartPostion) > 0) {
+                    dragging = true;
+                    dragPreview = false;
+                }
+            }
 
-            if (dragging) {
+            if (dragging || dragPreview) {
+
+                if (!dragging) return;
+
                 double dragDistance = current.X - dragStartPostion;
 
                 switch (dragAction) {
@@ -476,6 +483,7 @@ namespace xwLedConfigurator {
                 }
 
             }
+
             dragLastX = Mouse.GetPosition(grid).X;
         }
 
