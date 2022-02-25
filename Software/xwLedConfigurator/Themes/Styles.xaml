@@ -2,16 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <!-- Main Application Colors -->
-    <SolidColorBrush x:Key="AppMainColor" Color="#FF232323"/>
+    <SolidColorBrush x:Key="AppMainColor" Color="#FF1D1D1D"/>
     <SolidColorBrush x:Key="AppBorderColor" Color="#FFBBBBBB"/>
     <SolidColorBrush x:Key="AppTitleColor" Color="#FF72249A"/>
     
-    <SolidColorBrush x:Key="MenuInactiveColor" Color="White" Opacity="0.04"/>
+    <SolidColorBrush x:Key="MenuInactiveColor" Color="White" Opacity="0.08"/>
     <SolidColorBrush x:Key="MenuActiveColor" Color="#FF72249A"/>
     <SolidColorBrush x:Key="MenuHoverColor"  Color="White" Opacity="0.2"/>
     
     <SolidColorBrush x:Key="MainFontColor" Color="#FFEFEFEF"/>
-    <SolidColorBrush x:Key="2ndFontColor" Color="#FFBBBBBB"/>
+    <SolidColorBrush x:Key="2ndFontColor" Color="#FFD8D8D8"/>
+
+    <!-- Images -->
+    <BitmapImage x:Key="sliderButtonImage" UriSource="../Images/slider_button.png" />
 
     <!--Button Style -->
     <Style TargetType="{x:Type Button}">
@@ -46,6 +49,19 @@
         <Setter Property="BorderThickness" Value="0.3"/>
         <Setter Property="BorderBrush" Value="{StaticResource 2ndFontColor}"/>
     </Style>
+
+    <!-- ScrollBar Style -->
+    <Style TargetType="ScrollBar">
+        <Setter Property="Foreground" Value="{StaticResource MenuInactiveColor}"/>
+        <Setter Property="Background" Value="{StaticResource AppMainColor}"/>
+    </Style>
+
+    <!-- Tooltip Style -->
+    <Style TargetType="ToolTip" BasedOn="{StaticResource {x:Type ToolTip}}">
+        <Setter Property="Background" Value="{StaticResource AppMainColor}" />
+        <Setter Property="Foreground" Value="{StaticResource MainFontColor}" />
+    </Style>
+
 
 
 </ResourceDictionary>

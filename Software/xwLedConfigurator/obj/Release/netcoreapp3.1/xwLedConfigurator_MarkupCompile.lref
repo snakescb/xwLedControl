@@ -1,5 +1,25 @@
-﻿C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\obj\Release\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs
-FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\App.xaml;;
-FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\MainWindow.xaml;;
-FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\xwLedConfigurator\xwMenuItem.xaml;;
+﻿C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\App.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Docks\xwDockAuxSim.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Docks\xwDockChannel.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Docks\xwDockChannelEdit.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Docks\xwDockDownload.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Docks\xwDockSequence.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Docks\xwDockSequenceEdit.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Docks\xwDockSequenceList.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Docks\xwDockSequenceNew.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Docks\xwDockUpload.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\LedObjects\Object Settings\blkSettings.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\LedObjects\Object Settings\dimSettings.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\LedObjects\Object Settings\lobSettings.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\LedObjects\Object Settings\sobSettings.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Sliders\brightnesSlider.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Sliders\speedSlider.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\Sliders\voltageSlider.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\xwBootloaderWindow.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\xwConfigWindow.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\Windows\xwLedWindow.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\Controls\xwMenuItem.xaml;;
+FC:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\MainWindow.xaml;;
 

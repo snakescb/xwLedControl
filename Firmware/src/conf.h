@@ -11,7 +11,7 @@
 ******************************************************************************/
 #include "common.h"
 
-#define CONFIG_TYPE_SKYLED  0
+#define CONFIG_TYPE_XWLEDCONTROL  1
 
 #pragma pack(1)
 typedef struct {

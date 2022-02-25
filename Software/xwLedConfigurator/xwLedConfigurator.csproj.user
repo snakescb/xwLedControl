@@ -10,21 +10,45 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Windows\xwConfigWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Controls\xwMenuItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Windows\Docks\xwDockUpload.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Docks\xwDockDownload.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Sliders\voltageSlider.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Sliders\speedSlider.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Sliders\brightnesSlider.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\Docks\xwDockAuxSim.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\dimSettings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\blkSettings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\lobSettings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\sobSettings.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Windows\xwBootloaderWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Windows\xwConfigWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\xwMenuItem.xaml">

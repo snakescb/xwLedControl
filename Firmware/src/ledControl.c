@@ -15,6 +15,7 @@
 #include "adc.h"
 //#include "skyBus.h"
 #include "crc.h"
+#include <stdio.h>
 
 /* Private define ------------------------------------------------------------*/
 #define LED_MAX_NUM_OUTPUTS          24
@@ -78,12 +79,8 @@ typedef struct {
     uint8_t   lineEnd;
     uint8_t   localControl;
     uint8_t   outputNumber;
-    uint8_t   extensionBackup[LED_OBJECT_SIZE];
     uint32_t  runTimeExtended;
     uint32_t  runTimeIncrement;
-    uint16_t* pRand;
-    uint8_t   dreamAddress;
-    uint16_t  dreamNumPixel;
 } ledHandle_t;
 
 /* Private functions ---------------------------------------------------------*/
@@ -113,7 +110,6 @@ uint16_t  sectionWidth, auxSignal, dimBatteryPreset, auxSim;
 int16_t   dimXMin, dimXMax, rxSignal;
 uint32_t  ledControl_configSize, variableTimeIncrement;
 uint32_t  speedInfoReport;
-uint16_t  randArray[LED_NUM_RANDOM_NUMBERS];
 uint16_t* pFlashRand;
 uint8_t   jumperDebounceArray[LED_JUMPER_DEBOUNCE_LEN];
 uint8_t   jumperDebounce;
@@ -334,7 +330,7 @@ void ledControl_lowSpeed() {
     /**************************************************************************
     * Batteriespannung Überwachen und Batteriedimmer berechnen
     ***************************************************************************/
-    //batteriespannung vom Millivolt auf Zehntelvolt runden
+    //batteriespannung vom Millivolt auf Zehntelvolt runden (add 50mv to get propoer rounding)
     battVoltageRounded = (adc_battery + 50) / 100;
     //prüfe ob batteriespannung zu tief und setzet gegebenenfalls flag
     if ((!batteryWarning) && (battWarningThreshold) && (battVoltageRounded) && (battVoltageRounded <= battWarningThreshold)) batteryWarning = true;
@@ -380,7 +376,6 @@ void ledControl_lowSpeed() {
             sequenceDimReport = variableSequenceDim;
         }
     }
-
 
     /**************************************************************************
     * Master Slave Timeout
@@ -579,7 +574,7 @@ void ledControl_startObject(ledHandle_t* h, uint8_t* pObject) {
             //for (uint8_t i=0; i<6; i++) debugBytes[i] = ((uint8_t*)h->pCurrentObject)[4+i];
             ledControl_clearRuntime(h);
 
-            TRACE("DEBUG OBJECT EXECUTED ");
+            TRACE("DEBUG OBJECT EXECUTED");
             h->lifeTime = lifeTime;
             break;
         }
@@ -658,8 +653,7 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
     uint32_t  speedInfo = *((uint32_t*)&sequenceHeader[0x10]);
 
     uint32_t* offsetTable = (uint32_t*)&sequenceHeader[0x1C];
-    uint8_t*  optionTable = (uint8_t*)((uint32_t)offsetTable + (outputs << 2));
-    uint8_t*  rgbTable =    (uint8_t*)((uint32_t)optionTable + (outputs << 2));
+    uint8_t*  outputTable = (uint8_t*)((uint32_t)offsetTable + (outputs << 2));
 
     if (outputs > numControledOutputs) outputs = numControledOutputs;
 
@@ -687,9 +681,8 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
         ledHandle[i].pObjectTableBase = (uint8_t*)(configBase + offsetTable[i]);
         ledHandle[i].lineEnd = 0;
 
-        //check output type and set settings
-        uint8_t* pOption = &optionTable[4*i];
-        ledHandle[i].outputNumber = pOption[1];
+        //assign output
+        ledHandle[i].outputNumber = outputTable[i];
 
         //check if the first object is an EOL. In this case, do not start
         if ((objects_e)ledHandle[i].pObjectTableBase[0] == EOD) {
@@ -700,8 +693,6 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
             ledControl_startObject(&ledHandle[i], ledHandle[i].pObjectTableBase);
         }
 
-        uint8_t channel = (rgbTable[i] & 0x1F) % LED_NUM_RANDOM_NUMBERS;
-        ledHandle[i].pRand = &randArray[channel];
     }
 
 }
@@ -741,7 +732,6 @@ void ledControl_stopSequence() {
         ledHandle[i].sequenceDimMode = FIX_DIM;
         ledHandle[i].sequenceDim = LED_DEFAULT_DIM;
         ledHandle[i].outputNumber = i;
-        ledHandle[i].pRand = &randArray[0];
 
         ledControl_reinitRuntime(&ledHandle[i]);
     }
@@ -774,9 +764,9 @@ void ledControl_activate(bool enable) {
 /******************************************************************************
  * ledControl_setSimObject
  ******************************************************************************/
-void ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObject) {
+bool ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObject) {
     //prüfe ob ausgang gültig ist
-    if (output >= LED_MAX_NUM_OUTPUTS) return;
+    if (output >= LED_MAX_NUM_OUTPUTS) return false;
 
     for (uint8_t j=0; j<numObjects; j++) {
         //check if buffer is full
@@ -784,18 +774,21 @@ void ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObje
         uint8_t wi = ledHandle[output].simWriteIndex;
         uint8_t ni = (wi + 1) % LED_NUM_SIM_OBJECTS;
         //wenn puffer voll ist abbrechen
-        if (ni == ri) return;
+        if (ni == ri) return false;
         //speichere objekt
         uint8_t* p = pObject + (j*LED_OBJECT_SIZE);
         for (uint8_t i=0; i<LED_OBJECT_SIZE; i++) ledHandle[output].simObjects[wi][i] = p[i];
         ledHandle[output].simWriteIndex = ni;
     }
+
+    return true;
 }
 
 /******************************************************************************
  * ledControl_startSim
  ******************************************************************************/
 void ledControl_startSim(uint32_t speedInfo, uint8_t dimInfo, bool useOffsetData, uint8_t* pDirectionData, uint8_t* pOffsetData) {
+
     ledControl_stopSequence();
     runMode = RUNMODE_SIMULATION;
     numOutputsReport = 0;
@@ -950,28 +943,48 @@ void ledControl_init() {
     //initialisiere variabeln und überprüfe die konfiguration
     configBase = (uint8_t*)configBaseFlash;
     bool configOk = true;
+
     //prüfe crc der konfiguration
     ledControl_configSize = ((uint32_t*)configBase)[0];
-    if (ledControl_configSize > configConfigSize) configOk = false;
+    if (ledControl_configSize > configConfigSize) {
+        TRACE("Invalid sequence configuration size detected. Switching to backup configuration");
+        configOk = false;
+    }
     else {
         uint16_t crcCalc  = crc_calc(configBase, ledControl_configSize);
         uint16_t crcFlash = *((uint16_t*)(&configBase[ledControl_configSize]));
-        if(crcCalc != crcFlash) configOk = false;
+        if(crcCalc != crcFlash) {
+            TRACE("Invalid sequence configuration CRC detected. Switching to backup configuration");
+            configOk = false;
+        }
     }
 
     //prüfe config inhalte
     numSequences = configBase[4];
     uint8_t configType    = configBase[6];
     uint8_t configVersion = configBase[7];
-    if (numSequences == 0x00) configOk = false;
-    if (numSequences == 0xFF) configOk = false;
-    if (configType != CONFIG_TYPE_SKYLED) configOk = false;
-    if (configVersion != 2) configOk = false;
+    if (configOk) {
+        if ((numSequences == 0x00) || (numSequences == 0xFF)) {
+            configOk = false;
+            TRACE("Invalid amount of seuquences in configuration. Switching to backup configuration");
+        }
+        if (configType != CONFIG_TYPE_XWLEDCONTROL) {
+            TRACE("Invalid seuquences configuration type. Switching to backup configuration");
+            configOk = false;
+        }
+        if (configVersion != 1) {
+            TRACE("Invalid seuquences configuration version. Switching to backup configuration");
+            configOk = false;
+        }
+    }
 
     //variabeln initialisieren
     if (!configOk) {
         ledControl_configSize = 0;
         configBase = (uint8_t*)configBaseBackup;
+    }
+    else {
+        TRACE("User sequence configuration loaded successfully");
     }
 
     //selection mode und batterie-abschaltspannung stehen im boarcConfig

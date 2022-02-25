@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="xwLedConfigurator.xwDockSequenceEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:xwLedConfigurator"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="300">
+
+    <Border Background="{StaticResource AppMainColor}" CornerRadius="0,10,0,0" Margin="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock Grid.Row="0" Foreground="{StaticResource MainFontColor}" FontSize="20" VerticalAlignment="Center" Margin="10">Sequence Settings</TextBlock>
+            <Button x:Name="bClose" Click="bAbort_Click" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="25" BorderThickness="0" Margin="10" Height="30" Width="30">
+                <fa:IconBlock Icon="TimesCircle"/>
+            </Button>
+
+            <!-- Name -->
+            <StackPanel Orientation="Vertical" Grid.Row="1">
+                <TextBlock  Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,0,0">Sequence Name</TextBlock>
+                <TextBox x:Name="sequenceName" MaxLength="12" Height="30" Width="280" Margin="10,10,0,0" Background="{StaticResource MenuInactiveColor}" Foreground="{StaticResource MainFontColor}" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
+            </StackPanel>
+                
+            <!-- Dimming -->
+            <StackPanel Orientation="Vertical" Grid.Row="2">
+                <TextBlock Grid.Row="3" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,0,0">Sequence Brightness</TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="20,10,10,10">
+                    <TextBlock Width="60" Foreground="{StaticResource MainFontColor}" Text="Mode" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="dimMode" Width="190" SelectionChanged="dimMode_SelectionChanged">
+                        <ComboBoxItem Content="Constant brigthness" IsSelected="True"/>
+                        <ComboBoxItem Content="Brightness by receiver"/>
+                    </ComboBox>
+                </StackPanel>
+                <local:brightnesSlider Grid.Row="4" Grid.ColumnSpan="5" x:Name="dimmingInfo" Margin="10,0,0,0"/>
+            </StackPanel>
+            
+            <!-- Speed -->
+            <StackPanel Orientation="Vertical" Grid.Row="3">
+                <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,0,0">Sequence Speed</TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="20,10,10,10">
+                    <TextBlock Width="60" Foreground="{StaticResource MainFontColor}" Text="Mode" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="speedMode" Width="190" SelectionChanged="speedMode_SelectionChanged">
+                        <ComboBoxItem Content="Constant speed" IsSelected="True"/>
+                        <ComboBoxItem Content="Speed by receiver"/>
+                    </ComboBox>
+                </StackPanel>
+                <local:speedSlider Grid.Row="6" Grid.ColumnSpan="5" x:Name="speedInfo" Margin="10,0,0,0"/>
+            </StackPanel>
+
+            <!-- Buttons -->
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="bSave" Click="bSave_Click" Grid.Column="0" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconBlock Icon="Save" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" />
+                        <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Save</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="bAbort" Click="bAbort_Click" Grid.Column="1" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconBlock Icon="TimesCircle" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" />
+                        <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Abort</TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

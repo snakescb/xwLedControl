@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\App.xaml
-5-454396041
-
-11-931491333
-201-1926114269
-Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;Windows\xwBootloaderWindow.xaml;Windows\xwConfigWindow.xaml;
+23-1938737570
+11762862393
+41361456079
+205-310453596
+Controls\Windows\Docks\xwDockAuxSim.xaml;Controls\Windows\Docks\xwDockChannel.xaml;Controls\Windows\Docks\xwDockChannelEdit.xaml;Controls\Windows\Docks\xwDockDownload.xaml;Controls\Windows\Docks\xwDockSequence.xaml;Controls\Windows\Docks\xwDockSequenceEdit.xaml;Controls\Windows\Docks\xwDockSequenceList.xaml;Controls\Windows\Docks\xwDockSequenceNew.xaml;Controls\Windows\Docks\xwDockUpload.xaml;Controls\Windows\LedObjects\Object Settings\blkSettings.xaml;Controls\Windows\LedObjects\Object Settings\dimSettings.xaml;Controls\Windows\LedObjects\Object Settings\lobSettings.xaml;Controls\Windows\LedObjects\Object Settings\sobSettings.xaml;Controls\Windows\LedObjects\Object Settings\xwDockObjectEdit.xaml;Controls\Windows\Sliders\brightnesSlider.xaml;Controls\Windows\Sliders\speedSlider.xaml;Controls\Windows\Sliders\voltageSlider.xaml;Controls\Windows\xwBootloaderWindow.xaml;Controls\Windows\xwConfigWindow.xaml;Controls\Windows\xwLedWindow.xaml;Controls\xwMenuItem.xaml;MainWindow.xaml;Themes\Styles.xaml;
 
 False
 

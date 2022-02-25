@@ -24,7 +24,15 @@ namespace xwLedConfigurator {
 
         public MainWindow() { 
             InitializeComponent();
-            btnMenuConfig.active = true;
+            //btnMenuConfig.active = true;
+            //btnMenuLed.active = true;
+            menuButton_click(btnMenuLed, null);
+
+            //connect controls
+            contentLed.simAuxRequest += dockAuxSim.simAuxRequestHandler;
+            contentLed.downloadRequest += dockDownload.downloadRequestHandler;
+            contentLed.uploadRequest += dockUpload.uploadRequestHandler;
+            dockUpload.uploadFinishedEvent += contentLed.uploadFinished;
 
             //start connection
             Connection.start();     
@@ -42,11 +50,13 @@ namespace xwLedConfigurator {
                     itemClicked.active = true;
                 }
 
+                contentLed.Visibility = Visibility.Collapsed;
                 contentInfo.Visibility = Visibility.Collapsed;
                 contentBootloader.Visibility = Visibility.Collapsed;
 
                 if (btnMenuFirmware.active) contentBootloader.Visibility = Visibility.Visible;
                 if (btnMenuConfig.active) contentInfo.Visibility = Visibility.Visible;
+                if (btnMenuLed.active) contentLed.Visibility = Visibility.Visible;
             }
         }
 
@@ -91,6 +101,11 @@ namespace xwLedConfigurator {
             base.OnClosed(e);
             App.Current.Shutdown();
             Process.GetCurrentProcess().Kill();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+            var window = Window.GetWindow(this);
+            window.KeyDown += contentLed.HandleKeyPress;
         }
 
     }
