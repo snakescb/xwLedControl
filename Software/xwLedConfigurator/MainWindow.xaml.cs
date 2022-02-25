@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,7 +23,8 @@ namespace xwLedConfigurator {
 
         private Rect restoreLocation;
 
-        public MainWindow() { 
+        public MainWindow() {
+
             InitializeComponent();
             //btnMenuConfig.active = true;
             //btnMenuLed.active = true;

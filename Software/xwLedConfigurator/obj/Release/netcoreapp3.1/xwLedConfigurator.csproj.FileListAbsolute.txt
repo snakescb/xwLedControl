@@ -88,4 +88,3 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.pdb
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator_Content.g.cs
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.csproj.AssemblyReference.cache

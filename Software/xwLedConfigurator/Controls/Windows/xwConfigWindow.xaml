@@ -129,16 +129,14 @@
 
 
                 <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                    <TextBlock Foreground="{StaticResource MainFontColor}">
-                        Version<LineBreak/>
-                        Buildtime<LineBreak/>
-                        Git Branch<LineBreak/>
+                    <TextBlock Foreground="{StaticResource MainFontColor}">                      
                         Git Tags<LineBreak/>
+                        Git Branch<LineBreak/>
+                        Buildtime<LineBreak/>
                         Git Committer<LineBreak/>
                         Git Message
                     </TextBlock>
                     <TextBlock Foreground="{StaticResource MainFontColor}" Margin="5,0,8,0">
-                        :<LineBreak/>
                         :<LineBreak/>
                         :<LineBreak/>
                         :<LineBreak/>

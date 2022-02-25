@@ -58,11 +58,10 @@ namespace xwLedConfigurator {
 				if (customMetadata.Key == "Tags") tags = customMetadata.Value;
 				if (customMetadata.Key == "Committer") committer = customMetadata.Value;
 				if (customMetadata.Key == "Message") message = customMetadata.Value;
-
 			}
 
 			//update software information
-			versionInfoText.Text = Assembly.GetEntryAssembly().GetName().Version.ToString() + "\n" + date + "\n" + branch + "\n" + tags + "\n" + committer + "\n" + message;
+			versionInfoText.Text = tags + "\n" + branch + "\n" + date + "\n" + committer + "\n" + message;
 
 			//timer for gui update
 			System.Windows.Forms.Timer guiUpdate = new System.Windows.Forms.Timer();
@@ -80,7 +79,7 @@ namespace xwLedConfigurator {
 				textConnection.Text += deviceType + "\n";
 				textConnection.Text += Math.Round(((float)deviceConfigSize / 1024), 2).ToString() + "kB";
 				textConnection.Text += " (" + ((float)deviceUsedConfigSize / 1024).ToString("0.00") + "kB used)\n";
-				textConnection.Text += deviceFWVersion + "\n";
+				textConnection.Text += "V" + deviceFWVersion + "\n";
 				textConnection.Text += deviceUid;
 
 
