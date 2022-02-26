@@ -54,7 +54,7 @@ namespace xwLedConfigurator {
 
 		const int maxNumOutputs = 24;
 
-		int currentSequence = 0;
+		sequence_t currentSequence = null;
 		int outputsUsed = 0;		
 		List<sequence_t> sequenceList = new List<sequence_t>();
 		Simulation simulation = new Simulation();
@@ -64,7 +64,7 @@ namespace xwLedConfigurator {
 
 		public xwLedWindow() {
             InitializeComponent();
-			currentSequence = -1;
+			currentSequence = null;
 			Connection.frameReceived += this.frameReceiver;
 		}
 
@@ -75,21 +75,21 @@ namespace xwLedConfigurator {
 			dockSequence.show(sequenceList);
         }
 
-		private void dockSequence_sequenceManagement(xwDockSequence.sequenceManagement_t action, int sequenceIndex, string sequenceName) {
+		private void dockSequence_sequenceManagement(xwDockSequence.sequenceManagement_t action, sequence_t sequence) {
 			this.Dispatcher.BeginInvoke(new Action(() => {
 				//add new sequence to list
-				if (action == xwDockSequence.sequenceManagement_t.NEW_SEQUENCE) createSequence(sequenceName);
+				if (action == xwDockSequence.sequenceManagement_t.NEW_SEQUENCE) createSequence(sequence);
 
 				//delete sequence from list
 				if (action == xwDockSequence.sequenceManagement_t.DELETE_SEQUENCE) {
 					//delete sequence			
-					sequenceList.RemoveAt(sequenceIndex);
+					sequenceList.Remove(sequence);
 
 					//if this was the active sequence, load another one.
 					//if it was the last one, show empty screen
-					if (sequenceIndex == currentSequence) {
+					if (sequence == currentSequence) {
 						if (sequenceList.Count == 0) {
-							currentSequence = -1;
+							currentSequence = null;
 							sequenceDispayName.Text = "-";
 							channelPanel.Children.Clear();
 							outputsDisplay.Text = String.Format("Outputs: {0} / {1}", 0, maxNumOutputs);
@@ -97,7 +97,7 @@ namespace xwLedConfigurator {
 							dockSequence.hide();
 						}
 						else {
-							loadSequence(0);
+							loadSequence(sequenceList[0]);
 							dockSequence.show(sequenceList);
 						}
 					}
@@ -106,7 +106,7 @@ namespace xwLedConfigurator {
 
 				//load sequence from list
 				if (action == xwDockSequence.sequenceManagement_t.LOAD_SEQUENCE) {
-					loadSequence(sequenceIndex);
+					loadSequence(sequence);
 					dockSequence.hide();
 				}
 
@@ -137,8 +137,7 @@ namespace xwLedConfigurator {
 						try {
 							JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
 							sequenceList = JsonConvert.DeserializeObject<List<sequence_t>>(filecontent, settings);
-							sequenceIndex = 0;
-							loadSequence(sequenceIndex);
+							loadSequence(sequenceList[0]);
 							dockSequence.hide();
 						}
 						catch (Exception ex) {
@@ -175,7 +174,7 @@ namespace xwLedConfigurator {
 			if (request == xwDockChannel.channelEvent_t.DELETE_CHANNEL) {
 				if (sender.channel.isRGB) outputsUsed -= 3;
 				else outputsUsed--;				
-				sequenceList[currentSequence].channels.Remove(sender.channel);
+				currentSequence.channels.Remove(sender.channel);
 				reloadChannels();
 			}
 
@@ -227,24 +226,20 @@ namespace xwLedConfigurator {
 			foreach (xwDockChannel channel in channelPanel.Children) channel.setOffset(newOffset);
 		}
 
-		private void createSequence(string sequenceName) {
+		private void createSequence(sequence_t newSequence) {
 			//hide welcome message
 			welcome.Visibility = Visibility.Collapsed;
 
-			//create sequence
-			sequence_t newSequence = new sequence_t();
-			newSequence.name = sequenceName;
+			//update sequence settings
 			newSequence.dimInfo = 0xFF;
 			newSequence.speedInfo = 0x10000;
 			sequenceList.Add(newSequence);
 			dockSequence.hide();
-			currentSequence = sequenceList.Count - 1;
-			loadSequence(currentSequence);
+			loadSequence(newSequence);
 		}
 
-		private void loadSequence(int sequenceIndex) {
-			currentSequence = sequenceIndex;
-			sequence_t sequence = sequenceList[currentSequence];			
+		private void loadSequence(sequence_t sequence) {
+			currentSequence = sequence;		
 			sequenceDispayName.Text = sequence.name;
 			reloadChannels();
 		}
@@ -266,7 +261,7 @@ namespace xwLedConfigurator {
 			outputsUsed = 0;
 			int channelNumber = 0;
 
-			foreach (channel_t channel in sequenceList[currentSequence].channels) {
+			foreach (channel_t channel in currentSequence.channels) {
 				//Renumber the channels
 				channelNumber++;
 				channel.channelNumber = channelNumber;
@@ -290,11 +285,11 @@ namespace xwLedConfigurator {
 		public  void uploadFinished() {			
 			this.Dispatcher.BeginInvoke(new Action(() => {
 				if (sequenceList.Count > 0) {
-					currentSequence = 0;
+					currentSequence = sequenceList[0];
 					reloadChannels();
 				}
 				else {
-					currentSequence = -1;
+					currentSequence = null;
 					sequenceDispayName.Text = "No Sequence";
 					outputsDisplay.Text = String.Format("Outputs: {0} / {1}", 0, maxNumOutputs);
 					channelPanel.Children.Clear();
@@ -319,7 +314,7 @@ namespace xwLedConfigurator {
 		}
 
 		private void addChannel(bool isRGB) {
-			if (currentSequence == -1) return;
+			if (currentSequence == null) return;
 			int outputsAvailable = maxNumOutputs - outputsUsed;
 			int outputsRequired = 1;
 			if (isRGB) outputsRequired = 3;
@@ -335,7 +330,7 @@ namespace xwLedConfigurator {
 					channel.outputs.Add(output);
 				}
 
-				sequenceList[currentSequence].channels.Add(channel);
+				currentSequence.channels.Add(channel);
 				outputsUsed += outputsRequired;
 				reloadChannels();
 			}
@@ -378,15 +373,15 @@ namespace xwLedConfigurator {
 		}
 
 		private void settings_Click(object sender, RoutedEventArgs e) {
-			if (currentSequence == -1) return;
+			if (currentSequence == null) return;
 			dockSequence.hide();
 			dockEditChannel.hide();
 			dockEditObject.hide();
-			dockEditSequence.show(sequenceList[currentSequence]);
+			dockEditSequence.show(currentSequence);
 		}
 
 		private void dockEditSequence_settingsSaved() {
-			sequenceDispayName.Text = sequenceList[currentSequence].name;
+			sequenceDispayName.Text = currentSequence.name;
 		}
 
 		private void dockEditObject_settingsSaved(ledObject ledobject, channel_t channel) {
@@ -424,8 +419,8 @@ namespace xwLedConfigurator {
 
 		//simulation control
         private void startSimulation_Click(object sender, RoutedEventArgs e) {
-			if (currentSequence == -1) return;
-			simulation.start(sequenceList[currentSequence]);
+			if (currentSequence == null) return;
+			simulation.start(currentSequence);
 			if (simAuxRequest != null) simAuxRequest(true);
 		}
 

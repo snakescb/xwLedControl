@@ -20,7 +20,7 @@ namespace xwLedConfigurator {
 
     public partial class xwDockSequenceList : UserControl {
 
-        public delegate void eSequenceRequest(xwDockSequenceList sender, sequenceRequest_t request);
+        public delegate void eSequenceRequest(sequenceRequest_t requestType, sequence_t sequence);
         public event eSequenceRequest sequenceRequest;
 
         public enum sequenceRequest_t {
@@ -28,21 +28,20 @@ namespace xwLedConfigurator {
             DELETE_SEQUENCE
         }
 
-        public string sequenceName;
-        public int index;
+        sequence_t sequence;
 
-        public xwDockSequenceList(int i,string s) {
+        public xwDockSequenceList(sequence_t sequence) {
             InitializeComponent();
-            index = i; sequenceName = s; 
-            sequenceDisplayName.Text = sequenceName;
+            this.sequence = sequence;
+            sequenceDisplayName.Text = sequence.name;
         }
 
         private void bEdit_Click(object sender, RoutedEventArgs e) {
-            if (sequenceRequest != null) sequenceRequest(this, sequenceRequest_t.LOAD_SEQUENCE);
+            if (sequenceRequest != null) sequenceRequest(sequenceRequest_t.LOAD_SEQUENCE, sequence);
         }
 
         private void bDelete_Click(object sender, RoutedEventArgs e) {
-            if (sequenceRequest != null) sequenceRequest(this, sequenceRequest_t.DELETE_SEQUENCE);
+            if (sequenceRequest != null) sequenceRequest(sequenceRequest_t.DELETE_SEQUENCE, sequence);
         }
     }	
 

@@ -653,7 +653,7 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
     uint32_t  speedInfo = *((uint32_t*)&sequenceHeader[0x10]);
 
     uint32_t* offsetTable = (uint32_t*)&sequenceHeader[0x1C];
-    uint8_t*  outputTable = (uint8_t*)((uint32_t)offsetTable + (outputs << 2));
+    uint8_t*  optionTable = (uint8_t*)((uint32_t)offsetTable + (outputs << 2));
 
     if (outputs > numControledOutputs) outputs = numControledOutputs;
 
@@ -682,7 +682,7 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
         ledHandle[i].lineEnd = 0;
 
         //assign output
-        ledHandle[i].outputNumber = outputTable[i];
+        ledHandle[i].outputNumber = optionTable[i*4];
 
         //check if the first object is an EOL. In this case, do not start
         if ((objects_e)ledHandle[i].pObjectTableBase[0] == EOD) {
@@ -968,11 +968,11 @@ void ledControl_init() {
             configOk = false;
             TRACE("Invalid amount of seuquences in configuration. Switching to backup configuration");
         }
-        if (configType != CONFIG_TYPE_XWLEDCONTROL) {
+        else if (configType != CONFIG_TYPE_XWLEDCONTROL) {
             TRACE("Invalid seuquences configuration type. Switching to backup configuration");
             configOk = false;
         }
-        if (configVersion != 1) {
+        else if (configVersion != 1) {
             TRACE("Invalid seuquences configuration version. Switching to backup configuration");
             configOk = false;
         }
@@ -982,9 +982,6 @@ void ledControl_init() {
     if (!configOk) {
         ledControl_configSize = 0;
         configBase = (uint8_t*)configBaseBackup;
-    }
-    else {
-        TRACE("User sequence configuration loaded successfully");
     }
 
     //selection mode und batterie-abschaltspannung stehen im boarcConfig

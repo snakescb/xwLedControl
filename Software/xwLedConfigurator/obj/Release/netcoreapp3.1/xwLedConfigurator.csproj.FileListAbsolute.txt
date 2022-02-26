@@ -52,6 +52,7 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\Controls\xwMenuItem.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\MainWindow.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\App.g.cs
+C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator_Content.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator_MarkupCompile.cache
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator_MarkupCompile.lref
@@ -87,4 +88,3 @@ C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigur
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.dll
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.pdb
 C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator.genruntimeconfig.cache
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\xwLedConfigurator\obj\Release\netcoreapp3.1\xwLedConfigurator_Content.g.cs

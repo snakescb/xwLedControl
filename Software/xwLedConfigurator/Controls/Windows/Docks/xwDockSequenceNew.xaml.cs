@@ -20,8 +20,8 @@ namespace xwLedConfigurator {
 
     public partial class xwDockSequenceNew : UserControl {
 
-        public delegate void eNameUpdated(string s);
-        public event eNameUpdated nameUpdated;
+        public delegate void eSequenceCreated(sequence_t sequence);
+        public event eSequenceCreated sequenceCreated;
 
         public xwDockSequenceNew() {
             InitializeComponent();
@@ -42,7 +42,9 @@ namespace xwLedConfigurator {
 
         private void bCreateSequence_Click(object sender, RoutedEventArgs e) {
             if (sequenceName.Text.Length > 0) {
-                if (nameUpdated != null) nameUpdated(sequenceName.Text);
+                sequence_t sequence = new sequence_t();
+                sequence.name = sequenceName.Text;
+                if (sequenceCreated != null) sequenceCreated(sequence);
             }
         }
     }	

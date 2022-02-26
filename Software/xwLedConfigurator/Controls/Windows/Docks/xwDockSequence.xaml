@@ -84,7 +84,7 @@
             </Grid>
 
             <!-- Hidden controls -->
-            <local:xwDockSequenceNew nameUpdated="sequenceName_nameUpdated" x:Name="sequenceNameNew" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Visibility="Hidden"/>
+            <local:xwDockSequenceNew sequenceCreated="sequenceCreate_created" x:Name="sequenceCreate" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Visibility="Hidden"/>
             
             <!-- Hidden controls 
             <local:xwDockSequenceNew nameUpdated="sequenceName_nameUpdated" x:Name="sequenceNameNew" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Visibility="Hidden"/>
