@@ -191,12 +191,8 @@ namespace xwLedConfigurator {
             int outputTableAddress = sequenceConfig.Count;
             foreach (outputController controller in outputControllers) sequenceConfig.AddRange(get32BitBuffer(0));
 
-            //put all output assignments here
-            foreach (outputController controller in outputControllers) sequenceConfig.Add((byte)controller.output);
-
-            //make sure array size can be divided by 4
-            int fill = sequenceConfig.Count % 4;
-            if (fill > 0) sequenceConfig.AddRange(new byte[4-fill]);
+            //put all output assignments here, combined with 3 currently unused option bytes
+            foreach (outputController controller in outputControllers) sequenceConfig.AddRange(new byte[] { (byte)controller.output, 0, 0, 0 });
 
             //here, add 4 bytes for each output channel, so the SW can reconstruct SW channels and colors when uploaded from the device
             //byte 1 2 and 3 are color channel RGB when a single channel, or 0 for RGB channels. byte 4 is the outputs color assignment, 0 for a single color channel, 1 for Red channel, 2 Green, 3 Blue

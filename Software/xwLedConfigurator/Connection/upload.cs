@@ -167,11 +167,8 @@ namespace xwLedConfigurator {
                 
                 for (int j = 0; j < numoutputs; j++) {
                     int addressObjects = headerAddress + 0x1C + 4 * j;                    
-                    int addressOutput = headerAddress + 0x1C + 4 * numoutputs + j;
-                    int adressChannelDescriptor = headerAddress + 0x1C + 5 * numoutputs;
-                    int fill = adressChannelDescriptor % 4;
-                    if (fill > 0) adressChannelDescriptor += 4 - (adressChannelDescriptor % 4);
-                    adressChannelDescriptor += j * 4;
+                    int addressOutput = headerAddress + 0x1C + 4 * numoutputs + 4 * j;
+                    int adressChannelDescriptor = headerAddress + 0x1C + 8 * numoutputs + 4 * j;
 
                     outputControllers.Add(new outputController(ref fullConfig, addressObjects, adressChannelDescriptor, addressOutput));
                 }

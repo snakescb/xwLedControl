@@ -14,7 +14,7 @@
 // FIRMWARE VERSION
 //*****************************************************************************
 #define SW_VER_MAJOR         1
-#define SW_VER_MINOR         1
+#define SW_VER_MINOR         2
 
 //*****************************************************************************
 // LOCAL CONTROL SWITCHES

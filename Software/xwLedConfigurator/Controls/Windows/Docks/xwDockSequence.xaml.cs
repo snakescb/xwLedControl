@@ -20,7 +20,7 @@ namespace xwLedConfigurator {
 
     public partial class xwDockSequence : UserControl {
 
-        public delegate void eSequenceManagement(sequenceManagement_t action, int sequenceIndex, string sequenceName);
+        public delegate void eSequenceManagement(sequenceManagement_t action, sequence_t sequence);
         public event eSequenceManagement sequenceManagement;
 
         public enum sequenceManagement_t {
@@ -42,9 +42,8 @@ namespace xwLedConfigurator {
             sequenceItemList.Children.Clear();
 
             //add elements for each sequence to list
-            for (int i = 0; i < sequenceList.Count; i++) {
-                sequence_t sequence = sequenceList[i];
-                xwDockSequenceList item = new xwDockSequenceList(i, sequence.name);
+            foreach (sequence_t sequence in sequenceList) {
+                xwDockSequenceList item = new xwDockSequenceList(sequence);
                 item.sequenceRequest += sequenceRequest;
                 sequenceItemList.Children.Add(item);
             }
@@ -59,42 +58,44 @@ namespace xwLedConfigurator {
         }
 
         private void bCreateSequence_Click(object sender, RoutedEventArgs e) {
-            sequenceNameNew.show();
+            sequenceCreate.show();
         }
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            sequenceNameNew.hide();
+            sequenceCreate.hide();
         }
 
-        private void sequenceName_nameUpdated(string newSequenceName) {
-            sequenceNameNew.hide();
-            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.NEW_SEQUENCE, -1, newSequenceName);
+        private void sequenceCreate_created(sequence_t sequence) {
+            sequenceCreate.hide();
+            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.NEW_SEQUENCE, sequence);
         }
 
-        private void sequenceRequest(xwDockSequenceList sender, xwDockSequenceList.sequenceRequest_t request) {
+        private void sequenceRequest(xwDockSequenceList.sequenceRequest_t request, sequence_t sequence) {
+            
             if (request == xwDockSequenceList.sequenceRequest_t.DELETE_SEQUENCE) {
-                if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.DELETE_SEQUENCE, sender.index, "");
+                if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.DELETE_SEQUENCE, sequence);
             }
 
             if (request == xwDockSequenceList.sequenceRequest_t.LOAD_SEQUENCE) {
-                if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.LOAD_SEQUENCE, sender.index, "");
+                if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.LOAD_SEQUENCE, sequence);
             }
+            
         }
 
         private void bSaveToFile_Click(object sender, RoutedEventArgs e) {
-            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.SAVE_TO_FILE, 0, "");
+            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.SAVE_TO_FILE, null);
         }
 
         private void bLoadFromFile_Click(object sender, RoutedEventArgs e) {
-            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.LOAD_FROM_FILE, 0, "");
+            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.LOAD_FROM_FILE, null);
         }
 
         private void bSaveToDevice_Click(object sender, RoutedEventArgs e) {
-            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.SAVE_TO_DEVICE, 0, "");
+            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.SAVE_TO_DEVICE, null);
         }
 
         private void bLoadFromDevice_Click(object sender, RoutedEventArgs e) {
-            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.LOAD_FROM_DEVICE, 0, "");
+            if (sequenceManagement != null) sequenceManagement(sequenceManagement_t.LOAD_FROM_DEVICE, null);
         }
     }	
 
