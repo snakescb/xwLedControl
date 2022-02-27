@@ -9,7 +9,7 @@ xwLedControl is a flexible, highly configurable RC Lightning System. It was form
 - The new controller is designed in EasyEDA and shared (Link below in the versions). You can clone the EasyEDA project, make changes as you like and order the PCB on your own. All designs are using basic parts which are normally in stock for assembly at JLCPCB, so you can order your board directly from EasyEDA fully assembled if desired.
 
 ## xwLedControl Basic
-The original xwLedControl, formerly SkyLED by InnoSKY, with included USB port and auto-shutdown - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
+The original xwLedControl, formerly SkyLED by InnoSKY, including USB port and auto-shutdown. The Basic version is simply connting the LED's with the attached batteries, so it requires inline resistors wit the LED's not to damage the,  - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
 
 ### Features
 - 47 x 25mm 4 layer PCB
