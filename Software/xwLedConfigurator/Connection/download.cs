@@ -30,6 +30,9 @@ namespace xwLedConfigurator {
                 this.channel = channel;
                 this.output = output;
                 this.colorChannel = colorChannel;
+            }    
+            
+            public byte[] getChannelBuffer(uint channelHeaderOffset) {
 
                 //calculate output data
                 //prepare variables
@@ -38,6 +41,20 @@ namespace xwLedConfigurator {
                 bool continueLoop = true;
                 int currentObject = 0;
                 if (channel.ledObjects.Count == 0) continueLoop = false;
+
+                //fill channel header information
+                uint objectsAddress = channelHeaderOffset + 0x0C;
+                outputData.Add((byte)output);       // Channel Output
+                outputData.Add(channel.channelDim); // Channel max PWM
+                outputData.Add(0);                  // Channel min AUX
+                outputData.Add(0xFF);               // Channel max AUX
+
+                //set color information for reconstruction
+                if (colorChannel == 0) outputData.AddRange(new byte[] { channel.color.R, channel.color.G, channel.color.B, 0 });
+                else outputData.AddRange(new byte[] { 0,0, 0, (byte)colorChannel });
+
+                //offset to objects
+                outputData.AddRange(new byte[] { (byte)(objectsAddress), (byte)(objectsAddress >> 8), (byte)(objectsAddress >> 16), (byte)(objectsAddress >> 24) }); //Address of first Object                
 
                 //loop for all objects
                 while (continueLoop) {
@@ -53,7 +70,7 @@ namespace xwLedConfigurator {
                                 blankFrame[0] = 0x01;
                                 blankFrame[2] = 0x01;
                                 blankFrame[11] = 1; //marker, so empty space can be reconstructed when uploaded
-                                outputData.AddRange(blankFrame); 
+                                outputData.AddRange(blankFrame);
                             }
                             continueLoop = false;
                         }
@@ -79,7 +96,9 @@ namespace xwLedConfigurator {
                 if (channel.eolOption == 2) eod[1] = 0; //keep output unchanged at last brightness
                 if (channel.eolOption == 3) eod[1] = 0; //keep output unchanged at 0 brightness (blank frame was inserted before)
                 outputData.AddRange(eod);
-            }            
+
+                return outputData.ToArray();
+            }
         }
 
         enum downloadState_t {
@@ -113,11 +132,10 @@ namespace xwLedConfigurator {
 
             //prepare header            
             fullConfig.AddRange(get32BitBuffer(0));     // length will be changed later
-            fullConfig.Add((byte)sequenceList.Count);   // Number of sequencec
+            fullConfig.Add((byte)sequenceList.Count);   // Number of sequences
             fullConfig.Add(0);                          // Unused
             fullConfig.Add((byte)xwCom.CONFIG_TYPE);    // Config Type, 1 for xwLedControl
             fullConfig.Add((byte)xwCom.CONFIG_VERSION); // Config Version, 1 for the current xwLedControl FW
-            fullConfig.AddRange(new byte[16]);          // 16 unused bytes
 
             //add a space to put the offset to each sequence header later
             int sequenceTableAddress = fullConfig.Count;
@@ -163,7 +181,6 @@ namespace xwLedConfigurator {
             // Create output controllers for each output in sequence
             // Also, prepare buffer to reconstruct sw channels when uploaded from device
             List<outputController> outputControllers = new List<outputController>();
-            List<byte> reconstructBuffer = new List<byte>();
             int numOutputs = 0;
             foreach (channel_t channel in sequence.channels) {
                 if (channel.isRGB) {
@@ -171,40 +188,30 @@ namespace xwLedConfigurator {
                     outputControllers.Add(new outputController(channel, channel.outputs[0].assignment, 1));
                     outputControllers.Add(new outputController(channel, channel.outputs[1].assignment, 2));
                     outputControllers.Add(new outputController(channel, channel.outputs[2].assignment, 3));
-                    reconstructBuffer.AddRange(new byte[] { 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3 });
                 }
                 else {
                     numOutputs += 1;
                     outputControllers.Add(new outputController(channel, channel.outputs[0].assignment, 0));
-                    reconstructBuffer.AddRange(new byte[] { channel.color.R, channel.color.G, channel.color.B, 0 });
                 }
             }
 
-            // Add data
+            // Add remaining header data
             sequenceConfig.Add((byte)numOutputs);                           // Number of channles 
             sequenceConfig.Add((byte)sequence.dimInfo);                     // Dim Info
             sequenceConfig.AddRange(new byte[2]);                           // Unused
             sequenceConfig.AddRange(get32BitBuffer(sequence.speedInfo));    // Speed Info
-            sequenceConfig.AddRange(new byte[8]);                           // Unused
 
-            //add a space to put the offset to each definition table header later
+            //add a space to put the offset to each channel header later
             int outputTableAddress = sequenceConfig.Count;
             foreach (outputController controller in outputControllers) sequenceConfig.AddRange(get32BitBuffer(0));
 
-            //put all output assignments here, combined with 3 currently unused option bytes
-            foreach (outputController controller in outputControllers) sequenceConfig.AddRange(new byte[] { (byte)controller.output, 0, 0, 0 });
-
-            //here, add 4 bytes for each output channel, so the SW can reconstruct SW channels and colors when uploaded from the device
-            //byte 1 2 and 3 are color channel RGB when a single channel, or 0 for RGB channels. byte 4 is the outputs color assignment, 0 for a single color channel, 1 for Red channel, 2 Green, 3 Blue
-            sequenceConfig.AddRange(reconstructBuffer.ToArray());
-
-            //for each output, get the whole buffer, copy it into the config, and adjust the offset (to configBase) in the base table
+            //put all output channels here, and adjust offet in the channel offset table
             foreach (outputController controller in outputControllers) {
-                int outputAddress = sequenceConfig.Count + sequenceOffset;             
-                bufferChange(ref sequenceConfig, outputTableAddress, get32BitBuffer((uint)outputAddress));
+                int channelHeaderAddress = sequenceConfig.Count + sequenceOffset;
+                bufferChange(ref sequenceConfig, outputTableAddress, get32BitBuffer((uint)channelHeaderAddress));
                 outputTableAddress += 4;
-                sequenceConfig.AddRange(controller.outputData.ToArray());                
-            }            
+                sequenceConfig.AddRange(controller.getChannelBuffer((uint)channelHeaderAddress));
+            }
 
             return sequenceConfig.ToArray();
         }

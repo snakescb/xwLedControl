@@ -21,6 +21,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>                
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="auto"/>
@@ -31,6 +33,27 @@
             <Button x:Name="bClose" Click="bAbort_Click" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="25" BorderThickness="0" Margin="10" Height="30" Width="30">
                 <fa:IconBlock Icon="TimesCircle"/>
             </Button>
+
+            <!-- color bands -->
+            <Border Grid.Row="1" Margin="5,0,5,0" CornerRadius="5" Visibility="{Binding rgbVisibility}">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="Yellow" Offset="0.0" />
+                        <GradientStop Color="Red" Offset="0.25" />
+                        <GradientStop Color="Blue" Offset="0.75" />
+                        <GradientStop Color="LimeGreen" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <Border Grid.Row="1" Margin="5,0,5,0" CornerRadius="5" Visibility="{Binding bwVisibility}">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="{Binding channelColor}" Offset="0.5" />
+                        <GradientStop Color="Black" Offset="0.9" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
 
             <!-- Output -->
             <TextBlock Grid.Row="2" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">Output Assignment</TextBlock>
@@ -156,31 +179,14 @@
                 </Button>
 
             </Grid>
-            
-            <!-- color bands -->
-            <Border Grid.Row="1" Margin="5,0,5,0" CornerRadius="5" Visibility="{Binding rgbVisibility}">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="Yellow" Offset="0.0" />
-                        <GradientStop Color="Red" Offset="0.25" />
-                        <GradientStop Color="Blue" Offset="0.75" />
-                        <GradientStop Color="LimeGreen" Offset="1.0" />
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
 
-            <Border Grid.Row="1" Margin="5,0,5,0" CornerRadius="5" Visibility="{Binding bwVisibility}">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="{Binding channelColor}" Offset="0.5" />
-                        <GradientStop Color="Black" Offset="0.9" />
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
+            <!-- Channel dimming -->
+            <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">Channel dimming</TextBlock>
+            <local:brightnesSlider x:Name="dimming" Grid.Row="6"/>
 
             <!-- Restart -->
-            <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">After last Object</TextBlock>
-            <Grid Grid.Row="6">
+            <TextBlock  Grid.Row="7" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">After last Object</TextBlock>
+            <Grid Grid.Row="8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="20"/>
@@ -202,15 +208,14 @@
                 <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Restart channel reversed</TextBlock>
                 <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">Stop channel with last brigthness</TextBlock>
                 <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">Stop channel with dark output</TextBlock>
-
             </Grid>
 
             <!-- Channel color -->
-            <TextBlock Grid.Row="7" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10" Visibility="{Binding bwVisibility}">Channel Color</TextBlock>
-            <colorpicker:SquarePicker  Grid.Row="8" x:Name="channelColorPicker" ColorChanged="channelColorPicker_ColorChanged" Width="150" Height="150" Visibility="{Binding bwVisibility}"/>
+            <TextBlock Grid.Row="9" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10" Visibility="{Binding bwVisibility}">Channel Color</TextBlock>
+            <colorpicker:SquarePicker  Grid.Row="10" x:Name="channelColorPicker" ColorChanged="channelColorPicker_ColorChanged" Width="140" Height="140" Visibility="{Binding bwVisibility}"/>
             
             <!-- Buttons -->
-            <Grid Grid.Row="11">
+            <Grid Grid.Row="13">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

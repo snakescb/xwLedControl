@@ -24,7 +24,7 @@ namespace xwLedConfigurator {
         public delegate void channelSettingsSaved(channel_t channel);
         public event channelSettingsSaved settingsSaved;
 
-        public delegate void testOutputRequest(int i);
+        public delegate void testOutputRequest(int i, byte brightness);
         public event testOutputRequest testoutput;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -85,6 +85,8 @@ namespace xwLedConfigurator {
                 assignmentSelectorG.SelectedIndex = channel.outputs[1].assignment;
                 assignmentSelectorB.SelectedIndex = channel.outputs[2].assignment;
             }
+
+            dimming.value = channel.channelDim;
         }
 
         public void hide() {
@@ -114,6 +116,8 @@ namespace xwLedConfigurator {
                 channel.color = hsv.toRGB();
             }
 
+            channel.channelDim = dimming.value;
+
             if (settingsSaved != null) settingsSaved(channel);
             hide();
         }
@@ -121,20 +125,20 @@ namespace xwLedConfigurator {
         private void bTest_Click(object sender, RoutedEventArgs e) {
 
             Button button = (Button)sender;
-            string channel = button.Name.Substring(button.Name.Length - 1, 1);
+            string channelstring = button.Name.Substring(button.Name.Length - 1, 1);
 
             if (button.ClickMode == ClickMode.Press) {
                 button.ClickMode = ClickMode.Release;
 
                 if (testoutput != null) {
-                    if (channel == "R") testoutput(assignmentSelectorR.SelectedIndex);
-                    if (channel == "G") testoutput(assignmentSelectorG.SelectedIndex);
-                    if (channel == "B") testoutput(assignmentSelectorB.SelectedIndex);
+                    if (channelstring == "R") testoutput(assignmentSelectorR.SelectedIndex, dimming.value);
+                    if (channelstring == "G") testoutput(assignmentSelectorG.SelectedIndex, dimming.value);
+                    if (channelstring == "B") testoutput(assignmentSelectorB.SelectedIndex, dimming.value);
                 }
             }
             else {
                 button.ClickMode = ClickMode.Press;
-                if (testoutput != null) testoutput(-1);
+                if (testoutput != null) testoutput(-1, 0);
             }
         }
 

@@ -1,19 +1,19 @@
 // This is auto-generated version information attributes by RelaxVersioner.2.5.0.0, Do not edit.
-// Generated date: Sat, 26 Feb 2022 16:15:21 GMT
+// Generated date: Sun, 27 Feb 2022 23:07:49 GMT
 
 using System.Reflection;
 
-[assembly: AssemblyVersion(@"0.0.42")]
-[assembly: AssemblyFileVersion(@"2022.2.26.31004")]
-[assembly: AssemblyInformationalVersion(@"0.0.42-8164ce70e38afa95abd50282adc33112101f4a70")]
-[assembly: AssemblyMetadata(@"Date",@"Sat, 26 Feb 2022 16:13:29 GMT")]
+[assembly: AssemblyVersion(@"0.0.43")]
+[assembly: AssemblyFileVersion(@"2022.2.26.31078")]
+[assembly: AssemblyInformationalVersion(@"0.0.43-d48ef4326bb2caf8b22df80f38044319263d0fd6")]
+[assembly: AssemblyMetadata(@"Date",@"Sat, 26 Feb 2022 16:15:57 GMT")]
 [assembly: AssemblyMetadata(@"Branch",@"main")]
-[assembly: AssemblyMetadata(@"Tags",@"V1.1")]
+[assembly: AssemblyMetadata(@"Tags",@"")]
 [assembly: AssemblyMetadata(@"Author",@"Christian Luethi <luethich80@gmail.com>")]
-[assembly: AssemblyMetadata(@"Committer",@"GitHub <noreply@github.com>")]
-[assembly: AssemblyMetadata(@"Message",@"Merge pull request #6 from snakescb/develop")]
+[assembly: AssemblyMetadata(@"Committer",@"Christian Luethi <luethich80@gmail.com>")]
+[assembly: AssemblyMetadata(@"Message",@"V1.1 rebuild")]
 [assembly: AssemblyMetadata(@"Build",@"")]
-[assembly: AssemblyMetadata(@"Generated",@"Sat, 26 Feb 2022 16:15:21 GMT")]
+[assembly: AssemblyMetadata(@"Generated",@"Sun, 27 Feb 2022 23:07:49 GMT")]
 [assembly: AssemblyMetadata(@"TargetFramework",@"netcoreapp3.1")]
 [assembly: AssemblyMetadata(@"Platform",@"AnyCPU")]
 [assembly: AssemblyMetadata(@"BuildOn",@"Windows_NT")]
@@ -23,19 +23,19 @@ namespace xwLedConfigurator
 {
     internal static class ThisAssembly
     {
-        public const string @AssemblyVersion = @"0.0.42";
-        public const string @AssemblyFileVersion = @"2022.2.26.31004";
-        public const string @AssemblyInformationalVersion = @"0.0.42-8164ce70e38afa95abd50282adc33112101f4a70";
+        public const string @AssemblyVersion = @"0.0.43";
+        public const string @AssemblyFileVersion = @"2022.2.26.31078";
+        public const string @AssemblyInformationalVersion = @"0.0.43-d48ef4326bb2caf8b22df80f38044319263d0fd6";
         public static class AssemblyMetadata
         {
-            public const string @Date = @"Sat, 26 Feb 2022 16:13:29 GMT";
+            public const string @Date = @"Sat, 26 Feb 2022 16:15:57 GMT";
             public const string @Branch = @"main";
-            public const string @Tags = @"V1.1";
+            public const string @Tags = @"";
             public const string @Author = @"Christian Luethi <luethich80@gmail.com>";
-            public const string @Committer = @"GitHub <noreply@github.com>";
-            public const string @Message = @"Merge pull request #6 from snakescb/develop";
+            public const string @Committer = @"Christian Luethi <luethich80@gmail.com>";
+            public const string @Message = @"V1.1 rebuild";
             public const string @Build = @"";
-            public const string @Generated = @"Sat, 26 Feb 2022 16:15:21 GMT";
+            public const string @Generated = @"Sun, 27 Feb 2022 23:07:49 GMT";
             public const string @TargetFramework = @"netcoreapp3.1";
             public const string @Platform = @"AnyCPU";
             public const string @BuildOn = @"Windows_NT";

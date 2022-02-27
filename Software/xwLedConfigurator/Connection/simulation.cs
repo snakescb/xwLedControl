@@ -12,7 +12,8 @@ namespace xwLedConfigurator {
 
         class outputController {
 
-            public int output;            
+            public int output;
+            public byte dim;
             int colorChannel;
             channel_t channel;
             bool stopped;
@@ -31,6 +32,7 @@ namespace xwLedConfigurator {
                 this.channel = channel;
                 this.output = output;
                 this.colorChannel = colorChannel;
+                this.dim = channel.channelDim;
                 stopped = false;
                 forward = true;
                 insertBlankEnd = false;
@@ -258,20 +260,19 @@ namespace xwLedConfigurator {
                                 //send new object to device
                                 if (frame.numObjectsInFrame > 0) {
                                     //prepare and send frame
-                                    byte[] txdata = new byte[frame.data.Length + 3];
+                                    byte[] txdata = new byte[frame.data.Length + 4];
                                     txdata[0] = (byte)xwCom.LED.SIM_SET_OBJECTS;
                                     txdata[1] = (byte)controller.output;
-                                    txdata[2] = (byte)frame.numObjectsInFrame;
-                                    frame.data.CopyTo(txdata, 3);
+                                    txdata[2] = (byte)controller.dim;
+                                    txdata[3] = (byte)frame.numObjectsInFrame;
+                                    frame.data.CopyTo(txdata, 4);
 
                                     Connection.putFrame((byte)xwCom.SCOPE.LED, txdata);
                                 }
                             }
                         }
                     }
-                 
                 }
-
             }
         }
 
@@ -332,11 +333,12 @@ namespace xwLedConfigurator {
                                 objectCounter += frame.numObjectsInFrame;
 
                                 //prepare transmit frame
-                                currentTxData = new byte[frame.data.Length + 3];
+                                currentTxData = new byte[frame.data.Length + 4];
                                 currentTxData[0] = (byte)xwCom.LED.SIM_SET_OBJECTS;
                                 currentTxData[1] = (byte)outputControllers[currentController].output;
-                                currentTxData[2] = (byte)frame.numObjectsInFrame;
-                                frame.data.CopyTo(currentTxData, 3);
+                                currentTxData[2] = (byte)outputControllers[currentController].dim;
+                                currentTxData[3] = (byte)frame.numObjectsInFrame;
+                                frame.data.CopyTo(currentTxData, 4);
 
                                 //send frame
                                 Connection.putFrame((byte)xwCom.SCOPE.LED, currentTxData);

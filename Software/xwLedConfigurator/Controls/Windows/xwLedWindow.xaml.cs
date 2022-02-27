@@ -31,6 +31,7 @@ namespace xwLedConfigurator {
 		public int channelNumber;
 		public int eolOption;
 		public bool isRGB;
+		public byte channelDim;
 		public Color color;
 		public List<ledObject> ledObjects = new List<ledObject>();
 		public List<output_t> outputs = new List<output_t>();
@@ -323,6 +324,7 @@ namespace xwLedConfigurator {
 				channel.isRGB = isRGB;
 				channel.eolOption = 0;
 				channel.color = Colors.White;
+				channel.channelDim = 0xFF;
 
 				for (int i = 0; i < outputsRequired; i++) {
 					output_t output = new output_t();
@@ -406,10 +408,10 @@ namespace xwLedConfigurator {
 			Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[] { (byte)xwCom.LED.ENABLE_DISABLE, 1 });
 		}
 
-        private void dockEditChannel_testoutput(int index) {
+        private void dockEditChannel_testoutput(int index, byte brightness) {
 			byte[] data = new byte[maxNumOutputs + 1];
 			data[0] = (byte)xwCom.LED.MANUAL_BRIGHTNESS;
-			if (index >= 0) data[index + 1] = 200;
+			if (index >= 0) data[index + 1] = brightness;
 			Connection.putFrame((byte)xwCom.SCOPE.LED, data);
 		}
 

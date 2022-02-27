@@ -277,7 +277,7 @@ void teco_ledHandler(comFrame_t* frame) {
 
         case LED_SIM_SET_OBJECTS: {
             uint8_t rsp[] = {LED_RESPONSE_ACKNOWLEDGE, false};
-            rsp[1] = ledControl_setSimObjects(frame->data[1], frame->data[2], frame->data + 3);
+            rsp[1] = ledControl_setSimObjects(frame->data[1], frame->data[2], frame->data[3], frame->data + 4);
             teco_send(SCOPE_LED, 2, rsp);
             break;
         }

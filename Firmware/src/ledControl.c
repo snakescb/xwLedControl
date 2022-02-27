@@ -81,6 +81,9 @@ typedef struct {
     uint8_t   outputNumber;
     uint32_t  runTimeExtended;
     uint32_t  runTimeIncrement;
+    uint8_t   channelDim;
+    uint8_t   minAux;
+    uint8_t   maxAux;
 } ledHandle_t;
 
 /* Private functions ---------------------------------------------------------*/
@@ -236,14 +239,11 @@ void ledControl_update() {
     ***************************************************************************/
     for (uint8_t i=0; i<numControledOutputs; i++) {
         uint32_t newPwm = ledHandle[i].pwm;
-        if (batteryWarning && (runMode == RUNMODE_MASTER)) {
-            newPwm *= dimBatteryPreset;
-            newPwm /= LED_MAX_DIM_BATT_PRESET;
-        }
-        else {
-            newPwm *= ledHandle[i].sequenceDim;
-            newPwm /= LED_DEFAULT_DIM;
-        }
+
+        //apply various dim's and put pwm value to buffer
+        if (runMode != RUNMODE_DISABLED) newPwm = (newPwm*ledHandle[i].channelDim) >> 8;
+        if (batteryWarning && (runMode == RUNMODE_MASTER)) newPwm = (newPwm*dimBatteryPreset) >> 8;
+        else newPwm = (newPwm*ledHandle[i].sequenceDim) >> 8;
         if (ledHandle[i].outputNumber != LED_OUTPUT_UNLINKED) pwmBuffer[ledHandle[i].outputNumber] = (uint8_t)newPwm;
     }
 
@@ -640,6 +640,7 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
 
     if (sequenceNumber >= numSequences) return;
     if (currentSequence == sequenceNumber) return;
+    if (numSequences == LED_SEQUENCE_NONE) return;
 
     ledControl_stopSequence();
 
@@ -649,40 +650,45 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
 
     uint8_t*  sequenceHeader = (uint8_t*)(configBase + pSequenceTable[currentSequence]);
     uint8_t   outputs = sequenceHeader[0x0C];
-    uint8_t   dimInfo = sequenceHeader[0x0D];
-    uint32_t  speedInfo = *((uint32_t*)&sequenceHeader[0x10]);
-
-    uint32_t* offsetTable = (uint32_t*)&sequenceHeader[0x1C];
-    uint8_t*  optionTable = (uint8_t*)((uint32_t)offsetTable + (outputs << 2));
-
+    uint8_t   sequenceDim = sequenceHeader[0x0D];
+    uint32_t  sequenceSpeed = *((uint32_t*)&sequenceHeader[0x10]);
+    uint32_t* channelTable = (uint32_t*)&sequenceHeader[0x14];
+ 
     if (outputs > numControledOutputs) outputs = numControledOutputs;
 
     numOutputsReport = outputs;
-    speedInfoReport = speedInfo;
-    sequenceDimReport = dimInfo;
+    speedInfoReport = sequenceSpeed;
+    sequenceDimReport = sequenceDim;
 
     for (uint8_t i=0; i<outputs; i++) {
 
+        //channel settings
+        uint8_t*  channelHeader = (uint8_t*)(configBase + channelTable[i]);        
+        uint32_t ledObjectsOffset = *((uint32_t*)&channelHeader[0x08]);
+
+        ledHandle[i].outputNumber = channelHeader[0];
+        ledHandle[i].channelDim = channelHeader[1];
+        ledHandle[i].minAux = channelHeader[2];
+        ledHandle[i].maxAux = channelHeader[3];
+        ledHandle[i].outputMode = FORWARD;
+        ledHandle[i].pObjectTableBase = (uint8_t*)(configBase + ledObjectsOffset);
+        ledHandle[i].lineEnd = 0;
+        
+        //sequence speed control
         ledHandle[i].incrementMode = FIX_INCREMENT;
-        ledHandle[i].runTimeIncrement = speedInfo;
-        if (speedInfo == 0) {
+        ledHandle[i].runTimeIncrement = sequenceSpeed;
+        if (sequenceSpeed == 0) {
             ledHandle[i].incrementMode = VARIABLE_INCREMENT;
             ledHandle[i].runTimeIncrement = LED_DEFAULT_INCREMENT;
         }
 
+        //sequence dim control
         ledHandle[i].sequenceDimMode = FIX_DIM;
-        ledHandle[i].sequenceDim = dimInfo;
-        if (dimInfo == 0) {
+        ledHandle[i].sequenceDim = sequenceDim;
+        if (sequenceDim == 0) {
             ledHandle[i].sequenceDimMode = VARIABLE_DIM;
             ledHandle[i].sequenceDim = LED_DEFAULT_DIM;
         }
-
-        ledHandle[i].outputMode = FORWARD;
-        ledHandle[i].pObjectTableBase = (uint8_t*)(configBase + offsetTable[i]);
-        ledHandle[i].lineEnd = 0;
-
-        //assign output
-        ledHandle[i].outputNumber = optionTable[i*4];
 
         //check if the first object is an EOL. In this case, do not start
         if ((objects_e)ledHandle[i].pObjectTableBase[0] == EOD) {
@@ -764,9 +770,11 @@ void ledControl_activate(bool enable) {
 /******************************************************************************
  * ledControl_setSimObject
  ******************************************************************************/
-bool ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObject) {
+bool ledControl_setSimObjects(uint8_t output, uint8_t outputDim, uint8_t numObjects, uint8_t* pObject) {
     //prüfe ob ausgang gültig ist
     if (output >= LED_MAX_NUM_OUTPUTS) return false;
+
+    ledHandle[output].channelDim = outputDim;
 
     for (uint8_t j=0; j<numObjects; j++) {
         //check if buffer is full
@@ -805,7 +813,7 @@ void ledControl_startSim(uint32_t speedInfo, uint8_t dimInfo, bool useOffsetData
         uint8_t* p = ledControl_consumeSimObject(&ledHandle[i]);
         if (p != null) {
             ledHandle[i].outputMode = FORWARD;
-
+            
             ledHandle[i].incrementMode = FIX_INCREMENT;
             ledHandle[i].runTimeIncrement = speedInfo;
             if (speedInfo == 0) {
@@ -978,19 +986,19 @@ void ledControl_init() {
         }
     }
 
-    //variabeln initialisieren
-    if (!configOk) {
-        ledControl_configSize = 0;
-        configBase = (uint8_t*)configBaseBackup;
-    }
-
     //selection mode und batterie-abschaltspannung stehen im boarcConfig
     selectionMode = (selectionMode_e)boardConfig.modeSelection;
     battWarningThreshold = boardConfig.batteryMinVoltage;
 
-    //variabeln definitiv initialisieren
-    numSequences = configBase[4];
-    pSequenceTable = (uint32_t*)&configBase[0x18];
+    //variabeln neu definitif initialisieren
+    if (!configOk) {
+        ledControl_configSize = 0;
+        configBase = (uint8_t*)configBaseBackup;
+        numSequences = LED_SEQUENCE_NONE;
+    }
+    else  numSequences = configBase[4];
+
+    pSequenceTable = (uint32_t*)&configBase[0x08];
     sectionWidth = 200 / numSequences;
     batteryWarning = false;
     runMode = RUNMODE_MASTER;

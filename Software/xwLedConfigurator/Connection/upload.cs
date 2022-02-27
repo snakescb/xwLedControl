@@ -22,6 +22,7 @@ namespace xwLedConfigurator {
             public int colorChannel = 0;
             public List<ledObject> ledObjects;
             public int eodOption;
+            public byte dim, minAux, maxAux;
 
             ledObject getObjectFromBuffer(byte[] buffer) {
                 foreach (Type type in Assembly.GetExecutingAssembly().GetTypes()) {                    
@@ -33,15 +34,19 @@ namespace xwLedConfigurator {
                 return null;
             }
 
-            public outputController(ref List<byte> config, int addressObjects, int adressChannelDescriptor, int addressOutput) {
-                this.output = config[addressOutput];
-                colorChannel = config[adressChannelDescriptor + 3];
+            public outputController(ref List<byte> config, int headerAddress) {                
+
+                this.output = config[headerAddress];
+                this.dim = config[headerAddress + 1];
+                this.minAux = config[headerAddress + 2];
+                this.maxAux = config[headerAddress + 3];
+                colorChannel = config[headerAddress + 7];
 
                 //colorChannel 0 means this output was on a single color channel. save the channel color, not required for RGB channels
                 if (colorChannel == 0) {
-                    channelColor.R = config[adressChannelDescriptor];
-                    channelColor.G = config[adressChannelDescriptor + 1];
-                    channelColor.B = config[adressChannelDescriptor + 2];
+                    channelColor.R = config[headerAddress + 4];
+                    channelColor.G = config[headerAddress + 5];
+                    channelColor.B = config[headerAddress + 6];
                 }
 
                 //loop through object data buffer until EOD os reached
@@ -49,7 +54,7 @@ namespace xwLedConfigurator {
                 bool continueLoop = true;
                 bool lastBlank = false;
                 double currentTime = 0;
-                int currentAddress = BitConverter.ToInt32(new byte[] { config[addressObjects], config[addressObjects + 1], config[addressObjects + 2], config[addressObjects + 2] });
+                int currentAddress = BitConverter.ToInt32(new byte[] { config[headerAddress + 0x08], config[headerAddress + 0x09], config[headerAddress + 0x0A], config[headerAddress + 0x0B] });
 
                 while (continueLoop) {
                     byte[] objectData = new byte[12];
@@ -151,26 +156,23 @@ namespace xwLedConfigurator {
             //for each sequence
             for (int i = 0; i < numSequences; i++) {
                 sequence_t sequence = new sequence_t();
-                int headerAddress = BitConverter.ToInt32(new byte[] { fullConfig[0x18 + i * 4], fullConfig[0x18 + i * 4 + 1], fullConfig[0x18 + i * 4 + 2], fullConfig[0x18 + i * 4 + 3] });            
+                int sequenceHeaderAddress = BitConverter.ToInt32(new byte[] { fullConfig[0x08 + i * 4], fullConfig[0x08 + i * 4 + 1], fullConfig[0x08 + i * 4 + 2], fullConfig[0x08 + i * 4 + 3] });            
                 
                 //read sequence header information
                 byte[] name = new byte[12];
-                Array.Copy(fullConfig.ToArray(), headerAddress, name, 0, 12);
+                Array.Copy(fullConfig.ToArray(), sequenceHeaderAddress, name, 0, 12);
                 sequence.name = Encoding.Default.GetString(name);
 
-                int numoutputs = fullConfig[headerAddress + 0x0C];
-                sequence.dimInfo = fullConfig[headerAddress + 0x0D];
-                sequence.speedInfo = BitConverter.ToUInt32(new byte[] { fullConfig[headerAddress + 0x10], fullConfig[headerAddress + 0x11], fullConfig[headerAddress + 0x12], fullConfig[headerAddress + 0x13] });
+                int numoutputs = fullConfig[sequenceHeaderAddress + 0x0C];
+                sequence.dimInfo = fullConfig[sequenceHeaderAddress + 0x0D];
+                sequence.speedInfo = BitConverter.ToUInt32(new byte[] { fullConfig[sequenceHeaderAddress + 0x10], fullConfig[sequenceHeaderAddress + 0x11], fullConfig[sequenceHeaderAddress + 0x12], fullConfig[sequenceHeaderAddress + 0x13] });
 
                 //parse the data from all channels to list of white ledobjects
                 List<outputController> outputControllers = new List<outputController>();
                 
                 for (int j = 0; j < numoutputs; j++) {
-                    int addressObjects = headerAddress + 0x1C + 4 * j;                    
-                    int addressOutput = headerAddress + 0x1C + 4 * numoutputs + 4 * j;
-                    int adressChannelDescriptor = headerAddress + 0x1C + 8 * numoutputs + 4 * j;
-
-                    outputControllers.Add(new outputController(ref fullConfig, addressObjects, adressChannelDescriptor, addressOutput));
+                    int channelHeaderAddress = BitConverter.ToInt32(new byte[] { fullConfig[sequenceHeaderAddress + 0x14 + j * 4], fullConfig[sequenceHeaderAddress + 0x14 + j * 4 + 1], fullConfig[sequenceHeaderAddress + 0x14 + j * 4 + 2], fullConfig[sequenceHeaderAddress + 0x14 + j * 4 + 3] });                    
+                    outputControllers.Add(new outputController(ref fullConfig, channelHeaderAddress));
                 }
 
                 //reconstruct the original sw channels
@@ -185,6 +187,7 @@ namespace xwLedConfigurator {
                         channel.isRGB = false;
                         channel.color = controller.channelColor;
                         channel.eolOption = controller.eodOption;
+                        channel.channelDim = controller.dim;
                         channel.outputs.Add(new output_t());
                         channel.outputs[0].assignment = controller.output;
                         foreach (ledObject ledobject in controller.ledObjects) {
@@ -202,6 +205,7 @@ namespace xwLedConfigurator {
                         channel_t channel = new channel_t();
                         channel.isRGB = true;
                         channel.eolOption = controller.eodOption;
+                        channel.channelDim = controller.dim;                        
                         channel.outputs.AddRange(new output_t[]{ new output_t(), new output_t(), new output_t() });
                         channel.outputs[0].assignment = controller.output;
                         channel.outputs[1].assignment = greenChannel.output;
@@ -246,9 +250,10 @@ namespace xwLedConfigurator {
                         if (uploadState == uploadState_t.STATE_RESET_POINTERS) {
                             bytesLoaded = 0;
                             crcFlash = 0;
-                            setTimeout(500);                            
+                            setTimeout(2000);                            
                             uploadState = uploadState_t.STATE_UPLOAD;
                             Connection.putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.GET_FRAME, (byte) 4 });
+                            uploadState = uploadState_t.STATE_UPLOAD;
                         }                        
                     }
                 }
