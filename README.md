@@ -6,7 +6,26 @@ xwLedControl just became better, lighter, smaller and cheaper! By eliminiating s
 
 ![v2](https://user-images.githubusercontent.com/10495848/156210805-ca65eced-25a5-41af-9e9d-e228244335f5.PNG)
 
+### V2 Features
+- Only 37 x 17mm 4 layer PCB
+- Builtin mini USB for configuration of light sequences from PC Software
+- Auto-shutdown, disconnects the battery when receiver or USB is not connected (can be disabled with solder jumper, the module can light your model without receiver connected)
+- Per module up to 6 single color channels, 2 RGB channels or 3 LED + 1 RGB channel (for common anode RGB strips)
+- Up to 24 channels with one master module conecting up to 3 slave modules through Master/Slave connection
+- On/Off control and light sequences switching from RC receiver
+- Battery monitoring
+- New 1s - 3s LiPo input voltage, for also connecting high power LED's with smaller inline resistors
+- Up to 5A per output channel (Mosfets are rated for 10A per channel!)
 
+### V2 Versions and know issues
+
+**Version 2.0**
+- Changes
+  - Inital version currently tested
+- Known Issues
+  - Power supply error is burning USB chip on battery power
+  - Ground pin not connected on STM32
+  - Boot1 pin is floating, which is preventing STM32 to enter bootloader mode
 
 ## Get your Led Controller
 - You can download gerber files from Github and produce the PCB on your own.
