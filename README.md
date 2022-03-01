@@ -1,8 +1,30 @@
 # xwLedControl
 xwLedControl is a flexible, highly configurable RC Lightning System. It was formerly know as SkyLED, sold as a commercial product by InnoSKY which was decommissioned a few years ago. Since then, a lot of request to start offering it again have been made. Therefore the  hardware was recreated from scratch, including some improvements, and was made available for everybody to produce / order himself. The PC configurator is re-developped as a .Net-Core 3.1 WPF application and is published here as well.
 
-## Welcome: xwLeddControl  Version 2!
-xwLedControl just became better, lighter, smaller and cheaper! By eliminiating some unused features (like the sensor input), streamlining and simplifying the schematics and the use of smaller component, the new controller has all the great features the Software offers, but at a 50 smaller size!
+# xwLedControl Configuration Software
+The configurator software is what makes the xwLedControl system as unique as it is. There are enless options to tune your model lights from 100% scale in a 1:4 scale jet, to just plain fun in a styrofoam night flyer. 
+
+## Features currently implemented (more to come)
+- Create multiple light sequences that can be switched (or disabled) from the received
+- Create up to 24 output channels (or 8 RGB channels or any combination of both) per sequence
+- Create LED objects for your channels on the timeline, with freely definable positions and timings: 
+  - Contstant brightnes, constant color (for RGB)
+  - Blinking between 2 brightnesses (or colors) at definable blink periods and duty cycle
+  - Linear fading with time between 2 brightnesses (colors)
+  - Linear fading with time between 2 brightnesses (colors) controlled from receiver signal
+- Per channel settings for maximum PWM dutycycle, to connect high power LED's with smaller inline resitors generating less heat
+- Per channel settings for enabling/disabling an individual channel from the receiver signal (eg for landing lights or blinkers / stop lights in cars)
+- Per seuqence definition of global sequence brightness and sequence speed (and, can be changed from receiver)
+- Device firmware upgrade directly from software
+- Configurable voltage supervisor
+- Runs on Windows
+
+![sw](https://user-images.githubusercontent.com/10495848/156213956-9c1ddf1d-4f4d-4aa3-959d-0a0e71751fce.PNG)
+
+
+# xwLedControl Hardware modules
+## New: xwLedControl  Version 2!
+xwLedControl just became better, lighter, smaller and cheaper! By eliminiating some unused features (like the sensor input), streamlining and simplifying the schematics and the use of smaller component, the new controller has all the great features the Software offers, but at a 50 smaller size! - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
 
 ![v2](https://user-images.githubusercontent.com/10495848/156210805-ca65eced-25a5-41af-9e9d-e228244335f5.PNG)
 
@@ -33,7 +55,7 @@ xwLedControl just became better, lighter, smaller and cheaper! By eliminiating s
 - The new controller is designed in EasyEDA and shared (Link below in the versions). You can clone the EasyEDA project, make changes as you like and order the PCB on your own. All designs are using basic parts which are normally in stock for assembly at JLCPCB, so you can order your board directly from EasyEDA fully assembled if desired.
 
 ## xwLedControl Basic
-The original xwLedControl, formerly SkyLED by InnoSKY, including USB port and auto-shutdown. The Basic version is simply connting the LED's with the attached batteries, so it requires inline resistors wit the LED's not to damage the,  - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
+The original xwLedControl, formerly SkyLED by InnoSKY, including USB port and auto-shutdown. The Basic version is simply connting the LED's with the attached batteries, so it requires inline resistors wit the LED's not to damage the lights, based on LED current and attached battery. Do the math! (todo: Wiki entry for resistor calculation) - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
 
 ![ledtop](https://user-images.githubusercontent.com/10495848/151327156-f55c5d70-1b84-4303-881a-be63a9818bc9.PNG)
 
