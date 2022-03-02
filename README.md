@@ -45,9 +45,7 @@ xwLedControl just became better, lighter, smaller and cheaper! By eliminiating s
 - Changes
   - Inital version currently tested
 - Known Issues
-  - Power supply error is burning USB chip on battery power
-  - Ground pin not connected on STM32
-  - Boot1 pin is floating, which is preventing STM32 to enter bootloader mode
+  - No known issues
 
 ## Get your Led Controller
 - You can download gerber files from Github and produce the PCB on your own.
@@ -80,7 +78,7 @@ The original xwLedControl, formerly SkyLED by InnoSKY, including USB port and au
   - Additional capacity on CP2102N according datasheet
   - Added SWD, UART, Reset and Boot0 testpoints on back copper layer for easier development
 - Known Issues
-  - No known issues
+  - DC/DC converter just creates around 2.5V when connected to USB only. This is mostly fine, but some devices require a battery to be conncted during firmware download
   
 **Version 1.0**
 - Changes
