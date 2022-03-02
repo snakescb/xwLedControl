@@ -19,7 +19,7 @@ The configurator software is what makes the xwLedControl system as unique as it 
 - Configurable voltage supervisor
 - Runs on Windows
 
-![sw](https://user-images.githubusercontent.com/10495848/156213956-9c1ddf1d-4f4d-4aa3-959d-0a0e71751fce.PNG)
+![image](https://user-images.githubusercontent.com/10495848/156365007-c83c3919-dfae-413f-b822-fa7932ebc27a.png)
 
 
 # xwLedControl Hardware modules
