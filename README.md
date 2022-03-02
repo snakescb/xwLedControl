@@ -4,7 +4,7 @@ xwLedControl is a flexible, highly configurable RC Lightning System. It was form
 # xwLedControl Configuration Software
 The configurator software is what makes the xwLedControl system as unique as it is. There are enless options to tune your model lights from 100% legit in a 1:4 full scale jet, to just plain fun in a styrofoam night flyer. 
 
-## Features currently implemented (more to come)
+## Features (more to come)
 - Create multiple light sequences that can be switched (or disabled) from the received
 - Create up to 24 output channels (or 8 RGB channels or any combination of both) per sequence
 - Create LED objects for your channels on the timeline, with freely definable positions and timings: 
