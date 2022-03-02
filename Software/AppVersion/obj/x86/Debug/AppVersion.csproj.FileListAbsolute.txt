@@ -1,7 +1,0 @@
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\AppVersion\bin\Debug\AppVersion.exe.config
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\AppVersion\bin\Debug\AppVersion.exe
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\AppVersion\bin\Debug\AppVersion.pdb
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\AppVersion\obj\x86\Debug\AppVersion.csproj.SuggestedBindingRedirects.cache
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\AppVersion\obj\x86\Debug\AppVersion.csproj.CoreCompileInputs.cache
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\AppVersion\obj\x86\Debug\AppVersion.exe
-C:\Users\lueth\SynologyDrive\Projekte\GitHub\xwLedControl\Software\AppVersion\obj\x86\Debug\AppVersion.pdb
