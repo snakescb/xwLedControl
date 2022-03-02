@@ -84,8 +84,10 @@ namespace xwLedConfigurator {
 
 
 				textLiveData.Text = runMode + "\n";
-				if (sequence == 0xFF) textLiveData.Text += "OFF / " + numSequences.ToString() + "\n";
-				else textLiveData.Text += (sequence+1).ToString() + " / " + numSequences.ToString() + "\n";
+				if (sequence == 0xFF) textLiveData.Text += "OFF / ";
+				else textLiveData.Text += (sequence+1).ToString() + " / ";
+				if (numSequences == 0xFF) textLiveData.Text += "Empty Device\n";
+				else textLiveData.Text +=  numSequences.ToString() + "\n";
 				textLiveData.Text += dim.ToString() + "%\n";
 				textLiveData.Text += (Math.Round(speed*100.0 / 0x10000)).ToString() + "%\n";
 				textLiveData.Text += (Math.Round(aux/10.0)).ToString() + "%\n";

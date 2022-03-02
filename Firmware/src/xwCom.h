@@ -6,6 +6,7 @@
 //*****************************************************************************
 #define HW_VERSION_UNKNOWN                        0
 #define HW_VERSION_LED_CONTROL_V1                 1
+#define HW_VERSION_LED_CONTROL_V2                 2
 
 //*****************************************************************************
 // XWING GLOBAL TYPEDEFS

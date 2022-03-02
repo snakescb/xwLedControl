@@ -18,7 +18,8 @@
  ******************************************************************************/
 uint8_t hwVersion_read(void) {
 
-    if ( HW_IDENT_1_IS_HIGH && HW_IDENT_2_IS_HIGH ) return HW_VERSION_LED_CONTROL_V1;
+    if (  HW_IDENT_1_IS_HIGH  &&  HW_IDENT_2_IS_HIGH ) return HW_VERSION_LED_CONTROL_V1;
+    if ( !HW_IDENT_1_IS_HIGH  &&  HW_IDENT_2_IS_HIGH ) return HW_VERSION_LED_CONTROL_V2;
     return HW_VERSION_UNKNOWN;
 
 }
