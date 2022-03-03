@@ -28,7 +28,7 @@ xwLedControl just became better, lighter, smaller and cheaper! By eliminiating s
 
 ![v2](https://user-images.githubusercontent.com/10495848/156365140-59d4c274-0009-4251-9bfa-741f84019079.PNG)
 
-### V2 Features
+### Features
 - 37 x 17mm 4 layer PCB
 - Builtin mini USB for configuration of light sequences from PC Software
 - Auto-shutdown, disconnects the battery when receiver or USB is not connected (can be disabled with solder jumper, the module can light your model without receiver connected)
@@ -36,8 +36,8 @@ xwLedControl just became better, lighter, smaller and cheaper! By eliminiating s
 - Up to 24 channels with one master module conecting up to 3 slave modules through Master/Slave connection
 - On/Off control and light sequences switching from RC receiver
 - Battery monitoring
-- New 1s - 3s LiPo input voltage, for also connecting high power LED's with smaller inline resistors
-- Up to 5A per output channel (Mosfets are rated for 10A per channel!)
+- 1s - 3s LiPo input voltage
+- Up to 5A per output channel (10A Mosfets per channel)
 
 ### V2 Versions and know issues
 
