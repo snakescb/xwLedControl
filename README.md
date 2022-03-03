@@ -22,7 +22,7 @@ The configurator software is what makes the xwLedControl system as unique as it 
 ![sw](https://user-images.githubusercontent.com/10495848/156365748-df04fadd-0caa-4d41-9774-5914dbd50e78.PNG)
 
 
-# xwLedControl Hardware modules
+# xwLedControl hardware modules
 ## New: xwLedControl  Version 2!
 xwLedControl just became better, lighter, smaller and cheaper! By eliminiating some unused features (like the sensor input), streamlining and simplifying the schematics and the use of smaller component, the new controller has all the great features the Software offers, but at only 50% of the original size! - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
 
@@ -51,6 +51,9 @@ xwLedControl just became better, lighter, smaller and cheaper! By eliminiating s
 - You can download gerber files from Github and produce the PCB on your own.
 - I alwas try to have some assembled boards on stock. Get in touch with me to check inventory. It will be sold for CHF 30 - 50 per piece (excl. shipping, depending on version and parts availability / prices at JTLPCB), with no warranty as this is a non-profit open-source / open-hardware projct.
 - The new controller is designed in EasyEDA and shared (Link below in the versions). You can clone the EasyEDA project, make changes as you like and order the PCB on your own. All designs are using basic parts which are normally in stock for assembly at JLCPCB, so you can order your board directly from EasyEDA fully assembled if desired.
+
+
+# Old modules not maintained anymore
 
 ## xwLedControl Basic
 The original xwLedControl, formerly SkyLED by InnoSKY, including USB port and auto-shutdown. The Basic version is simply connting the LED's with the attached batteries, so it requires inline resistors wit the LED's not to damage the lights, based on LED current and attached battery. Do the math! (todo: Wiki entry for resistor calculation) - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
