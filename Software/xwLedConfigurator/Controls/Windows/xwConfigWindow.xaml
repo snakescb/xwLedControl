@@ -170,59 +170,32 @@
 
 
                 <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="30"/>
-                        </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,15,0" Foreground="{StaticResource MainFontColor}">Sequence Selection</TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,15,0" Foreground="{StaticResource MainFontColor}">Warning Voltage</TextBlock>
-
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
-                            <RadioButton x:Name="selectionJumper" GroupName="selectionmode" VerticalAlignment="Center" />
-                            <TextBlock VerticalAlignment="Center" Margin="2,0,10,0" Foreground="{StaticResource MainFontColor}">By Jumper</TextBlock>
-                            <RadioButton x:Name="selectionReceiver" GroupName="selectionmode" VerticalAlignment="Center"/>
-                            <TextBlock VerticalAlignment="Center" Margin="2,0,50,0" Foreground="{StaticResource MainFontColor}">By Receiver</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Margin="10,0,25,0" Foreground="{StaticResource MainFontColor}">Warning Voltage</TextBlock>
+                    <local:voltageSlider x:Name="voltageSlider" VerticalAlignment="Center" Margin="0,0,20,0" Width="220"/>
+                   
+                    <Button x:Name="bSaveConfig" Click="bSaveConfig_Click" Height="50" Width="170" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconBlock Icon="Save" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Save Config</TextBlock>
                         </StackPanel>
+                    </Button>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-                            <!--
-                            <Slider x:Name="voltageSlider" ValueChanged="voltageSlider_ValueChanged" Minimum="50" Maximum="125" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Width="170" SmallChange="1" TickPlacement="None"/>
-                            <TextBlock x:Name="voltageDisplay" VerticalAlignment="Center" Margin="2,0,10,0" Foreground="{StaticResource MainFontColor}">Volt</TextBlock>
-                            -->
-                            <local:voltageSlider x:Name="voltageSlider" Width="220" />
+                    <Button x:Name="bFactoryDefault" Click="bFactoryDefault_Click" Height="50" Width="170" VerticalAlignment="Center" Margin="5,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconBlock Icon="Industry" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Factory Default</TextBlock>
                         </StackPanel>
+                    </Button>
 
-                        <Button x:Name="bSaveConfig" Click="bSaveConfig_Click" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Height="50" Width="170" VerticalAlignment="Center" Margin="10,0,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <fa:IconBlock Icon="Save" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
-                                <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Save Config</TextBlock>
-                            </StackPanel>
-                        </Button>
+                    <Button x:Name="bReset" Click="bReset_Click" Height="50" Width="170" VerticalAlignment="Center" Margin="5,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconBlock Icon="PowerOff" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Reboot Device</TextBlock>
+                        </StackPanel>
+                    </Button>
 
-                        <Button x:Name="bFactoryDefault" Click="bFactoryDefault_Click" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Height="50" Width="170" VerticalAlignment="Center" Margin="5,0,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <fa:IconBlock Icon="Industry" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
-                                <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Factory Default</TextBlock>
-                            </StackPanel>
-                        </Button>
 
-                        <Button x:Name="bReset" Click="bReset_Click" Grid.Row="0" Grid.Column="4" Grid.RowSpan="2" Height="50" Width="170" VerticalAlignment="Center" Margin="5,0,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <fa:IconBlock Icon="PowerOff" FontSize="24"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" />
-                                <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Reboot Device</TextBlock>
-                            </StackPanel>
-                        </Button>
-                    </Grid>
                 </StackPanel>
             </Grid>
 

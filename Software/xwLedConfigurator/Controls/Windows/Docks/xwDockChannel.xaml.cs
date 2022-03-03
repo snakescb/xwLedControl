@@ -62,9 +62,6 @@ namespace xwLedConfigurator {
 
         //Zoom table
         cZoom[] zoomLevels = new cZoom[] {
-            new cZoom (   0.2, 300,  5, 15000, 15000),
-            new cZoom (   0.5, 120,  4, 15000, 15000),
-            new cZoom (   1  , 120,  4, 10000, 10000),
             new cZoom (   2  ,  60,  6,  5000,  5000),
             new cZoom (   4  ,  30,  6,  2500,  2500),
             new cZoom (   8  ,  20,  4,  2500,  2500),
@@ -83,7 +80,7 @@ namespace xwLedConfigurator {
 
         public xwDockChannel(channel_t channel) {
             InitializeComponent();
-            createChannel(channel, 0, 8);
+            createChannel(channel, 0, 4);
         }
 
         public xwDockChannel(channel_t channel, double offset, int zoom) {

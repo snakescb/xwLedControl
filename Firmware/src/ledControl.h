@@ -20,14 +20,6 @@ typedef enum {
 } runMode_e;
 
 /*******************************************************************//**
-* @brief    enumerates the mode for seuqence selection
-***********************************************************************/
-typedef enum {
-    SELECTION_JUMPER   = 0,
-    SELECTION_RECEIVER = 1
-} selectionMode_e;
-
-/*******************************************************************//**
 * @brief    initialisierung
 ***********************************************************************/
 void ledControl_init();

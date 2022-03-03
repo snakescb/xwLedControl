@@ -115,8 +115,6 @@ namespace xwLedConfigurator {
 			if (configUpdated) {
 				configUpdated = false;
 				voltageSlider.value = configVoltage;
-				if (configSelection == 0) selectionJumper.IsChecked = true;
-				else selectionReceiver.IsChecked = true;
 			}
 
 		}
@@ -156,8 +154,7 @@ namespace xwLedConfigurator {
 
 			if (rxFrame.scope == (byte)xwCom.SCOPE.CONFIG) {
 				if (rxFrame.data[0] == (byte)xwCom.CONFIG_RESPONSE.RESPONSE_CONFIG) {
-					configSelection = rxFrame.data[1];
-					configVoltage = rxFrame.data[2];
+					configVoltage = rxFrame.data[1];
 					configUpdated = true;
 				}
 			}
@@ -188,12 +185,10 @@ namespace xwLedConfigurator {
         }
 
         private void bSaveConfig_Click(object sender, RoutedEventArgs e) {
-			byte selection = 0;
 			byte voltage = voltageSlider.value;
-			if ((bool)selectionReceiver.IsChecked) selection = 1;
 
 			//send new config and request config update
-			byte[] command = new byte[] { (byte)xwCom.CONFIG.SET_CONFIG, selection, voltage };			
+			byte[] command = new byte[] { (byte)xwCom.CONFIG.SET_CONFIG, voltage };			
 			Connection.putFrame((byte)xwCom.SCOPE.CONFIG, command);
 			Connection.putFrame((byte)xwCom.SCOPE.CONFIG, new byte[] { (byte)xwCom.CONFIG.GET_CONFIG });
         }

@@ -361,7 +361,6 @@ void config_boardConfigWrite(void) {
  * config_boardConfigFactoryDefault
  ******************************************************************************/
 void config_boardConfigFactoryDefault(void) {
-    boardConfig.modeSelection = 0;
     boardConfig.batteryMinVoltage = 0;
     config_boardConfigWrite();
 }

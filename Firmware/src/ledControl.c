@@ -9,7 +9,6 @@
 #include "conf.h"
 #include "pwm.h"
 #include "teco.h"
-#include "jumper.h"
 #include "recv.h"
 #include "statusLed.h"
 #include "adc.h"
@@ -104,7 +103,7 @@ uint8_t*  ledControl_consumeSimObject(ledHandle_t* h);
 /* Private variables ---------------------------------------------------------*/
 ledHandle_t ledHandle[LED_MAX_NUM_OUTPUTS];
 bool rxFailsafe, batteryWarning, autoSelectionActive;
-uint8_t   numSequences, currentSequence, numControledOutputs, masterTimeout;
+uint8_t   numSequences, currentSequence, masterTimeout;
 uint8_t   battVoltageRounded, battWarningThreshold, numOutputsReport, sequenceDimReport, variableSequenceDim;
 uint8_t   pwmBuffer[LED_MAX_NUM_OUTPUTS];
 uint8_t*  configBase;
@@ -114,10 +113,6 @@ int16_t   dimXMin, dimXMax, rxSignal;
 uint32_t  ledControl_configSize, variableTimeIncrement;
 uint32_t  speedInfoReport;
 uint16_t* pFlashRand;
-uint8_t   jumperDebounceArray[LED_JUMPER_DEBOUNCE_LEN];
-uint8_t   jumperDebounce;
-
-selectionMode_e selectionMode;
 runMode_e runMode;
 uint16_t scope;
 
@@ -158,7 +153,7 @@ void ledControl_update() {
     /***************************************************************************
     * LED Ausgänge neu berechnen
     ***************************************************************************/
-    for (uint8_t i=0; i<numControledOutputs; i++) {
+    for (uint8_t i=0; i<LED_MAX_NUM_OUTPUTS; i++) {
 
         ledControl_updateRuntime(&ledHandle[i]);
 
@@ -237,7 +232,7 @@ void ledControl_update() {
     /***************************************************************************
     * Neue Werte in sortiertes Array schreiben
     ***************************************************************************/
-    for (uint8_t i=0; i<numControledOutputs; i++) {
+    for (uint8_t i=0; i<LED_MAX_NUM_OUTPUTS; i++) {
         uint32_t newPwm = ledHandle[i].pwm;
 
         //apply various dim's and put pwm value to buffer
@@ -250,7 +245,7 @@ void ledControl_update() {
     /***************************************************************************
     * Neue Werte aktivieren
     ***************************************************************************/
-    for (uint8_t i=0; i<numControledOutputs; i++) {
+    for (uint8_t i=0; i<LED_MAX_NUM_OUTPUTS; i++) {
         uint8_t currentOutputNumber = ledHandle[i].outputNumber;
         if (currentOutputNumber < LED_NUM_OUTPUTS) {
             if (ledHandle[i].localControl) *((uint16_t*)pwmValue[currentOutputNumber]) = pwmTable[pwmBuffer[currentOutputNumber]];
@@ -400,42 +395,29 @@ void ledControl_lowSpeed() {
     ***************************************************************************/
     autoSelectionActive = false;
     if (runMode == RUNMODE_MASTER) {
-        if (selectionMode == SELECTION_RECEIVER) {
-            if (!rxFailsafe) {
-                if (rxSignal < -LED_RX_THRESHOLD) ledControl_stopSequence();
-                else if (rxSignal > +LED_RX_THRESHOLD) {
-                    if (currentSequence == LED_SEQUENCE_NONE) ledControl_startSequence(0);
-                    autoSelectionActive = true;
-                    auxSignal = LED_MAX_AUX >> 1;
-                }
-                else {
-                    uint8_t nextSequence = 0;
-                    int16_t currentTestValue = -100;
-                    for (uint8_t i=0; i<numSequences; i++) {
-                        if (rxSignal > currentTestValue) nextSequence = i;
-                        currentTestValue += sectionWidth;
-                    }
-                    ledControl_startSequence(nextSequence);
-
-                    dimXMin = -100 + (nextSequence*sectionWidth) + LED_RX_AREA_OFFSET;
-                    dimXMax = -100 + ((nextSequence+1)*sectionWidth) - LED_RX_AREA_OFFSET;
-                }
+      
+        if (!rxFailsafe) {
+            if (rxSignal < -LED_RX_THRESHOLD) ledControl_stopSequence();
+            else if (rxSignal > +LED_RX_THRESHOLD) {
+                if (currentSequence == LED_SEQUENCE_NONE) ledControl_startSequence(0);
+                autoSelectionActive = true;
+                auxSignal = LED_MAX_AUX >> 1;
             }
-            else if (currentSequence == LED_SEQUENCE_NONE) ledControl_startSequence(0);
-        }
-        else {
-            dimXMin = -100;
-            dimXMax = +100;
-
-            ledControl_jumperDebounce();
-            uint8_t jumper = jumperDebounce;
-            if (jumper >= numSequences) jumper = numSequences-1;
-            if (rxFailsafe) ledControl_startSequence(jumper);
             else {
-                if (rxSignal < -LED_RX_THRESHOLD) ledControl_stopSequence();
-                else ledControl_startSequence(jumper);
+                uint8_t nextSequence = 0;
+                int16_t currentTestValue = -100;
+                for (uint8_t i=0; i<numSequences; i++) {
+                    if (rxSignal > currentTestValue) nextSequence = i;
+                    currentTestValue += sectionWidth;
+                }
+                ledControl_startSequence(nextSequence);
+
+                dimXMin = -100 + (nextSequence*sectionWidth) + LED_RX_AREA_OFFSET;
+                dimXMax = -100 + ((nextSequence+1)*sectionWidth) - LED_RX_AREA_OFFSET;
             }
         }
+        else if (currentSequence == LED_SEQUENCE_NONE) ledControl_startSequence(0);
+
     }
 }
 
@@ -654,7 +636,7 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
     uint32_t  sequenceSpeed = *((uint32_t*)&sequenceHeader[0x10]);
     uint32_t* channelTable = (uint32_t*)&sequenceHeader[0x14];
  
-    if (outputs > numControledOutputs) outputs = numControledOutputs;
+    if (outputs > LED_MAX_NUM_OUTPUTS) outputs = LED_MAX_NUM_OUTPUTS;
 
     numOutputsReport = outputs;
     speedInfoReport = sequenceSpeed;
@@ -754,7 +736,7 @@ void ledControl_stopSequence() {
 void ledControl_setPWM(uint8_t* values) {
     ledControl_stopSequence();
     runMode = RUNMODE_DISABLED;
-    for (uint8_t i=0; i<numControledOutputs; i++) ledHandle[i].pwm = values[i];
+    for (uint8_t i=0; i<LED_MAX_NUM_OUTPUTS; i++) ledHandle[i].pwm = values[i];
 }
 
 /******************************************************************************
@@ -809,7 +791,7 @@ void ledControl_startSim(uint32_t speedInfo, uint8_t dimInfo, bool useOffsetData
         directionData += pDirectionData[3];
     }
 
-    for (uint8_t i=0; i<numControledOutputs; i++) {
+    for (uint8_t i=0; i<LED_MAX_NUM_OUTPUTS; i++) {
         uint8_t* p = ledControl_consumeSimObject(&ledHandle[i]);
         if (p != null) {
             ledHandle[i].outputMode = FORWARD;
@@ -896,50 +878,19 @@ void ledControl_getBufferState(uint8_t* rsp) {
 }
 
 /******************************************************************************
- * ledControl_setupExtension
- ******************************************************************************/
-void ledControl_setupExtension(bool enableTx) {
-
-    jumper_init();
-
-    /*
-    if (enableTx) skyBus_init(SKYBUS_MODE_RX_TX);
-    else skyBus_init(SKYBUS_MODE_RX_ONLY);
-
-    skyBus_registerCallback((skybusCallback_t)*ledControl_skyBusCallback);
-    */
-}
-
-/******************************************************************************
  * ledControl_checkAutoSequence
  ******************************************************************************/
 bool ledControl_checkAutoSequence(void) {
     if (numSequences <= 1) return false;
     if (!autoSelectionActive) return false;
 
-    for (uint8_t i=0; i<numControledOutputs; i++) if (ledHandle[i].lineEnd == 0) return false;
+    for (uint8_t i=0; i<LED_MAX_NUM_OUTPUTS; i++) if (ledHandle[i].lineEnd == 0) return false;
 
     uint8_t nextSequence = (currentSequence + 1) % numSequences;
     ledControl_startSequence(nextSequence);
     return true;
 }
 
-
-/******************************************************************************
- * ledControl_jumperDebounce
- ******************************************************************************/
-void ledControl_jumperDebounce() {
-
-    uint8_t jumper = jumper_read();
-
-    for (uint8_t i=LED_JUMPER_DEBOUNCE_LEN-1; i>0; i--) jumperDebounceArray[i] = jumperDebounceArray[i-1];
-    jumperDebounceArray[0] = jumper;
-
-    bool ok = true;
-    for (uint8_t i=0; i<LED_JUMPER_DEBOUNCE_LEN; i++) if (jumperDebounceArray[i] != jumper) ok = false;
-
-    if (ok) jumperDebounce = jumper;
-}
 
 /******************************************************************************
  * ledControl_init
@@ -952,22 +903,22 @@ void ledControl_init() {
     configBase = (uint8_t*)configBaseFlash;
     bool configOk = true;
 
-    //prüfe crc der konfiguration
-    ledControl_configSize = ((uint32_t*)configBase)[0];
+    //prüfe ob Konfiguration CRC korrekt ist
+    ledControl_configSize = ((uint32_t*)configBase)[0];    
     if (ledControl_configSize > configConfigSize) {
-        TRACE("Invalid sequence configuration size detected. Switching to backup configuration");
+        TRACE("Invalid configuration size detected. Switching to backup configuration");
         configOk = false;
     }
     else {
         uint16_t crcCalc  = crc_calc(configBase, ledControl_configSize);
         uint16_t crcFlash = *((uint16_t*)(&configBase[ledControl_configSize]));
         if(crcCalc != crcFlash) {
-            TRACE("Invalid sequence configuration CRC detected. Switching to backup configuration");
+            TRACE("Invalid configuration CRC detected. Switching to backup configuration");
             configOk = false;
         }
     }
 
-    //prüfe config inhalte
+    //prüfe Konfigurations inhalte
     numSequences = configBase[4];
     uint8_t configType    = configBase[6];
     uint8_t configVersion = configBase[7];
@@ -977,42 +928,30 @@ void ledControl_init() {
             TRACE("Invalid amount of seuquences in configuration. Switching to backup configuration");
         }
         else if (configType != CONFIG_TYPE_XWLEDCONTROL) {
-            TRACE("Invalid seuquences configuration type. Switching to backup configuration");
+            TRACE("Invalid configuration type detected. Switching to backup configuration");
             configOk = false;
         }
         else if (configVersion != 1) {
-            TRACE("Invalid seuquences configuration version. Switching to backup configuration");
+            TRACE("Invalid configuration version detected. Switching to backup configuration");
             configOk = false;
         }
     }
 
-    //selection mode und batterie-abschaltspannung stehen im boarcConfig
-    selectionMode = (selectionMode_e)boardConfig.modeSelection;
+    //batterie abschaltspannung steht im boarcConfig
     battWarningThreshold = boardConfig.batteryMinVoltage;
 
-    //variabeln neu definitif initialisieren
+    //variabeln neu definitiv initialisieren
     if (!configOk) {
         ledControl_configSize = 0;
         configBase = (uint8_t*)configBaseBackup;
         numSequences = LED_SEQUENCE_NONE;
     }
-    else  numSequences = configBase[4];
+    else numSequences = configBase[4];
 
     pSequenceTable = (uint32_t*)&configBase[0x08];
     sectionWidth = 200 / numSequences;
     batteryWarning = false;
     runMode = RUNMODE_MASTER;
-
-    if (selectionMode == SELECTION_JUMPER) {
-        ledControl_setupExtension(false);
-        numControledOutputs = LED_NUM_OUTPUTS;
-    }
-    else {
-        ledControl_setupExtension(true);
-        numControledOutputs = LED_MAX_NUM_OUTPUTS;
-    }
-
-    jumperDebounce = jumper_read();
 
     variableTimeIncrement = LED_DEFAULT_INCREMENT;
     ledControl_activate(true);

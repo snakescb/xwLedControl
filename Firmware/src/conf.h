@@ -15,7 +15,6 @@
 
 #pragma pack(1)
 typedef struct {
-    uint8_t  modeSelection;
     uint8_t  batteryMinVoltage;
 } boardConfig_t;
 #pragma pack()

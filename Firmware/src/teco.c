@@ -219,8 +219,7 @@ void teco_configHandler(comFrame_t* frame) {
         }
 
         case CONFIG_SET_CONFIG: {
-            boardConfig.modeSelection = frame->data[1];
-            boardConfig.batteryMinVoltage = frame->data[2];
+            boardConfig.batteryMinVoltage = frame->data[1];
             config_boardConfigWrite();
             ledControl_init();
             uint8_t rsp[] = {CONFIG_RESPONSE_ACKNOWLEDGE, true};
@@ -230,8 +229,8 @@ void teco_configHandler(comFrame_t* frame) {
         }
 
         case CONFIG_GET_CONFIG: {
-            uint8_t rsp[] = {CONFIG_RESPONSE_CONFIG, boardConfig.modeSelection, boardConfig.batteryMinVoltage};
-            teco_send(SCOPE_CONFIG, 3, rsp);
+            uint8_t rsp[] = {CONFIG_RESPONSE_CONFIG, boardConfig.batteryMinVoltage};
+            teco_send(SCOPE_CONFIG, 2, rsp);
             break;
         }
 
