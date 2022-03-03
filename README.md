@@ -22,7 +22,7 @@ The configurator software is what makes the xwLedControl system as unique as it 
 ![sw](https://user-images.githubusercontent.com/10495848/156365748-df04fadd-0caa-4d41-9774-5914dbd50e78.PNG)
 
 
-# xwLedControl hardware modules
+# xwLedControl hardware
 ## xwLedControl  Version 2!
 xwLedControl just became better, lighter, smaller and cheaper! By eliminiating some unused features (like the sensor input), streamlining and simplifying the schematics and the use of smaller component, the new controller has all the great features the Software offers, but at only 50% of the original size! - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
 
