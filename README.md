@@ -1,7 +1,7 @@
 # xwLedControl
 xwLedControl is a flexible, highly configurable RC Lightning System. It was formerly know as SkyLED, sold as a commercial product by InnoSKY which was decommissioned a few years ago. Since then, a lot of request to start offering it again have been made. Therefore the  hardware was recreated from scratch, including some improvements, and was made available for everybody to produce / order himself. The PC configurator is re-developped as a .Net-Core 3.1 WPF application and is published here as well.
 
-# xwLedControl Configuration Software
+# xwLedConfigurator Software
 The configurator software is what makes the xwLedControl system as unique as it is. There are enless options to tune your model lights from 100% legit in a 1:4 full scale jet, to just plain fun in a styrofoam night flyer. 
 
 ## Features (more to come)
