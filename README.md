@@ -23,7 +23,7 @@ The configurator software is what makes the xwLedControl system as unique as it 
 
 
 # xwLedControl hardware modules
-## New: xwLedControl  Version 2!
+## xwLedControl  Version 2!
 xwLedControl just became better, lighter, smaller and cheaper! By eliminiating some unused features (like the sensor input), streamlining and simplifying the schematics and the use of smaller component, the new controller has all the great features the Software offers, but at only 50% of the original size! - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
 
 ![v2](https://user-images.githubusercontent.com/10495848/156365140-59d4c274-0009-4251-9bfa-741f84019079.PNG)
@@ -47,7 +47,7 @@ xwLedControl just became better, lighter, smaller and cheaper! By eliminiating s
 - Known Issues
   - No known issues
 
-## Get your Led Controller
+# Get your Led Controller
 - You can download gerber files from Github and produce the PCB on your own.
 - I alwas try to have some assembled boards on stock. Get in touch with me to check inventory. It will be sold for CHF 30 - 50 per piece (excl. shipping, depending on version and parts availability / prices at JTLPCB), with no warranty as this is a non-profit open-source / open-hardware projct.
 - The new controller is designed in EasyEDA and shared (Link below in the versions). You can clone the EasyEDA project, make changes as you like and order the PCB on your own. All designs are using basic parts which are normally in stock for assembly at JLCPCB, so you can order your board directly from EasyEDA fully assembled if desired.
