@@ -181,7 +181,7 @@
             </Grid>
 
             <!-- Channel dimming -->
-            <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">Channel dimming</TextBlock>
+            <TextBlock  Grid.Row="5" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,20,10,10">Channel Brightness</TextBlock>
             <local:brightnesSlider x:Name="dimming" Grid.Row="6"/>
 
             <!-- Restart -->

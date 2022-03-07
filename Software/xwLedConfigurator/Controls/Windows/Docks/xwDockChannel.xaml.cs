@@ -317,18 +317,23 @@ namespace xwLedConfigurator {
             if (Mouse.GetPosition(grid).X - dragLastX > 0) {
                 double spaceRight = grid.ActualWidth - Canvas.GetLeft(dragObject) - dragObject.width;
                 if (spaceRight < 0) {
-                    setOffset(gridOffset - spaceRight);
-                    if (channelEvent != null) channelEvent(this, channelEvent_t.GRID_OFFSET_CHANGED);
+                    if ((dragAction == dragAction_t.MOVE_OBJECT) || (dragAction == dragAction_t.RESIZE_OBJECT_RIGHT)) {
+                        setOffset(gridOffset - spaceRight);
+                        if (channelEvent != null) channelEvent(this, channelEvent_t.GRID_OFFSET_CHANGED);
+                    }
                 }
             }
 
             if (Mouse.GetPosition(grid).X - dragLastX < 0) {
                 double spaceLeft = Canvas.GetLeft(dragObject);
                 if (spaceLeft < 0) {
-                    setOffset(gridOffset + spaceLeft);
-                    if (channelEvent != null) channelEvent(this, channelEvent_t.GRID_OFFSET_CHANGED);
+                    if ((dragAction == dragAction_t.MOVE_OBJECT) || (dragAction == dragAction_t.RESIZE_OBJECT_LEFT)) {
+                        setOffset(gridOffset + spaceLeft);
+                        if (channelEvent != null) channelEvent(this, channelEvent_t.GRID_OFFSET_CHANGED);
+                    }
                 }
-            }         
+            }   
+
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {

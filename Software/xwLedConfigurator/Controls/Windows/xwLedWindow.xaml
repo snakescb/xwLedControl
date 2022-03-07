@@ -142,7 +142,7 @@
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" FlowDirection="RightToLeft">
                 <Button x:Name="startdevice" Click="startdevice_Click" Height="35" Width="35" VerticalAlignment="Center" Margin="10,0,0,0" ToolTip="Start device">
                     <StackPanel Orientation="Horizontal">
-                        <fa:IconBlock Icon="Forward" FontSize="20" VerticalAlignment="Center"/>
+                        <fa:IconBlock Icon="Play" FontSize="20" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="pause" Click="pause_Click" Height="35" Width="35" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip="Stop device">
@@ -152,7 +152,7 @@
                 </Button>
                 <Button x:Name="startSimulation" Click="startSimulation_Click" Height="35" Width="35" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip="Start simulation">
                     <StackPanel Orientation="Horizontal">
-                        <fa:IconBlock Icon="Play" FontSize="20" VerticalAlignment="Center"/>
+                        <fa:IconBlock Icon="Rss" FontSize="20" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </StackPanel>

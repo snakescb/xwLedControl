@@ -31,7 +31,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="sequenceName" MaxLength="12" Height="30" Width="280" Background="{StaticResource MenuInactiveColor}" Foreground="{StaticResource MainFontColor}" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
+                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="sequenceName" MaxLength="12" Height="30" Width="280" Background="{StaticResource MenuInactiveColor}" Foreground="{StaticResource MainFontColor}" VerticalContentAlignment="Center" Padding="5,0,0,0" CaretBrush="{StaticResource MainFontColor}"/>
 
                 <Button x:Name="bCreateSequence" Click="bCreateSequence_Click" Grid.Column="0" Grid.Row="1" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
