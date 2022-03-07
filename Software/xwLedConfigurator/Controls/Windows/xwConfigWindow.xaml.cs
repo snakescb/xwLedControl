@@ -38,7 +38,6 @@ namespace xwLedConfigurator {
 		int rxScaled = 0;
 		uint rxRaw = 0;
 		uint aux = 0;
-		byte configSelection = 0;
 		byte configVoltage = 0;
 		bool configUpdated = true;
 

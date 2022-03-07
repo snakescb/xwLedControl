@@ -141,7 +141,7 @@ namespace xwLedConfigurator {
 							loadSequence(sequenceList[0]);
 							dockSequence.hide();
 						}
-						catch (Exception ex) {
+						catch {
 							MessageBox.Show("Error while reading file", "Invalid file", MessageBoxButton.OK, MessageBoxImage.Error);
 						}				
 					}
