@@ -10,7 +10,7 @@
       "versionLabel" extracts numerical-notate version string [1.2.3.4] or [v1.2.3.4] from git repository tags traverse start HEAD.
       If not found, use [0.0.1].
     -->
-    <Rule name="AssemblyVersion">{versionLabel}</Rule>
+	  <Rule name="AssemblyVersion">{versionLabel}</Rule>
     
     <!--
       "safeVersion" is extracts committed date (from commmiter) from git repository HEAD.

@@ -48,7 +48,7 @@ namespace xwLedConfigurator {
 			string branch = "";
 			string tags = "";
 			string committer = "";
-			string message = "";			
+			string message = "";
 
 			var customMetadataList = Assembly.GetEntryAssembly().GetCustomAttributes<AssemblyMetadataAttribute>();
 			foreach (var customMetadata in customMetadataList) {
@@ -60,7 +60,7 @@ namespace xwLedConfigurator {
 			}
 
 			//update software information
-			versionInfoText.Text = tags + "\n" + branch + "\n" + date + "\n" + committer + "\n" + message;
+			versionInfoText.Text = Version.version + "\n" + date + "\n" + committer + "\n" + message;
 
 			//timer for gui update
 			System.Windows.Forms.Timer guiUpdate = new System.Windows.Forms.Timer();
