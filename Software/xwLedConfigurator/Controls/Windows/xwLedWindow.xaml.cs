@@ -286,7 +286,7 @@ namespace xwLedConfigurator {
 		public  void uploadFinished() {			
 			this.Dispatcher.BeginInvoke(new Action(() => {
 				if (sequenceList.Count > 0) {
-					currentSequence = sequenceList[0];
+					loadSequence(sequenceList[0]);
 					reloadChannels();
 				}
 				else {
