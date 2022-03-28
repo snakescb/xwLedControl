@@ -26,7 +26,7 @@ The configurator software is what makes the xwLedControl system as unique as it 
 ## xwLedControl  Version 2!
 xwLedControl just became better, lighter, smaller and cheaper! By eliminiating some unused features (like the sensor input), streamlining and simplifying the schematics and the use of smaller components, the new controller has all the great features the software offers, but at only 50% of the original size! - [EasyEDA Project](https://oshwlab.com/luethich80/xwlightcontrol)
 
-![v2](https://user-images.githubusercontent.com/10495848/156994486-bd4e29d2-9c8b-44d1-85f6-a4528a37828d.PNG)
+![v2](https://user-images.githubusercontent.com/10495848/157620543-eeb01bfe-2795-4496-beb4-6d53ac7662ac.PNG)
 
 ### Features
 - 37 x 17mm 4 layer PCB
@@ -50,7 +50,7 @@ xwLedControl just became better, lighter, smaller and cheaper! By eliminiating s
 # Get your Led Controller
 - You can download gerber files from Github and produce the PCB on your own.
 - I alwas try to have some assembled boards on stock. Get in touch with me to check inventory. It will be sold for CHF 30 - 50 per piece (excl. shipping, depending on version and parts availability / prices at JTLPCB), with no warranty as this is a non-profit open-source / open-hardware projct.
-- The new controller is designed in EasyEDA and shared (Link below in the versions). You can clone the EasyEDA project, make changes as you like and order the PCB on your own. All designs are using basic parts which are normally in stock for assembly at JLCPCB, so you can order your board directly from EasyEDA fully assembled if desired.
+- The new controller is designed in EasyEDA and shared (Link below in the versions). You can clone the EasyEDA project, make changes as you like and order the PCB on your own. Find more information on DIY hardware [here](https://github.com/snakescb/xwLedControl/wiki/DIY-Hardware)
 
 
 # Old modules not maintained anymore
