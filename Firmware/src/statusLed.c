@@ -5,18 +5,19 @@
  ******************************************************************************/
 #include "statusLed.h"
 #include "common.h"
-//#include "sensor.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define CLR_STATUS  (GPIOA->BRR  = GPIO_PIN_4)
 #define SET_STATUS  (GPIOA->BSRR = GPIO_PIN_4)
+#define STATUS_BRIGTHNESS_MAX       5000
+#define STATUS_BRIGTHNESS            500
 
 /* Private variables ---------------------------------------------------------*/
 eStausLedState status_currentState;
-eStausLedMode  status_mode;
-bool status_substate;
+bool status_substate, status_enableLed;
 uint16_t status_counter, status_on, status_off;
+uint16_t status_brightness_counter;
 
 const uint16_t statusLedDef[] = {
     0x0000, 0xFFFF, //0
@@ -30,29 +31,40 @@ const uint16_t statusLedDef[] = {
  * statusLed_update
  ******************************************************************************/
 void statusLed_update(void) {
-    if (status_mode == STATUS_LED_MODE_SENSORTEST) {
-        //if (sensor_active()) {SET_STATUS;}
-        //else {CLR_STATUS;}
-        return;
-    }
-
     if (status_on  == 0xFFFF) return;
     if (status_off == 0xFFFF) return;
 
     status_counter++;
     if (!status_substate) {
         if (status_counter >= status_on) {
-            CLR_STATUS;
             status_substate = true;
             status_counter = 0;
+            status_enableLed = false;
         }
     }
     else {
-         if (status_counter >= status_off) {
-            SET_STATUS;
+         if (status_counter >= status_off) {            
             status_substate = false;
             status_counter = 0;
+            status_enableLed = true;
         }
+    }
+}
+
+/*******************************************************************************
+ * statusLed_hisr
+ ******************************************************************************/
+void statusLed_hisr(void) {
+    if (status_enableLed) {
+        if (status_brightness_counter < STATUS_BRIGTHNESS) SET_STATUS;
+        else CLR_STATUS;
+
+        status_brightness_counter++;
+        if (status_brightness_counter >= STATUS_BRIGTHNESS_MAX) status_brightness_counter = 0;
+    }
+    else {
+        CLR_STATUS;
+        status_brightness_counter = 0;
     }
 }
 
@@ -68,23 +80,8 @@ void statusLed_setState(eStausLedState state) {
         status_on  = statusLedDef[2*state];
         status_off = statusLedDef[2*state + 1];
 
-        if (status_mode == STATUS_LED_MODE_NORMAL) {
-            if (status_on > 0) { SET_STATUS; }
-            else { CLR_STATUS; }
-        }
-    }
-}
-
-/**************************************************************************//**
- * @brief    Setzt den modus
- *****************************************************************************/
-void statusLed_setMode(eStausLedMode mode) {
-    status_mode = mode;
-    if (mode == STATUS_LED_MODE_NORMAL) {
-        eStausLedState s = status_currentState;
-        status_currentState = STATUS_LED_OFF;
-        CLR_STATUS;
-        statusLed_setState(s);
+        if (state == STATUS_LED_ON)  status_enableLed = true;
+        if (state == STATUS_LED_OFF) status_enableLed = false;
     }
 }
 
@@ -101,10 +98,10 @@ void statusLed_init(void) {
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct); 
 
-    status_mode = STATUS_LED_MODE_NORMAL;
     status_currentState = STATUS_LED_OFF;
     status_substate = false;
     status_off = 0xFFFF;
     status_on  = 0x0000;
-    CLR_STATUS;
+    status_enableLed = false;
+    CLR_STATUS;    
 }

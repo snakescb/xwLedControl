@@ -69,17 +69,7 @@ int main(void)  {
 
     while (1) {        
         teco_hisr();
-
-        static uint32_t cnt1 = 0;
-        static uint32_t cnt2 = 0;
-        cnt1++;
-        if (cnt1 > 20000) {
-            cnt1 = 0;
-            cnt2++;
-            //char buffer[128];
-            //sprintf(buffer, "Receiver: %d", jumper_read());
-            //TRACE(buffer);
-        }
+        statusLed_hisr();
     }
 }
 

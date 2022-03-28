@@ -18,8 +18,7 @@
 #include "recv.h"
 #include "adc.h"
 #include "ledControl.h"
-//#include "uart3.h"
-
+#include "masterSlave.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -31,7 +30,6 @@ uint8_t systick_highSpeedCounter;
 uint8_t systick_lowSpeedCounter;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-
 
 /*******************************************************************************
 * Function Name  : SysTick_Handler
@@ -45,6 +43,7 @@ void SysTick_Handler(void) {
     HAL_IncTick();
     ledControl_update();
     statusLed_update();
+    mastertSlave_update();
 
     systick_lowSpeedCounter++;
     if (systick_lowSpeedCounter >= SYSTICK_LOWSEPEED_DIVIDER) {

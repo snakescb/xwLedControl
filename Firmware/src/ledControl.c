@@ -12,7 +12,7 @@
 #include "recv.h"
 #include "statusLed.h"
 #include "adc.h"
-//#include "skyBus.h"
+#include "masterSlave.h"
 #include "crc.h"
 #include <stdio.h>
 
@@ -898,6 +898,7 @@ bool ledControl_checkAutoSequence(void) {
 void ledControl_init() {
 
     pwm_init();
+    masterSlave_init();
 
     //initialisiere variabeln und überprüfe die konfiguration
     configBase = (uint8_t*)configBaseFlash;

@@ -22,14 +22,6 @@
     STATUS_NUM_STATES
  } eStausLedState;
 
- /**************************************************************************//**
- * @brief    definiert die m�glichen Zust�nde f�r die Status LED
- *****************************************************************************/
- typedef enum {
-    STATUS_LED_MODE_NORMAL = 0,
-    STATUS_LED_MODE_SENSORTEST,
- } eStausLedMode;
-
 /**************************************************************************//**
  * @brief    initialisierung
  *****************************************************************************/
@@ -41,9 +33,9 @@ void statusLed_init(void);
 void statusLed_update(void);
 
 /**************************************************************************//**
- * @brief    Setzt den modus
+ * @brief    hisr, für helligkeitskontrolle
  *****************************************************************************/
-void statusLed_setMode(eStausLedMode mode);
+void statusLed_hisr(void);
 
 /**************************************************************************//**
  * @brief    setzt neuen zustanf
