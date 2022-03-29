@@ -47,6 +47,13 @@ namespace xwLedConfigurator {
             }
         }
 
+        public Visibility channelReceiverSettingsVisible {
+            get {
+                if (channel != null) if (activeReceiver.IsChecked == true) return Visibility.Visible;
+                return Visibility.Collapsed;
+            }
+        }
+
         public Color channelColor {
             get { return currentChannelColor; }
         }
@@ -62,7 +69,7 @@ namespace xwLedConfigurator {
             this.channel = channel;
             title.Text = String.Format("Channel {0} Settings", channel.channelNumber);
             OnPropertyChanged("rgbVisibility");
-            OnPropertyChanged("bwVisibility");                        
+            OnPropertyChanged("bwVisibility");            
             this.Visibility = Visibility.Visible;
 
             eolOption0.IsChecked = false;
@@ -87,6 +94,31 @@ namespace xwLedConfigurator {
             }
 
             dimming.value = channel.channelDim;
+
+            int auxMin = channel.channelAuxMin & 127;
+            int auxMax = channel.channelAuxMax & 127;
+            int auxMinOption = (channel.channelAuxMin >> 7);
+            int auxMaxOption = (channel.channelAuxMax >> 7);
+
+            if ((auxMin == 0) && (auxMax == 0)) {
+                activeAlways.IsChecked = true;
+                activeReceiver.IsChecked = false;
+            }
+            else {
+                activeAlways.IsChecked = false;
+                activeReceiver.IsChecked = true;
+                channelMin.Text = auxMin.ToString();
+                channelMax.Text = auxMax.ToString();
+                if (auxMinOption > 0) {
+                    activeModeRun.IsChecked = true;
+                    activeModeStop.IsChecked = false;
+                }
+                else {
+                    activeModeRun.IsChecked = false;
+                    activeModeStop.IsChecked = true;
+                }
+            }
+            OnPropertyChanged("channelReceiverSettingsVisible");
         }
 
         public void hide() {
@@ -98,6 +130,25 @@ namespace xwLedConfigurator {
         }
 
         private void bSave_Click(object sender, RoutedEventArgs e) {
+
+            byte auxMin, auxMax;
+
+            if (activeAlways.IsChecked == true) {
+                auxMin = 0;
+                auxMax = 0;
+            }
+            else {                
+                if (!byte.TryParse(channelMin.Text, out auxMin)) return;
+                if (!byte.TryParse(channelMax.Text, out auxMax)) return;
+                if (auxMax < auxMin) return;
+                if (auxMin < 0) return;
+                if (auxMax > 100) return;
+                if (activeModeRun.IsChecked == true) auxMin += 128;
+            }
+
+            channel.channelAuxMin = auxMin;
+            channel.channelAuxMax = auxMax;
+           
             if (eolOption0.IsChecked == true) channel.eolOption = 0;
             if (eolOption1.IsChecked == true) channel.eolOption = 1;
             if (eolOption2.IsChecked == true) channel.eolOption = 2;
@@ -123,7 +174,6 @@ namespace xwLedConfigurator {
         }
 
         private void bTest_Click(object sender, RoutedEventArgs e) {
-
             Button button = (Button)sender;
             string channelstring = button.Name.Substring(button.Name.Length - 1, 1);
 
@@ -146,6 +196,24 @@ namespace xwLedConfigurator {
             if(channel != null) currentChannelColor = channelColorPicker.SelectedColor;
             OnPropertyChanged("channelColor");
         }
+
+        private void activeModeChanged(object sender, RoutedEventArgs e) {
+            if (activeReceiver.IsChecked == true) {
+                channelMin.Text = "0";
+                channelMax.Text = "100";
+                activeModeRun.IsChecked = true;
+                activeModeStop.IsChecked = false;
+            }
+            else {
+                channelMin.Text = "0";
+                channelMax.Text = "0";
+                activeModeRun.IsChecked = true;
+                activeModeStop.IsChecked = false;
+            }
+
+            OnPropertyChanged("channelReceiverSettingsVisible");
+        }
+
     }	
 
 }

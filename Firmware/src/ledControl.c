@@ -750,13 +750,22 @@ void ledControl_activate(bool enable) {
 }
 
 /******************************************************************************
+ * ledControl_setSimChannelSettings
+ ******************************************************************************/
+bool ledControl_setSimChannelSettings(uint8_t output, uint8_t outputDim, uint8_t auxMin, uint8_t auxMax) {
+    
+    ledHandle[output].channelDim = outputDim;
+    ledHandle[output].minAux = auxMin;
+    ledHandle[output].maxAux = auxMax;
+    return true;
+}
+
+/******************************************************************************
  * ledControl_setSimObject
  ******************************************************************************/
-bool ledControl_setSimObjects(uint8_t output, uint8_t outputDim, uint8_t numObjects, uint8_t* pObject) {
+bool ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObject) {
     //prüfe ob ausgang gültig ist
     if (output >= LED_MAX_NUM_OUTPUTS) return false;
-
-    ledHandle[output].channelDim = outputDim;
 
     for (uint8_t j=0; j<numObjects; j++) {
         //check if buffer is full

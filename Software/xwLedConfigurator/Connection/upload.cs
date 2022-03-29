@@ -188,6 +188,8 @@ namespace xwLedConfigurator {
                         channel.color = controller.channelColor;
                         channel.eolOption = controller.eodOption;
                         channel.channelDim = controller.dim;
+                        channel.channelAuxMin = controller.minAux;
+                        channel.channelAuxMax = controller.maxAux;
                         channel.outputs.Add(new output_t());
                         channel.outputs[0].assignment = controller.output;
                         foreach (ledObject ledobject in controller.ledObjects) {
@@ -205,7 +207,9 @@ namespace xwLedConfigurator {
                         channel_t channel = new channel_t();
                         channel.isRGB = true;
                         channel.eolOption = controller.eodOption;
-                        channel.channelDim = controller.dim;                        
+                        channel.channelDim = controller.dim;
+                        channel.channelAuxMin = controller.minAux;
+                        channel.channelAuxMax = controller.maxAux;
                         channel.outputs.AddRange(new output_t[]{ new output_t(), new output_t(), new output_t() });
                         channel.outputs[0].assignment = controller.output;
                         channel.outputs[1].assignment = greenChannel.output;

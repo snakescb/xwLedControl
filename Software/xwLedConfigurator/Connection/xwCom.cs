@@ -68,6 +68,7 @@ namespace xwLedConfigurator {
             START_SIM = 0x06,
             AUX_SIM = 0x07,
             START_SIM_WITH_OFFSET = 0x08,
+            SIM_SET_CHANNEL_OPTIONS = 0x09,
         }
 
         public enum LED_RESPONSE : byte {

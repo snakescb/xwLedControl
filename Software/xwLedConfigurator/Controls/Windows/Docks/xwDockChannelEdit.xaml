@@ -203,18 +203,18 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="18"/>
-                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="18"/>
                         <ColumnDefinition Width="90"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="1" GroupName="activeSelection" Name="activeAlways" VerticalAlignment="Center"/>
+                    <RadioButton Grid.Column="1" GroupName="activeSelection" Name="activeAlways" VerticalAlignment="Center" Checked="activeModeChanged"/>
                     <TextBlock Grid.Column="2" FontSize="14" Foreground="{StaticResource MainFontColor}">Always</TextBlock>
-                    <RadioButton Grid.Column="3" GroupName="activeSelection" Name="activeReceiver" VerticalAlignment="Center"/>
+                    <RadioButton Grid.Column="3" GroupName="activeSelection" Name="activeReceiver" VerticalAlignment="Center" Checked="activeModeChanged"/>
                     <TextBlock Grid.Column="4" FontSize="14" Foreground="{StaticResource MainFontColor}">By receiver</TextBlock>
                 </Grid>
 
-                <TextBlock Grid.Row="2" Grid.Column="1" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Left">Between</TextBlock>
-                <Grid Grid.Row="2" Grid.Column="2" Margin="0,5,0,0">
+                <TextBlock Grid.Row="2" Grid.Column="1" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding channelReceiverSettingsVisible}">Between</TextBlock>
+                <Grid Grid.Row="2" Grid.Column="2" Margin="0,5,0,0" Visibility="{Binding channelReceiverSettingsVisible}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="55"/>
@@ -222,26 +222,27 @@
                         <ColumnDefinition Width="55"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="1" x:Name="channelMin" TextAlignment="Right" HorizontalAlignment="Left" FontSize="14" Height="20" Width="50" MaxLength="3"/>
-                    <TextBlock Grid.Column="2" Foreground="{StaticResource MainFontColor}">% and</TextBlock>
-                    <TextBox Grid.Column="3" x:Name="channelMax" TextAlignment="Right" HorizontalAlignment="Left" FontSize="14" Height="20" Width="50" MaxLength="3"/>
-                    <TextBlock Grid.Column="4" Foreground="{StaticResource MainFontColor}">%</TextBlock>
+                    <TextBox Grid.Column="1" x:Name="channelMin" TextAlignment="Right" HorizontalAlignment="Left" FontSize="14" Height="20" Width="50" MaxLength="3">0</TextBox>
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">% and</TextBlock>
+                    <TextBox Grid.Column="3" x:Name="channelMax" TextAlignment="Right" HorizontalAlignment="Left" FontSize="14" Height="20" Width="50" MaxLength="3">100</TextBox>
+                    <TextBlock Grid.Column="4" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">%</TextBlock>
                 </Grid>
 
-                <TextBlock Grid.Row="3" Grid.Column="1" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Left">Mode</TextBlock>
-                <Grid Grid.Row="3" Grid.Column="2" Margin="0,5,0,0">
+                <TextBlock Grid.Row="3" Grid.Column="1" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding channelReceiverSettingsVisible}">Mode</TextBlock>
+                <Grid Grid.Row="3" Grid.Column="2" Margin="0,5,0,0" Visibility="{Binding channelReceiverSettingsVisible}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="18"/>
-                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="18"/>
                         <ColumnDefinition Width="90"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="1" GroupName="activeMode" Name="activeModeStop" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="2" FontSize="14" Foreground="{StaticResource MainFontColor}">Stay On</TextBlock>
-                    <RadioButton Grid.Column="3" GroupName="activeMode" Name="activeModeRun" VerticalAlignment="Center"/>
+                    <RadioButton Grid.Column="1" GroupName="activeMode" Name="activeModeRun" IsChecked="True" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" FontSize="14" Foreground="{StaticResource MainFontColor}">Continue</TextBlock>
+                    <RadioButton Grid.Column="3" GroupName="activeMode" Name="activeModeStop" IsChecked="False" VerticalAlignment="Center"/>
                     <TextBlock Grid.Column="4" FontSize="14" Foreground="{StaticResource MainFontColor}">Stop/Restart</TextBlock>
                 </Grid>
+                
 
             </Grid>
             
@@ -266,10 +267,10 @@
                 <RadioButton GroupName="restart" Name="eolOption2" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
                 <RadioButton GroupName="restart" Name="eolOption3" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
 
-                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">Restart channel from beginning</TextBlock>
-                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Restart channel reversed</TextBlock>
-                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">Stop channel with last brigthness</TextBlock>
-                <TextBlock Foreground="{StaticResource MainFontColor}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">Stop channel with dark output</TextBlock>
+                <TextBlock FontSize="14" Foreground="{StaticResource MainFontColor}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">Restart channel from beginning</TextBlock>
+                <TextBlock FontSize="14" Foreground="{StaticResource MainFontColor}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Restart channel reversed</TextBlock>
+                <TextBlock FontSize="14" Foreground="{StaticResource MainFontColor}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">Stop channel with last brigthness</TextBlock>
+                <TextBlock FontSize="14" Foreground="{StaticResource MainFontColor}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">Stop channel with dark output</TextBlock>
             </Grid>
 
             <!-- Channel color -->

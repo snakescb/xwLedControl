@@ -44,10 +44,10 @@ namespace xwLedConfigurator {
 
                 //fill channel header information
                 uint objectsAddress = channelHeaderOffset + 0x0C;
-                outputData.Add((byte)output);       // Channel Output
-                outputData.Add(channel.channelDim); // Channel max PWM
-                outputData.Add(0);                  // Channel min AUX
-                outputData.Add(0xFF);               // Channel max AUX
+                outputData.Add((byte)output);           // Channel Output
+                outputData.Add(channel.channelDim);     // Channel max PWM
+                outputData.Add(channel.channelAuxMin);  // Channel min AUX
+                outputData.Add(channel.channelAuxMax);  // Channel max AUX
 
                 //set color information for reconstruction
                 if (colorChannel == 0) outputData.AddRange(new byte[] { channel.color.R, channel.color.G, channel.color.B, 0 });

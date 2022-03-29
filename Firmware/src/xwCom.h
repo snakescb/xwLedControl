@@ -58,6 +58,7 @@
        LED_START_SIM                         = 0x06 ,
        LED_AUX_SIM                           = 0x07 ,
        LED_START_SIM_WITH_OFFSET             = 0x08 ,
+       LED_SIM_SET_CHANNEL_OPTIONS           = 0x09 ,
     } query_led_e;
 
     typedef enum {

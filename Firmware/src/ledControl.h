@@ -62,9 +62,14 @@ void ledControl_lowSpeed();
 void ledControl_activate(bool enable);
 
 /*******************************************************************//**
+* @brief    Speichert die Ausgangsoptionen vor der Simulation
+***********************************************************************/
+bool ledControl_setSimChannelSettings(uint8_t output, uint8_t outputDim, uint8_t auxMin, uint8_t auxMax);
+
+/*******************************************************************//**
 * @brief    Speichert ein neues simulationsobjekt in der warteschlange
 ***********************************************************************/
-bool ledControl_setSimObjects(uint8_t output, uint8_t outputDim, uint8_t numObjects, uint8_t* pObject);
+bool ledControl_setSimObjects(uint8_t output, uint8_t numObjects, uint8_t* pObject);
 
 /*******************************************************************//**
 * @brief    Gets the status if the simulation buffers

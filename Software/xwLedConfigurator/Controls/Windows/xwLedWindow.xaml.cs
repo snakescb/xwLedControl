@@ -32,6 +32,8 @@ namespace xwLedConfigurator {
 		public int eolOption;
 		public bool isRGB;
 		public byte channelDim;
+		public byte channelAuxMin;
+		public byte channelAuxMax;
 		public Color color;
 		public List<ledObject> ledObjects = new List<ledObject>();
 		public List<output_t> outputs = new List<output_t>();
@@ -322,7 +324,6 @@ namespace xwLedConfigurator {
 			if (outputsAvailable >= outputsRequired) {
 				channel_t channel = new channel_t();
 				channel.isRGB = isRGB;
-				channel.eolOption = 0;
 				channel.color = Colors.White;
 				channel.channelDim = 0xFF;
 
