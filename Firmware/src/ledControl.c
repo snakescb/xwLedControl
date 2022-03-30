@@ -81,8 +81,9 @@ typedef struct {
     uint32_t  runTimeExtended;
     uint32_t  runTimeIncrement;
     uint8_t   channelDim;
-    uint8_t   minAux;
-    uint8_t   maxAux;
+    uint16_t  minAux;
+    uint16_t  maxAux;
+    uint8_t   auxState;
 } ledHandle_t;
 
 /* Private functions ---------------------------------------------------------*/
@@ -239,6 +240,9 @@ void ledControl_update() {
         if (runMode != RUNMODE_DISABLED) newPwm = (newPwm*ledHandle[i].channelDim) >> 8;
         if (batteryWarning && (runMode == RUNMODE_MASTER)) newPwm = (newPwm*dimBatteryPreset) >> 8;
         else newPwm = (newPwm*ledHandle[i].sequenceDim) >> 8;
+
+        if (ledHandle[i].auxState == 0) newPwm = 0;
+
         if (ledHandle[i].outputNumber != LED_OUTPUT_UNLINKED) pwmBuffer[ledHandle[i].outputNumber] = (uint8_t)newPwm;
     }
 
@@ -391,6 +395,19 @@ void ledControl_lowSpeed() {
     else statusLed_setState(STATUS_LED_BLINK_3);
 
     /**************************************************************************
+    * Kanalweise aktivierung
+    ***************************************************************************/
+    for (uint8_t i=0; i<LED_MAX_NUM_OUTPUTS; i++) {
+
+        ledHandle[i].auxState = 1;
+        if ((ledHandle[i].minAux > 0) || (ledHandle[i].maxAux > 0)) {
+            if (!rxFailsafe) {
+                if ((auxSignal < ledHandle[i].minAux) || (auxSignal > ledHandle[i].maxAux)) ledHandle[i].auxState = 0;
+            }
+        }      
+    }
+
+    /**************************************************************************
     * Sequenzkontrolle
     ***************************************************************************/
     autoSelectionActive = false;
@@ -417,7 +434,6 @@ void ledControl_lowSpeed() {
             }
         }
         else if (currentSequence == LED_SEQUENCE_NONE) ledControl_startSequence(0);
-
     }
 }
 
@@ -649,12 +665,13 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
         uint32_t ledObjectsOffset = *((uint32_t*)&channelHeader[0x08]);
 
         ledHandle[i].outputNumber = channelHeader[0];
-        ledHandle[i].channelDim = channelHeader[1];
-        ledHandle[i].minAux = channelHeader[2];
-        ledHandle[i].maxAux = channelHeader[3];
         ledHandle[i].outputMode = FORWARD;
         ledHandle[i].pObjectTableBase = (uint8_t*)(configBase + ledObjectsOffset);
         ledHandle[i].lineEnd = 0;
+
+        ledHandle[i].channelDim = channelHeader[1];
+        ledHandle[i].minAux = channelHeader[2] * 10;
+        ledHandle[i].maxAux = channelHeader[3] * 10;
         
         //sequence speed control
         ledHandle[i].incrementMode = FIX_INCREMENT;
@@ -684,6 +701,7 @@ void ledControl_startSequence(uint8_t sequenceNumber) {
     }
 
 }
+
 
 /******************************************************************************
  * ledControl_getLinearValue
@@ -755,8 +773,9 @@ void ledControl_activate(bool enable) {
 bool ledControl_setSimChannelSettings(uint8_t output, uint8_t outputDim, uint8_t auxMin, uint8_t auxMax) {
     
     ledHandle[output].channelDim = outputDim;
-    ledHandle[output].minAux = auxMin;
-    ledHandle[output].maxAux = auxMax;
+    ledHandle[output].minAux = auxMin * 10;
+    ledHandle[output].maxAux = auxMax * 10;    
+
     return true;
 }
 
@@ -790,7 +809,7 @@ void ledControl_startSim(uint32_t speedInfo, uint8_t dimInfo, bool useOffsetData
 
     ledControl_stopSequence();
     runMode = RUNMODE_SIMULATION;
-    numOutputsReport = 0;
+    numOutputsReport = 0;    
 
     uint32_t directionData = 0;
     if (useOffsetData) {
@@ -801,6 +820,7 @@ void ledControl_startSim(uint32_t speedInfo, uint8_t dimInfo, bool useOffsetData
     }
 
     for (uint8_t i=0; i<LED_MAX_NUM_OUTPUTS; i++) {
+
         uint8_t* p = ledControl_consumeSimObject(&ledHandle[i]);
         if (p != null) {
             ledHandle[i].outputMode = FORWARD;

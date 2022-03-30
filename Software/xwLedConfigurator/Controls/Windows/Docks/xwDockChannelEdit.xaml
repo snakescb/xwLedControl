@@ -228,22 +228,6 @@
                     <TextBlock Grid.Column="4" VerticalAlignment="Center" Foreground="{StaticResource MainFontColor}">%</TextBlock>
                 </Grid>
 
-                <TextBlock Grid.Row="3" Grid.Column="1" Foreground="{StaticResource MainFontColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding channelReceiverSettingsVisible}">Mode</TextBlock>
-                <Grid Grid.Row="3" Grid.Column="2" Margin="0,5,0,0" Visibility="{Binding channelReceiverSettingsVisible}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="18"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="18"/>
-                        <ColumnDefinition Width="90"/>
-                    </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="1" GroupName="activeMode" Name="activeModeRun" IsChecked="True" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="2" FontSize="14" Foreground="{StaticResource MainFontColor}">Continue</TextBlock>
-                    <RadioButton Grid.Column="3" GroupName="activeMode" Name="activeModeStop" IsChecked="False" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="4" FontSize="14" Foreground="{StaticResource MainFontColor}">Stop/Restart</TextBlock>
-                </Grid>
-                
-
             </Grid>
             
 
@@ -275,7 +259,7 @@
 
             <!-- Channel color -->
             <TextBlock Grid.Row="9" Foreground="{StaticResource MainFontColor}" FontSize="18" VerticalAlignment="Center" Margin="10,18,10,8" Visibility="{Binding bwVisibility}">Channel Color</TextBlock>
-            <colorpicker:SquarePicker  Grid.Row="10" x:Name="channelColorPicker" ColorChanged="channelColorPicker_ColorChanged" Width="100" Height="100" Visibility="{Binding bwVisibility}"/>
+            <colorpicker:SquarePicker  Grid.Row="10" x:Name="channelColorPicker" ColorChanged="channelColorPicker_ColorChanged" Width="120" Height="120" Visibility="{Binding bwVisibility}"/>
             
             <!-- Buttons -->
             <Grid Grid.Row="13">

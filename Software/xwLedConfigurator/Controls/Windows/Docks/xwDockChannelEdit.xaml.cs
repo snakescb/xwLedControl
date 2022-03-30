@@ -109,14 +109,6 @@ namespace xwLedConfigurator {
                 activeReceiver.IsChecked = true;
                 channelMin.Text = auxMin.ToString();
                 channelMax.Text = auxMax.ToString();
-                if (auxMinOption > 0) {
-                    activeModeRun.IsChecked = true;
-                    activeModeStop.IsChecked = false;
-                }
-                else {
-                    activeModeRun.IsChecked = false;
-                    activeModeStop.IsChecked = true;
-                }
             }
             OnPropertyChanged("channelReceiverSettingsVisible");
         }
@@ -143,7 +135,6 @@ namespace xwLedConfigurator {
                 if (auxMax < auxMin) return;
                 if (auxMin < 0) return;
                 if (auxMax > 100) return;
-                if (activeModeRun.IsChecked == true) auxMin += 128;
             }
 
             channel.channelAuxMin = auxMin;
@@ -201,14 +192,10 @@ namespace xwLedConfigurator {
             if (activeReceiver.IsChecked == true) {
                 channelMin.Text = "0";
                 channelMax.Text = "100";
-                activeModeRun.IsChecked = true;
-                activeModeStop.IsChecked = false;
             }
             else {
                 channelMin.Text = "0";
                 channelMax.Text = "0";
-                activeModeRun.IsChecked = true;
-                activeModeStop.IsChecked = false;
             }
 
             OnPropertyChanged("channelReceiverSettingsVisible");

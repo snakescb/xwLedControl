@@ -296,7 +296,7 @@ namespace xwLedConfigurator {
         }
 
         void sendChannelConfig(byte channel, byte channelDim, byte auxMin, byte auxMax) {
-            Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[]{ (byte)xwCom.LED.SIM_SET_CHANNEL_OPTIONS, channel, channelDim, auxMin, auxMin });
+            Connection.putFrame((byte)xwCom.SCOPE.LED, new byte[]{ (byte)xwCom.LED.SIM_SET_CHANNEL_OPTIONS, channel, channelDim, auxMin, auxMax });
         }
 
         void simWorker() {
