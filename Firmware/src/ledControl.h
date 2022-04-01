@@ -49,7 +49,7 @@ void ledControl_update();
 /*******************************************************************//**
 * @brief    Regelmässig aufgerufen im main loop
 ***********************************************************************/
-void ledControl_skyBusCallback(uint8_t port, uint8_t len, uint8_t* pData);
+void ledControl_masterSlaveRx(uint8_t len, uint8_t* pData);
 
 /*******************************************************************//**
 * @brief    Regelmässig aufgerufen im 20 ms takt.

@@ -237,12 +237,14 @@ void ledControl_update() {
         uint32_t newPwm = ledHandle[i].pwm;
 
         //apply various dim's and put pwm value to buffer
-        if (runMode != RUNMODE_DISABLED) newPwm = (newPwm*ledHandle[i].channelDim) >> 8;
+        if (runMode != RUNMODE_DISABLED) { 
+            newPwm = (newPwm*ledHandle[i].channelDim) >> 8;
+            if (ledHandle[i].auxState == 0) newPwm = 0;
+        }
+
         if (batteryWarning && (runMode == RUNMODE_MASTER)) newPwm = (newPwm*dimBatteryPreset) >> 8;
         else newPwm = (newPwm*ledHandle[i].sequenceDim) >> 8;
-
-        if (ledHandle[i].auxState == 0) newPwm = 0;
-
+        
         if (ledHandle[i].outputNumber != LED_OUTPUT_UNLINKED) pwmBuffer[ledHandle[i].outputNumber] = (uint8_t)newPwm;
     }
 
@@ -256,7 +258,11 @@ void ledControl_update() {
         }
     }
 
-    //if (!(skyBus_tx_busy())) skyBus_send(LED_SKYBUS_SLAVE_PORT, LED_MAX_NUM_OUTPUTS - LED_NUM_OUTPUTS, &(pwmBuffer[LED_NUM_OUTPUTS]));
+    /***************************************************************************
+    * Master-Slave Daten senden
+    ***************************************************************************/
+    masterSlave_sendMasterData(LED_MAX_NUM_OUTPUTS - LED_NUM_OUTPUTS, &(pwmBuffer[LED_NUM_OUTPUTS]));
+
 }
 
 /******************************************************************************
@@ -284,41 +290,31 @@ void ledControl_reinitRuntime(ledHandle_t* h) {
 }
 
 /******************************************************************************
- * ledControl_skyBusCallback, Datenhandling
+ * Master-Slave Daten empfangen
  ******************************************************************************/
-void ledControl_skyBusCallback(uint8_t port, uint8_t len, uint8_t* pData) {
+void ledControl_masterSlaveRx(uint8_t len, uint8_t* pData) {
 
-    /*
     if (runMode == RUNMODE_DISABLED)   return;
     if (runMode == RUNMODE_SIMULATION) return;
 
-    //prüfe den port
-    if (port == LED_SKYBUS_SLAVE_PORT) {
-
-        //wenn noch nicht im slave modus, jetzt wechseln
-        if (runMode == RUNMODE_MASTER) {
-            runMode = RUNMODE_SLAVE;
-            ledControl_setupExtension(true);
-            ledControl_stopSequence();
-        }
-
-        //prüfe die anzahl bytes, gegebenenfalls das paket weiterschicken
-        if (len > LED_NUM_OUTPUTS) {
-            for (uint8_t i=0; i<LED_NUM_OUTPUTS; i++) *((uint16_t*)pwmValue[i]) = pwmTable[pData[i]];
-            skyBus_send(LED_SKYBUS_SLAVE_PORT, len - LED_NUM_OUTPUTS, pData + LED_NUM_OUTPUTS);
-        }
-        else {
-            for (uint8_t i=0; i<len; i++) *((uint16_t*)pwmValue[i]) = pwmTable[pData[i]];
-            for (uint8_t i=len; i<LED_NUM_OUTPUTS; i++) *((uint16_t*)pwmValue[i]) = 0;
-        }
-
-        masterTimeout = 0;
+    //wenn noch nicht im slave modus, jetzt wechseln
+    if (runMode != RUNMODE_SLAVE) {
+        runMode = RUNMODE_SLAVE;
+        ledControl_stopSequence();
     }
-    else {
-        //andere Pakete direkt weiterleiten
-        skyBus_send(port, len, pData);
+
+    masterTimeout = 0;
+
+    //empfangene bytes aktivieren
+    for (uint8_t i=0; i<LED_NUM_OUTPUTS; i++) *((uint16_t*)pwmValue[i]) = pwmTable[pData[i]];
+    for (uint8_t i=len; i<LED_NUM_OUTPUTS; i++) *((uint16_t*)pwmValue[i]) = 0;
+
+    //überzählige bytes an nächsten slave weiterschicken
+    if (len > LED_NUM_OUTPUTS) {
+        for (uint8_t i=0; i<LED_NUM_OUTPUTS; i++) *((uint16_t*)pwmValue[i]) = pwmTable[pData[i]];
+        masterSlave_sendMasterData(len - LED_NUM_OUTPUTS, pData + LED_NUM_OUTPUTS);
     }
-    */
+
 }
 
 /******************************************************************************

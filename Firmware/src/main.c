@@ -12,6 +12,8 @@
 #include "adc.h"
 #include "recv.h"
 #include "ledControl.h"
+#include "masterSlave.h"
+#include "softUart.h"
 #include <stdio.h>
 
 /*******************************************************************************
@@ -69,7 +71,8 @@ int main(void)  {
 
     while (1) {        
         teco_hisr();
-        statusLed_hisr();
+        softuart_hisr();
+        mastertSlave_hisr();
     }
 }
 

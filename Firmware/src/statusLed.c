@@ -10,8 +10,8 @@
 /* Private define ------------------------------------------------------------*/
 #define CLR_STATUS  (GPIOA->BRR  = GPIO_PIN_4)
 #define SET_STATUS  (GPIOA->BSRR = GPIO_PIN_4)
-#define STATUS_BRIGTHNESS_MAX       5000
-#define STATUS_BRIGTHNESS            500
+#define STATUS_BRIGTHNESS_MAX      10
+#define STATUS_BRIGTHNESS           1
 
 /* Private variables ---------------------------------------------------------*/
 eStausLedState status_currentState;
@@ -31,6 +31,18 @@ const uint16_t statusLedDef[] = {
  * statusLed_update
  ******************************************************************************/
 void statusLed_update(void) {
+
+    //led brigthness reduction
+    if (status_enableLed) {        
+        if (status_brightness_counter < STATUS_BRIGTHNESS) SET_STATUS;
+        else CLR_STATUS;
+        status_brightness_counter++;
+        if (status_brightness_counter >= STATUS_BRIGTHNESS_MAX) status_brightness_counter = 0;
+    }
+    else CLR_STATUS;
+
+
+    //led blink control
     if (status_on  == 0xFFFF) return;
     if (status_off == 0xFFFF) return;
 
@@ -49,23 +61,7 @@ void statusLed_update(void) {
             status_enableLed = true;
         }
     }
-}
 
-/*******************************************************************************
- * statusLed_hisr
- ******************************************************************************/
-void statusLed_hisr(void) {
-    if (status_enableLed) {
-        if (status_brightness_counter < STATUS_BRIGTHNESS) SET_STATUS;
-        else CLR_STATUS;
-
-        status_brightness_counter++;
-        if (status_brightness_counter >= STATUS_BRIGTHNESS_MAX) status_brightness_counter = 0;
-    }
-    else {
-        CLR_STATUS;
-        status_brightness_counter = 0;
-    }
 }
 
 /*******************************************************************************

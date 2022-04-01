@@ -9,6 +9,7 @@
 /******************************************************************************
  Imported Include References
 ******************************************************************************/
+#include "common.h"
 
 /**************************************************************************//**
  * @brief    initialisierung
@@ -16,9 +17,14 @@
 void masterSlave_init(void);
 
 /**************************************************************************//**
- * @brief    update, sollte vom system timer aufgerufen werden
+ * @brief    update, sollte im mainloop aufgerufen werden
  *****************************************************************************/
-void mastertSlave_update(void);
+void mastertSlave_hisr(void);
+
+/**************************************************************************//**
+ * @brief    zum senden von neuen Daten
+ *****************************************************************************/
+void masterSlave_sendMasterData(uint8_t numBytes, uint8_t* data);
 
 #endif //MASTERSLAVE_H
 

@@ -18,7 +18,10 @@
 #include "recv.h"
 #include "adc.h"
 #include "ledControl.h"
-#include "masterSlave.h"
+#include "softUart.h"
+
+#include <stdio.h>
+#include "teco.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -43,7 +46,6 @@ void SysTick_Handler(void) {
     HAL_IncTick();
     ledControl_update();
     statusLed_update();
-    mastertSlave_update();
 
     systick_lowSpeedCounter++;
     if (systick_lowSpeedCounter >= SYSTICK_LOWSEPEED_DIVIDER) {
@@ -266,6 +268,7 @@ void DMA1_Channel1_IRQHandler(void){
 * Return         : None
 *******************************************************************************/
 void DMA1_Channel2_IRQHandler(void){
+    softuart_txDmaIsr();
 }
 
 /*******************************************************************************
@@ -306,6 +309,7 @@ void DMA1_Channel5_IRQHandler(void){
 * Return         : None
 *******************************************************************************/
 void DMA1_Channel6_IRQHandler(void){
+    softuart_rxDmaIsr();
 }
 
 /*******************************************************************************
@@ -542,7 +546,6 @@ void USART2_IRQHandler(void) {
 * Return         : None
 *******************************************************************************/
 void USART3_IRQHandler(void) {
-    //uart3_isr();
 }
 
 /*******************************************************************************
@@ -553,6 +556,7 @@ void USART3_IRQHandler(void) {
 * Return         : None
 *******************************************************************************/
 void EXTI15_10_IRQHandler(void) {
+    softuart_rxExtiIsr();
 }
 
 /*******************************************************************************

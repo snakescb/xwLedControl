@@ -33,11 +33,6 @@ void statusLed_init(void);
 void statusLed_update(void);
 
 /**************************************************************************//**
- * @brief    hisr, für helligkeitskontrolle
- *****************************************************************************/
-void statusLed_hisr(void);
-
-/**************************************************************************//**
  * @brief    setzt neuen zustanf
  *****************************************************************************/
 void statusLed_setState(eStausLedState state);

@@ -4,6 +4,6 @@ using System.Text;
 
 namespace xwLedConfigurator {
     static class Version {
-        public const string version = "1.1.0";
+        public const string version = "1.1.1";
     }
 }
