@@ -5,19 +5,23 @@
  ******************************************************************************/
 #include "statusLed.h"
 #include "common.h"
+#include "hwVersion.h"
+#include "teco.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define CLR_STATUS  (GPIOA->BRR  = GPIO_PIN_4)
 #define SET_STATUS  (GPIOA->BSRR = GPIO_PIN_4)
 #define STATUS_BRIGTHNESS_MAX      10
-#define STATUS_BRIGTHNESS           1
+#define STATUS_BRIGTHNESS           1 //max for non-pro boards
+#define STATUS_BRIGTHNESS_PRO       5 //max for PRO boards
 
 /* Private variables ---------------------------------------------------------*/
 eStausLedState status_currentState;
 bool status_substate, status_enableLed;
 uint16_t status_counter, status_on, status_off;
 uint16_t status_brightness_counter;
+uint8_t status_maxBrightness;
 
 const uint16_t statusLedDef[] = {
     0x0000, 0xFFFF, //0
@@ -34,7 +38,7 @@ void statusLed_update(void) {
 
     //led brigthness reduction
     if (status_enableLed) {        
-        if (status_brightness_counter < STATUS_BRIGTHNESS) SET_STATUS;
+        if (status_brightness_counter < status_maxBrightness) SET_STATUS;
         else CLR_STATUS;
         status_brightness_counter++;
         if (status_brightness_counter >= STATUS_BRIGTHNESS_MAX) status_brightness_counter = 0;
@@ -100,4 +104,7 @@ void statusLed_init(void) {
     status_on  = 0x0000;
     status_enableLed = false;
     CLR_STATUS;    
+
+    if (hwType == HW_TYPE_XWLEDCONTROL_PRO) status_maxBrightness = STATUS_BRIGTHNESS_PRO;
+    else status_maxBrightness = STATUS_BRIGTHNESS;
 }

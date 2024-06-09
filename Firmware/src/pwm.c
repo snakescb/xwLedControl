@@ -6,6 +6,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "pwm.h"
+#include "hwVersion.h"
+#include "xwCom.h"
 
 /* Private typedef -----------------------------------------------------------*/
 #define PWM_TIM_DIVIDER      3
@@ -78,8 +80,16 @@ void pwm_init(void) {
     TIM2->CCMR2 = TIM_CCMR2_OC3PE | TIM_CCMR2_OC3M_2 | TIM_CCMR2_OC3M_1 | TIM_CCMR2_OC4PE | TIM_CCMR2_OC4M_2 | TIM_CCMR2_OC4M_1;
     TIM3->CCMR1 = TIM_CCMR1_OC2PE | TIM_CCMR1_OC2M_2 | TIM_CCMR1_OC2M_1;
     TIM3->CCMR2 = TIM_CCMR2_OC3PE | TIM_CCMR2_OC3M_2 | TIM_CCMR2_OC3M_1 | TIM_CCMR2_OC4PE | TIM_CCMR2_OC4M_2 | TIM_CCMR2_OC4M_1;
-    TIM2->CCER = TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E;
-    TIM3->CCER = TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E;
+
+    //for PRO version, output polarity is changed
+    if (hwType == HW_TYPE_XWLEDCONTROL_PRO) {
+        TIM2->CCER = TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E | TIM_CCER_CC2P | TIM_CCER_CC3P | TIM_CCER_CC4P;
+        TIM3->CCER = TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E | TIM_CCER_CC2P | TIM_CCER_CC3P | TIM_CCER_CC4P;
+    }
+    else {
+        TIM2->CCER = TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E;
+        TIM3->CCER = TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E;
+    }    
 
     //update registers
     TIM2->EGR |= TIM_EGR_UG;
@@ -89,59 +99,4 @@ void pwm_init(void) {
     TIM2->CR1 = TIM_CR1_ARPE | TIM_CR1_CEN;
     TIM3->CR1 = TIM_CR1_ARPE | TIM_CR1_CEN;
 
-    /*
-    GPIO_InitTypeDef GPIO_InitStruct;
-    TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-    TIM_OCInitTypeDef  TIM_OCInitStructure;
-
-    //aktiviere clocks zu den timer modulen
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-
-    //definiere pins f�r die pwm ausg�nge
-    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_7;
-    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
-    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-    //Basistimer einstellen, gleich f�r TIM2 und TIM3
-    TIM_TimeBaseStructure.TIM_Period = PWM_TIM_PERIOD - 1;
-    TIM_TimeBaseStructure.TIM_Prescaler = PWM_TIM_DIVIDER - 1;
-    TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-
-    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
-    TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-
-    //ausgangsmodus f�r die ensprechenden captur/compare units
-    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-    TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-    TIM_OCInitStructure.TIM_Pulse = 0;
-    TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
-
-    TIM_OC2Init(TIM2, &TIM_OCInitStructure);
-    TIM_OC3Init(TIM2, &TIM_OCInitStructure);
-    TIM_OC4Init(TIM2, &TIM_OCInitStructure);
-    TIM_OC2Init(TIM3, &TIM_OCInitStructure);
-    TIM_OC3Init(TIM3, &TIM_OCInitStructure);
-    TIM_OC4Init(TIM3, &TIM_OCInitStructure);
-
-    //TIM_OC2PreloadConfig(TIM2, TIM_OCPreload_Enable);
-    //TIM_OC3PreloadConfig(TIM2, TIM_OCPreload_Enable);
-    //TIM_OC4PreloadConfig(TIM2, TIM_OCPreload_Enable);
-    //TIM_OC2PreloadConfig(TIM3, TIM_OCPreload_Enable);
-    //TIM_OC3PreloadConfig(TIM3, TIM_OCPreload_Enable);
-    //TIM_OC4PreloadConfig(TIM3, TIM_OCPreload_Enable);
-
-    //TIM_ARRPreloadConfig(TIM2, ENABLE);
-    //TIM_ARRPreloadConfig(TIM3, ENABLE);
-
-    TIM_Cmd(TIM2, ENABLE);
-    TIM_Cmd(TIM3, ENABLE);
-    */
 }

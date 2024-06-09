@@ -22,6 +22,7 @@ namespace xwLedConfigurator {
 
 		string deviceUid = "";
 		string deviceType = "";
+		string deviceVersion = "";
 		string deviceFWVersion = "";
 		int deviceConfigSize = 0;
 		int deviceUsedConfigSize = 0;
@@ -75,7 +76,7 @@ namespace xwLedConfigurator {
 
 			if (Connection.state == Connection.connectionStates.Connected) {
 				textConnection.Text = "Connected (" + Connection.portName + ")\n";
-				textConnection.Text += deviceType + "\n";
+				textConnection.Text += deviceType + " " + deviceVersion + "\n";
 				textConnection.Text += Math.Round(((float)deviceConfigSize / 1024), 2).ToString() + "kB";
 				textConnection.Text += " (" + ((float)deviceUsedConfigSize / 1024).ToString("0.00") + "kB used)\n";
 				textConnection.Text += "V" + deviceFWVersion + "\n";
@@ -126,7 +127,8 @@ namespace xwLedConfigurator {
 					deviceUid = "0x";
 					for (int i = 0; i < 12; i++) deviceUid += BitConverter.ToString(new byte[] { rxFrame.data[i + 1] });
 					deviceConfigSize = BitConverter.ToInt32(new byte[] { rxFrame.data[16], rxFrame.data[15], rxFrame.data[14], rxFrame.data[13] }, 0);
-					deviceType = xwCom.deviceTypes[rxFrame.data[17]];
+					deviceVersion = xwCom.deviceVersions[rxFrame.data[17] & 0x0F];
+					deviceType = xwCom.deviceTypes[rxFrame.data[17] >> 4];
 					deviceFWVersion = rxFrame.data[18].ToString() + "." + rxFrame.data[19].ToString();
 				}
 

@@ -8,10 +8,17 @@ namespace xwLedConfigurator {
         public static int CONFIG_TYPE = 1;
         public static int CONFIG_VERSION = 1;
 
-        public static string[] deviceTypes = {
-            "Unknown Device",  //0
-            "xwLedControl V1", //1
-            "xwLedControl V2"  //2
+        public static string[] deviceVersions = {
+            "Unknown",  //0
+            "V1", //1
+            "V2", //2
+            "V3", //3
+            "V4"  //4
+        };
+
+        public static string[] deviceTypes = {            
+            "xwLedControl",     //0 Regular Version
+            "xwLedControl PRO"  //1 PRO Version
         };
 
         public static string[] runModes = {

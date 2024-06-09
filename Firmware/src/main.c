@@ -46,6 +46,7 @@ int main(void)  {
     /***************************************************************************
     * SOFTWARE MODULE INITIALISIEREN
     ***************************************************************************/
+    hwVersion_init();
     teco_init();
     config_init();
     statusLed_init();
@@ -64,7 +65,6 @@ int main(void)  {
         statusLed_setState(STATUS_LED_BLINK_2);
     }
 
-    hwVersion_init();
     adc_init();    
     recv_init();
     ledControl_init();

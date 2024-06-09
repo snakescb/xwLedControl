@@ -4,9 +4,13 @@
 //*****************************************************************************
 // XWING GLOBAL DEFINITIONS
 //*****************************************************************************
-#define HW_VERSION_UNKNOWN                        0
-#define HW_VERSION_LED_CONTROL_V1                 1
-#define HW_VERSION_LED_CONTROL_V2                 2
+#define HW_VERSION_V1                             1
+#define HW_VERSION_V2                             2
+#define HW_VERSION_V3                             3
+#define HW_VERSION_V4                             4
+
+#define HW_TYPE_XWLEDCONTROL                      0
+#define HW_TYPE_XWLEDCONTROL_PRO                  1
 
 //*****************************************************************************
 // XWING GLOBAL TYPEDEFS
